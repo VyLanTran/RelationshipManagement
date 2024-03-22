@@ -1,5 +1,5 @@
 body {
-    background-image: url('./background/background.png');
+    background-image: url('../components/background/background.png');
     background-color: #EEEEEE;
     background-size: 100%;
     overflow: hidden;

@@ -1,5 +1,5 @@
-import Login from "./components/login.tsx"
-import Signup from "./components/signup.tsx"
+import Login from "./pages/login.tsx"
+import Signup from "./pages/signup.tsx"
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
