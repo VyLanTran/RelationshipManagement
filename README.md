@@ -6,6 +6,7 @@ A space to store all precious memories between you and your loved ones
 
 - Vy Tran - Lead
 - Long Dau
+- Phuc Khang
 ### Features
 
 ### Technologies
