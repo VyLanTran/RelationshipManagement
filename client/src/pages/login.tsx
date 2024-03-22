@@ -11,7 +11,7 @@ const Login: React.FC = () => {
                     <input className={styles.textStyles} placeholder="username" id="username" name="username" />
                     <input className={styles.textStyles} placeholder="password" id="password" name="password" />
                     <input className={styles.submit} type="submit" value="Connect" />
-                    <p>Don't have an account? <br/><Link to='/Signup'>Sign up here!</Link></p>
+                    <p>Don't have an account? <br/><Link to='/SignUp'>Sign up here!</Link></p>
                 </div>
             </form>
         </header>

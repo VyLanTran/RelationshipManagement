@@ -1,9 +1,8 @@
 import React from "react";
 import styles from "./login.module.css";
 import { SocialIcon } from 'react-social-icons'
-import { Link } from 'react-router-dom'
 
-const Signup: React.FC = () => {
+const SignUp: React.FC = () => {
     return (
         <header className="App-login">
             <form style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
@@ -25,4 +24,4 @@ const Signup: React.FC = () => {
     );
 }
 
-export default Signup;
+export default SignUp;
