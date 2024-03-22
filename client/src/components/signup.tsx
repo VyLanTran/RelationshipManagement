@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./login.module.css";
 import { SocialIcon } from 'react-social-icons'
+import { Link } from 'react-router-dom'
 
 const Signup: React.FC = () => {
     return (

@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./login.module.css";
+import { Link } from "react-router-dom";
 
 const Login: React.FC = () => {
     return (
@@ -10,7 +11,7 @@ const Login: React.FC = () => {
                     <input className={styles.textStyles} placeholder="username" id="username" name="username" />
                     <input className={styles.textStyles} placeholder="password" id="password" name="password" />
                     <input className={styles.submit} type="submit" value="Connect" />
-                    <p>Don't have an account? <br/>Sign up here!</p>
+                    <p>Don't have an account? <br/><Link to='/Signup'>Sign up here!</Link></p>
                 </div>
             </form>
         </header>
