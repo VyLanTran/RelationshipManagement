@@ -1,0 +1,85 @@
+body {
+    background-image: url('../../public/assets/background.png');
+    background-color: #EEEEEE;
+    background-size: 100%;
+    overflow: hidden;
+    text-align: center;
+}
+
+/* Main Box for Log in */
+.mainBoxLI {
+    background-color: #F8FAFC;
+    height: 62vh;
+    width: 40%;
+    margin-top: 20vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-justify: left;
+    justify-content: left;
+    border-radius: 30px;
+    row-gap: 10px;
+}
+
+/* Main Box for Sign up */
+.mainBoxSU {
+    background-color: #F8FAFC;
+    height: 82vh;
+    width: 40%;
+    margin-top: 10vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-justify: left;
+    justify-content: left;
+    border-radius: 30px;
+    row-gap: 10px;
+}
+
+.textStyles {
+    height: 9vh;
+    width: 70%;
+    font-family: "Azeret Mono";
+    font-size: large;
+    color: white;
+    color: black;
+    border: 1px solid rgb(0, 0, 0);
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 3%;
+}
+
+.continuewith {
+    margin-top: 1vh;
+    width: 60%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.submit {
+    background-color: #FFB302;
+    width: 20vh;
+    font-family: "Azeret Mono";
+    font-size: large;
+    font-weight: bold;
+    border: 1px solid rgb(84, 84, 84);
+    height: 7vh;
+    margin-top: 1vh;
+    margin-bottom: -2vh;
+    border-radius: 5px;
+}
+
+.submit:hover{
+    cursor: pointer;
+    color: white;
+    background-color: rgb(59, 59, 59);
+
+}
+
+.socialicon {
+    color: white;
+}
+
+.socialicon:hover{
+    color: black;
+}
