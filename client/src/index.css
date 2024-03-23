@@ -11,4 +11,15 @@ body,
   height: 100%;
   width: 100%;
   font-family: "Rubik", sans-serif;
+  background-image: url('../public/assets/background.png');
+  background-color: #EEEEEE;
+  background-size: 100%;
+  overflow: hidden;
+  text-align: center;
+}
+
+@layer components {
+  .textStyles {
+    @apply h-[9vh] w-[70%] text-[large] text-[black] border box-border p-[3%] rounded-[5px] border-solid border-black font-azeret;
+  }
 }
