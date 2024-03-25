@@ -20,6 +20,6 @@ body,
 
 @layer components {
   .textStyles {
-    @apply h-[9vh] w-[70%] text-[large] text-[black] border box-border p-[3%] rounded-[5px] border-solid border-black font-azeret;
+    @apply h-[8vh] w-[70%] text-[medium] text-[black] border box-border px-4 rounded-[5px] border-solid border-black font-azeret flex items-center;
   }
 }
