@@ -25,6 +25,7 @@ const Login: React.FC = () => {
       console.log(res)
     }
     catch (error) {
+      // TODO: show meaningful message for user, eg: wrong password, no such email, etc
       console.log('Log in failed')
     }
   }
@@ -33,7 +34,7 @@ const Login: React.FC = () => {
     <header className="App-login">
       <form
         className="w-full h-screen flex justify-center items-center"
-        onSubmit={handleSubmit}
+      // onSubmit={handleSubmit}
       >
         <div className="bg-slate-50  w-2/5 flex flex-col items-center gap-3 rounded-[30px] justify-center py-10">
           <h3 style={{ fontSize: "8vh", marginTop: "2vh" }}>Log in</h3>
@@ -45,9 +46,9 @@ const Login: React.FC = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <div className="relative w-[70%]">
+          <div className="relative w-[70%] textStyles">
             <input
-              className="textStyles w-[100%] outline-none"
+              className="bg-slate-50 w-[100%] outline-none"
               type={showPassword ? "text" : "password"}
               placeholder="Password"
               id="password"
@@ -58,7 +59,7 @@ const Login: React.FC = () => {
             <button
               type="button"
               onClick={togglePasswordVisibility}
-              className="absolute mt-[2.2vh] right-[3vh]"
+              className="absolute right-[3vh]"
             >
               <Icon icon={showPassword ? eye : eyeOff} />
             </button>
