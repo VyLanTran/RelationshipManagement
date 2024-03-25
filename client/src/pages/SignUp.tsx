@@ -54,16 +54,16 @@ const SignUp: React.FC = () => {
                     <h3 style={{ fontSize: '8vh' }}>Sign up</h3>
                     <div className="grid grid-cols-2 w-[70%] gap-4">
                         <input
-                            className="textStyles outline-none w-full"
-                            placeholder="First name "
+                            className={`textStyles outline-none w-full ${firstName.length > 0 ? 'border-black' : 'border-red-500'}`}
+                            placeholder="First name*"
                             id="firstName"
                             name="firstName"
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
                         />
                         <input
-                            className="textStyles outline-none w-full"
-                            placeholder="Last name"
+                            className={`textStyles outline-none w-full ${lastName.length > 0 ? 'border-black' : 'border-red-500'}`}
+                            placeholder="Last name*"
                             id="lastName"
                             name="lastName"
                             value={lastName}
@@ -71,7 +71,7 @@ const SignUp: React.FC = () => {
                         />
                     </div>
                     <input
-                        className="textStyles outline-none"
+                        className={`textStyles outline-none ${email.length > 0 ? 'border-black' : 'border-red-500'}`}
                         placeholder="Email* "
                         id="email"
                         name="email"
@@ -79,17 +79,20 @@ const SignUp: React.FC = () => {
                         onChange={(e) => setEmail(e.target.value)}
                     />
                     <input
-                        className="textStyles outline-none"
-                        placeholder="Username"
+                        className={`textStyles outline-none ${username.length > 0 ? 'border-black' : 'border-red-500'}`}
+                        placeholder="Username*"
                         id="username"
                         name="username"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
-                    <div className="relative w-[70%] textStyles">
+                    <div
+                        className={`relative w-[70%] textStyles outline-none ${password.length > 0 ? 'border-black' : 'border-red-500'}`}
+                    >
                         <input
+                            // className={`outline-none ${password.length > 0 ? 'border-black' : 'border-red-500'}`}
                             className="bg-slate-50 w-[100%] outline-none"
-                            placeholder="Password"
+                            placeholder="Password*"
                             type={showPassword ? "text" : "password"}
                             id="password"
                             name="password"
@@ -107,10 +110,13 @@ const SignUp: React.FC = () => {
                             <Icon icon={showPassword ? eye : eyeOff} />
                         </button>
                     </div>
-                    <div className="relative w-[70%] textStyles">
+                    <div
+                        className={`relative w-[70%]  textStyles
+                             ${confirmPassword.length > 0 && isPasswordMatch ? 'border-black' : 'border-red-500'}`}
+                    >
                         <input
                             className="bg-slate-50 w-[100%] outline-none"
-                            placeholder="Confirm password"
+                            placeholder="Confirm password*"
                             type={showConfirmPassword ? "text" : "password"}
                             id="confirmPassword"
                             name="confirmPassword"
@@ -127,9 +133,11 @@ const SignUp: React.FC = () => {
                         >
                             <Icon icon={showConfirmPassword ? eye : eyeOff} />
                         </button>
-                        {/* <p className={`py-3 pr-auto ${!isPasswordMatch ? 'text-red-600' : 'text-transparent'}`}>
-                            {!isPasswordMatch ? 'Passwords do not match' : '⠀'} 
-                        </p> */}
+                    </div>
+                    <div className="  w-[70%] flex">
+                        <p className={`text-[14px] mr-auto ${!isPasswordMatch ? 'text-red-600' : 'text-transparent'}`}>
+                            {!isPasswordMatch ? 'Passwords do not match' : '⠀'}
+                        </p>
                     </div>
 
                     <input className="font-azeret bg-[#FFB302] w-[20vh] text-[large] font-bold border h-[7vh] mb-[-2vh] mt-[1vh] rounded-[5px] border-solid border-[rgb(84,84,84)] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]" type="submit" value="Sign up" />
