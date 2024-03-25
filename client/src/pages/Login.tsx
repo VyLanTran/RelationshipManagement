@@ -1,36 +1,55 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Icon } from "react-icons-kit";
 import { eyeOff } from "react-icons-kit/feather/eyeOff";
 import { eye } from "react-icons-kit/feather/eye";
+import axios from 'axios'
 
 const Login: React.FC = () => {
   // Show/hide Password
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState("");
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      const res = await axios.post('http://localhost:3001/auth/login', {
+        email,
+        password,
+      });
+      console.log(res)
+    }
+    catch (error) {
+      console.log('Log in failed')
+    }
+  }
+
   return (
     <header className="App-login">
       <form
-        style={{ width: "100%", display: "flex", justifyContent: "center" }}
+        className="w-full h-screen flex justify-center items-center"
+        onSubmit={handleSubmit}
       >
-        <div className="bg-slate-50 h-[62vh] w-2/5 flex flex-col items-center gap-y-3 mt-[20vh] rounded-[30px] justify-start text-left">
+        <div className="bg-slate-50  w-2/5 flex flex-col items-center gap-3 rounded-[30px] justify-center py-10">
           <h3 style={{ fontSize: "8vh", marginTop: "2vh" }}>Log in</h3>
           <input
-            className="textStyles"
-            placeholder="username"
-            id="username"
-            name="username"
+            className="textStyles outline-none"
+            placeholder="Email"
+            id="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <div className="relative w-[70%]">
             <input
-              className="textStyles w-[100%]"
+              className="textStyles w-[100%] outline-none"
               type={showPassword ? "text" : "password"}
-              placeholder="password"
+              placeholder="Password"
               id="password"
               name="password"
               value={password}
@@ -49,12 +68,16 @@ const Login: React.FC = () => {
             type="submit"
             value="Connect"
           />
-          <p className="mt-[2vh]">
-            Don't have an account? Sign up{" "}
-            <Link to="/SignUp" className="text-[blue] underline">
-              here
+          <div className="mt-[2vh] flex flex-row gap-3">
+            <span>
+              Don't have an account?
+            </span>
+            <Link to="/SignUp" className="text-[#FFB302]">
+              <span>
+                Sign up
+              </span>
             </Link>
-          </p>
+          </div>
         </div>
       </form>
     </header>
