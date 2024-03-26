@@ -48,7 +48,7 @@ const SignUp: React.FC = () => {
         <header className="App-login">
             <form
                 className="w-full h-screen flex justify-center items-center"
-            // onSubmit={handleSubmit}
+                onSubmit={handleSubmit}
             >
                 <div className="bg-slate-50 w-2/5 flex flex-col items-center gap-3 rounded-[30px] justify-center py-10">
                     <h3 style={{ fontSize: '8vh' }}>Sign up</h3>
