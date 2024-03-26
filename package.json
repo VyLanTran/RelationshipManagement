@@ -1,0 +1,17 @@
+{
+  "name": "relationshipmanagement",
+  "version": "1.0.0",
+  "description": "A space to store all precious memories between you and your loved ones",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "startClient": "npm start --prefix client",
+    "startServer": "npm start --prefix server",
+    "start": "concurrently \"npm start --prefix client\" \"npm start --prefix server\""
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
