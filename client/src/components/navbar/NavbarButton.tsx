@@ -1,23 +1,22 @@
 import React from "react";
 import { ReactElement } from "react";
 import { IconType } from "react-icons";
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 // TODO: show name when hovering over icon
 interface NavbarButtonProps {
     icon: ReactElement<IconType>
     name: string
-    // url
+    url: string
 }
 
-const NavbarButton: React.FC<NavbarButtonProps> = ({ icon, name }) => {
+const NavbarButton: React.FC<NavbarButtonProps> = ({ icon, name, url }) => {
     return (
-        <Link to='/' title={name}>
+        <NavLink to={url} title={name}>
             <div>
                 {icon}
             </div>
-
-        </Link>
+        </NavLink>
     );
 }
 

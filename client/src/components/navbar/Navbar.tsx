@@ -13,11 +13,10 @@ const Navbar = () => {
             <div>Logo</div>
             {/* Links */}
             <div className="flex flex-row gap-4 items-center">
-                <NavbarButton icon={<RiBookletFill size={18} />} name="My space" />
-                <NavbarButton icon={<FaBell size={18} />} name="Notifications" />
-                <NavbarButton icon={<FaGear size={18} />} name="Settings" />
-                <NavbarButton icon={<FaUserLarge size={18} />} name="Profile" />
-
+                <NavbarButton icon={<RiBookletFill size={18} />} name="My space" url="/home"/>
+                <NavbarButton icon={<FaBell size={18} />} name="Notifications" url="/notification"/>
+                <NavbarButton icon={<FaGear size={18} />} name="Settings" url="/setting"/>
+                <NavbarButton icon={<FaUserLarge size={18} />} name="Profile" url="/profile"/>
             </div>
         </div>
     );
