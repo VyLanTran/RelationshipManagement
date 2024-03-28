@@ -23,7 +23,7 @@ const ConnectionSchema = new mongoose.Schema({
 		type: Date,
 	},
 	avatar: {
-		type: Image,
+		type: String,
 	},
 	fun_facts: {
 		type: Array,
