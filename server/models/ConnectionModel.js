@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-import User from "./UserModel";
 
 const ConnectionSchema = new mongoose.Schema({
 	author: {
-		type: User,
+		type: mongoose.Schema.Types.ObjectId,
 		required: true,
+		ref: "User",
 	},
 	name: {
 		type: String,
