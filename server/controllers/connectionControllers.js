@@ -17,3 +17,15 @@ export const createConnection = async (req, res) => {
 		res.status(500).json({ msg: error });
 	}
 };
+
+export const getConnection = async (req, res) => {
+	try {
+		const { _id } = req.body;
+
+		const connection = await Connection.findOne({ _id: _id });
+		res.status(201).json({ connection });
+	}
+	catch (error) {
+		res.status(500).json({ msg: error });
+	}
+};
