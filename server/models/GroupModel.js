@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import UserModel from "UserModel.js";
 
 const GroupSchema = new mongoose.Schema(
   {
@@ -7,10 +6,14 @@ const GroupSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    admin: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
     members: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: UserModel,
+        ref: "User",
       },
     ],
   },

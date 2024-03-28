@@ -4,6 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import authRoutes from "./routes/authRoutes.js";
+import groupRoutes from "./routes/groupRoutes.js";
 import connectionRoutes from "./routes/connectionRoutes.js";
 
 dotenv.config();
@@ -12,6 +13,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/auth", authRoutes);
+app.use("/groups", groupRoutes);
 app.use("/connections", connectionRoutes);
 
 const PORT = process.env.PORT || 8080;
