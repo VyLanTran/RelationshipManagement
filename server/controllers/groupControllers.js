@@ -1,13 +1,19 @@
-import GroupModel from "../models/GroupModel.js";
-import UserModel from "../models/UserModel.js";
+import Group from "../models/GroupModel.js";
 
 export const addGroup = async (req, res) => {
     try {
-      const newGroup = new GroupModel(req.body);
-  
-      const savedGroup = await newGroup.save();
-      res.status(201).json(savedGroup);
+      const savedGroup = await Group.create(req.body);
+      res.status(201).json({ savedGroup });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
 };
+
+export const showAll = async (req, res) => {
+    try {
+        const groups = await Group.find({});
+		res.status(200).json({ groups });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
