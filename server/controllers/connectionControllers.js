@@ -38,4 +38,4 @@ export const deleteConnection = async (req, res) => {
 	} catch (error) {
 		res.status(500).json({ msg: error });
 	}
-}
+};
