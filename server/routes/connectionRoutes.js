@@ -3,12 +3,14 @@ import {
 	createConnection,
 	getAllConnections,
 	getConnection,
+	deleteConnection
 } from "../controllers/connectionControllers.js";
 
 const router = express.Router();
 
 router.get("/", getAllConnections);
 router.get("/getConnection", getConnection);
+router.delete("/deleteConnection", deleteConnection)
 router.post("/", createConnection);
 
 export default router;
