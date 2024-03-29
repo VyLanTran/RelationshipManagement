@@ -4,6 +4,7 @@ import SignUp from "./pages/SignUp.tsx";
 import Notification from "./pages/Notification.tsx";
 import Profile from "./pages/Profile.tsx";
 import Setting from "./pages/Setting.tsx";
+import Groups from "./pages/Groups.tsx";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/setting" element={<Setting />} />
           <Route path="/notification" element={<Notification />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/groups" element={<Groups />} />
         </Routes>
       </div>
     </Router>
