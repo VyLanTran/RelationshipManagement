@@ -35,9 +35,9 @@ const SignUp: React.FC = () => {
     }
 
     return (
-        <header className="App-login">
+        <header className="App-login" >
             <form
-                className="w-full h-[90vh] flex justify-center items-center"
+                className="w-full h-[100vh] flex justify-center items-center overflow-hidden"
                 onSubmit={handleSubmit}
             >
                 <div className="bg-slate-50 w-2/5 flex flex-col items-center gap-3 justify-center py-10">
@@ -124,7 +124,7 @@ const SignUp: React.FC = () => {
                     </div>
 
                     <button
-                        className="font-azeret bg-[#FFB302] w-[20vh] text-[large] font-bold border h-[7vh] mb-[-2vh] mt-[1vh] rounded-[5px] border-solid border-[rgb(84,84,84)] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
+                        className="font-azeret bg-[#FFB302] w-[20vh] text-[large] font-bold border h-[7vh] mb-[-2vh] mt-[-10vh] rounded-[5px] border-solid border-[rgb(84,84,84)] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
                         disabled={isLoading}
                     >
                         Sign up
@@ -142,12 +142,9 @@ const SignUp: React.FC = () => {
 
                     {/* TODO: Login using third-party */}
                     <div className="w-3/5 flex justify-around mt-[1vh]">
-                        {/* <SocialIcon className="text-[white] hover:text-[black]" fgColor="currentColor" url="https://mail.google.com" /> */}
-                        <Link to='https://mail.google.com'>
-                            <FcGoogle size={40} />
-                        </Link>
+                        <SocialIcon className="text-[white] hover:text-[black]" fgColor="currentColor" url="https://mail.google.com" /> {/* Can be resized by: style={{ width:"30vh", height:"30vh" }}, just make sure height and width are the same */}
                         <SocialIcon className="text-[white] hover:text-[black]" fgColor="currentColor" url="https://facebook.com" />
-                        <SocialIcon className="text-[white] text-[1000px] hover:text-[black]" fgColor="currentColor" url="https://instagram.com" />
+                        <SocialIcon className="text-[white] hover:text-[black]" fgColor="currentColor" url="https://instagram.com" />
                     </div>
                 </div>
             </form>
