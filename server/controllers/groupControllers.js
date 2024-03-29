@@ -22,10 +22,10 @@ export const deleteGroup = async (req, res) => {
     try {
         const { id: groupId } = req.params;
 
-		const group = await Group.deleteOne({ _id: groupId });
-		res.status(201).json({ group });
+	const group = await Group.deleteOne({ _id: groupId });
+	res.status(201).json({ group });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(404).json({ error: err.message });
     }
 };
 
@@ -33,8 +33,8 @@ export const showGroup = async (req, res) => {
     try {
         const { id: groupId } = req.params;
 
-		const group = await Group.findOne({ _id: groupId });
-		res.status(201).json({ group });
+	const group = await Group.findOne({ _id: groupId });
+	res.status(201).json({ group });
     } catch (err) {
         res.status(404).json({ error: err.message });
     }
