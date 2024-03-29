@@ -35,9 +35,9 @@ const Home = () => {
                 <div className="text-center pt-[90px] space-y-3">
                     <h1 className="text-6xl">Oh no!</h1>
                     <h3 className="text-xl">You haven't created any friend group yet.</h3>
-                    <input className="bg-[#FFB302] text-xl text-center w-[100vh] text-[large] h-[7vh] mb-[-2vh] mt-[1vh] rounded-[10px] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
-                        value="Create a new friend group"
-                    />
+                    <button className="bg-[#FFB302] text-xl text-center w-[100vh] text-[large] h-[7vh] mb-[-2vh] mt-[1vh] rounded-[10px] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]">
+                        Create a new friend group
+                    </button>
                 </div>
                 :
                 <div>
