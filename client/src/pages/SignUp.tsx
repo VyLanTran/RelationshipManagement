@@ -5,18 +5,19 @@ import { SocialIcon } from 'react-social-icons';
 import { eyeOff } from "react-icons-kit/feather/eyeOff";
 import { eye } from "react-icons-kit/feather/eye";
 import axios from "axios";
+import { useSignup } from "../hooks/useSignup";
+import { FcGoogle } from "react-icons/fc";
+
 
 const SignUp: React.FC = () => {
 
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [isPasswordMatch, setIsPasswordMatch] = useState(true)
-    // const [isvalid]
-    // TODO: 'passwordErrorMessage' showing all password errors in terms of length, special character, etc
+    const { signup, isLoading, error } = useSignup()
     // Show/hide Password
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -29,32 +30,21 @@ const SignUp: React.FC = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        try {
-            const res = await axios.post('http://localhost:3001/auth/signup', {
-                email,
-                username,
-                password,
-                firstName,
-                lastName
-            });
-            console.log(res)
-        }
-        catch (error) {
-            console.log('Sign up failed')
-        }
+
+        await signup(firstName, lastName, email, username, password, confirmPassword)
     }
 
     return (
         <header className="App-login">
             <form
-                className="w-full h-screen flex justify-center items-center"
+                className="w-full h-[90vh] flex justify-center items-center"
                 onSubmit={handleSubmit}
             >
-                <div className="bg-slate-50 w-2/5 flex flex-col items-center gap-3 rounded-[30px] justify-center py-10">
-                    <h3 style={{ fontSize: '8vh' }}>Sign up</h3>
+                <div className="bg-slate-50 w-2/5 flex flex-col items-center gap-3 justify-center py-10">
+                    <h3 className="text-[40px]">Sign up</h3>
                     <div className="grid grid-cols-2 w-[70%] gap-4">
                         <input
-                            className={`textStyles outline-none w-full ${firstName.length > 0 ? 'border-black' : 'border-red-500'}`}
+                            className="textStyles outline-none w-full border-black"
                             placeholder="First name*"
                             id="firstName"
                             name="firstName"
@@ -62,7 +52,7 @@ const SignUp: React.FC = () => {
                             onChange={(e) => setFirstName(e.target.value)}
                         />
                         <input
-                            className={`textStyles outline-none w-full ${lastName.length > 0 ? 'border-black' : 'border-red-500'}`}
+                            className="textStyles outline-none w-full border-black"
                             placeholder="Last name*"
                             id="lastName"
                             name="lastName"
@@ -71,7 +61,7 @@ const SignUp: React.FC = () => {
                         />
                     </div>
                     <input
-                        className={`textStyles outline-none ${email.length > 0 ? 'border-black' : 'border-red-500'}`}
+                        className="textStyles outline-none  border-black"
                         placeholder="Email* "
                         id="email"
                         name="email"
@@ -79,7 +69,7 @@ const SignUp: React.FC = () => {
                         onChange={(e) => setEmail(e.target.value)}
                     />
                     <input
-                        className={`textStyles outline-none ${username.length > 0 ? 'border-black' : 'border-red-500'}`}
+                        className="textStyles outline-none  border-black"
                         placeholder="Username*"
                         id="username"
                         name="username"
@@ -87,20 +77,16 @@ const SignUp: React.FC = () => {
                         onChange={(e) => setUsername(e.target.value)}
                     />
                     <div
-                        className={`relative w-[70%] textStyles outline-none ${password.length > 0 ? 'border-black' : 'border-red-500'}`}
+                        className="textStyles relative outline-none border-black"
                     >
                         <input
-                            // className={`outline-none ${password.length > 0 ? 'border-black' : 'border-red-500'}`}
                             className="bg-slate-50 w-[100%] outline-none"
                             placeholder="Password*"
                             type={showPassword ? "text" : "password"}
                             id="password"
                             name="password"
                             value={password}
-                            onChange={(e) => {
-                                setPassword(e.target.value)
-                                setIsPasswordMatch(e.target.value === confirmPassword)
-                            }}
+                            onChange={(e) => setPassword(e.target.value)}
                         />
                         <button
                             type="button"
@@ -110,10 +96,7 @@ const SignUp: React.FC = () => {
                             <Icon icon={showPassword ? eye : eyeOff} />
                         </button>
                     </div>
-                    <div
-                        className={`relative w-[70%]  textStyles
-                             ${confirmPassword.length > 0 && isPasswordMatch ? 'border-black' : 'border-red-500'}`}
-                    >
+                    <div className="textStyles relative outline-none  border-black">
                         <input
                             className="bg-slate-50 w-[100%] outline-none"
                             placeholder="Confirm password*"
@@ -121,10 +104,7 @@ const SignUp: React.FC = () => {
                             id="confirmPassword"
                             name="confirmPassword"
                             value={confirmPassword}
-                            onChange={(e) => {
-                                setConfirmPassword(e.target.value)
-                                setIsPasswordMatch(e.target.value === password)
-                            }}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
                         />
                         <button
                             type="button"
@@ -134,13 +114,21 @@ const SignUp: React.FC = () => {
                             <Icon icon={showConfirmPassword ? eye : eyeOff} />
                         </button>
                     </div>
-                    <div className="  w-[70%] flex">
-                        <p className={`text-[14px] mr-auto ${!isPasswordMatch ? 'text-red-600' : 'text-transparent'}`}>
-                            {!isPasswordMatch ? 'Passwords do not match' : '⠀'}
-                        </p>
+                    <div className=" w-[70%] flex h-16">
+                        {
+                            error &&
+                            <div className="text-[14px] mr-auto text-red-600">
+                                {error}
+                            </div>
+                        }
                     </div>
 
-                    <input className="font-azeret bg-[#FFB302] w-[20vh] text-[large] font-bold border h-[7vh] mb-[-2vh] mt-[1vh] rounded-[5px] border-solid border-[rgb(84,84,84)] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]" type="submit" value="Sign up" />
+                    <button
+                        className="font-azeret bg-[#FFB302] w-[20vh] text-[large] font-bold border h-[7vh] mb-[-2vh] mt-[1vh] rounded-[5px] border-solid border-[rgb(84,84,84)] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
+                        disabled={isLoading}
+                    >
+                        Sign up
+                    </button>
                     <div className="mt-[2vh] flex flex-row gap-3">
                         <span>
                             Already have an account?
@@ -154,9 +142,12 @@ const SignUp: React.FC = () => {
 
                     {/* TODO: Login using third-party */}
                     <div className="w-3/5 flex justify-around mt-[1vh]">
-                        <SocialIcon className="text-[white] hover:text-[black]" fgColor="currentColor" url="https://mail.google.com" />
+                        {/* <SocialIcon className="text-[white] hover:text-[black]" fgColor="currentColor" url="https://mail.google.com" /> */}
+                        <Link to='https://mail.google.com'>
+                            <FcGoogle size={40} />
+                        </Link>
                         <SocialIcon className="text-[white] hover:text-[black]" fgColor="currentColor" url="https://facebook.com" />
-                        <SocialIcon className="text-[white] hover:text-[black]" fgColor="currentColor" url="https://instagram.com" />
+                        <SocialIcon className="text-[white] text-[1000px] hover:text-[black]" fgColor="currentColor" url="https://instagram.com" />
                     </div>
                 </div>
             </form>
