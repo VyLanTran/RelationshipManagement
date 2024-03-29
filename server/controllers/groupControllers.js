@@ -39,3 +39,20 @@ export const showGroup = async (req, res) => {
         res.status(404).json({ error: err.message });
     }
 };
+
+export const editGroup = async (req, res) => {
+    try {
+        const { id: groupId } = req.params;
+
+        const group = await Group.findOneAndUpdate(
+            { _id: groupId },
+            req.body,
+            {
+                new: true,
+            }
+        );
+	res.status(201).json({ group });
+    } catch (err) {
+        res.status(404).json({ error: err.message });
+    }
+};
