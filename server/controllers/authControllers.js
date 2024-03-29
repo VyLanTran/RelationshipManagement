@@ -67,8 +67,7 @@ export const login = async (req, res) => {
     // Check if password is matched
     const isMatch = bcrypt.compare(password, user.password);
 
-    if (!isMatch)
-      return res.status(400).json({ msg: "Password does not match" });
+    if (!isMatch) return res.status(400).json({ msg: "Password is incorrect" });
 
     const token = createToken(user._id);
 
