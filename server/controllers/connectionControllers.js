@@ -20,9 +20,9 @@ export const createConnection = async (req, res) => {
 
 export const getConnection = async (req, res) => {
 	try {
-		const { _id } = req.body;
+		const { id: connectionId } = req.params;
 
-		const connection = await Connection.findOne({ _id: _id });
+		const connection = await Connection.findOne({ _id: connectionId });
 		res.status(201).json({ connection });
 	} catch (error) {
 		res.status(500).json({ msg: error });
@@ -31,10 +31,30 @@ export const getConnection = async (req, res) => {
 
 export const deleteConnection = async (req, res) => {
 	try {
-		const { _id } = req.body;
+		const { id: connectionId } = req.params;
 
-		const connection = await Connection.deleteOne({ _id: _id });
+		const connection = await Connection.deleteOne({ _id: connectionId });
 		res.status(201).json({ connection });
+	} catch (error) {
+		res.status(500).json({ msg: error });
+	}
+};
+
+export const updateConnection = async (req, res) => {
+	try {
+		const { id: connectionId } = req.params;
+		const connection = await Connection.findOneAndUpdate(
+			{ _id: connectionId },
+			req.body,
+			{
+				new: true,
+				runValidators: true,
+			}
+		);
+		if (!connection) {
+			res.status(404).json({ msg: `No connections with ID ${connectionId}` });
+		}
+		res.status(200).json({ connection });
 	} catch (error) {
 		res.status(500).json({ msg: error });
 	}
