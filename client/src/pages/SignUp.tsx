@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Icon from "react-icons-kit";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { SocialIcon } from 'react-social-icons';
 import { eyeOff } from "react-icons-kit/feather/eyeOff";
 import { eye } from "react-icons-kit/feather/eye";
@@ -10,6 +10,8 @@ import { FcGoogle } from "react-icons/fc";
 
 
 const SignUp: React.FC = () => {
+
+    const navigate = useNavigate()
 
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
@@ -31,7 +33,13 @@ const SignUp: React.FC = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        await signup(firstName, lastName, email, username, password, confirmPassword)
+        try {
+            await signup(firstName, lastName, email, username, password, confirmPassword)
+            navigate('/home')
+        } catch (error) {
+            console.log(error)
+        }
+
     }
 
     return (

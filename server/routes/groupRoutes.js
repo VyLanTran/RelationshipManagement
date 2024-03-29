@@ -1,7 +1,17 @@
 import express from "express";
-import { addGroup, showAll, deleteGroup, showGroup, editGroup} from "../controllers/groupControllers.js";
+import {
+  addGroup,
+  showAll,
+  deleteGroup,
+  showGroup,
+  editGroup,
+} from "../controllers/groupControllers.js";
+import { verifyAuth } from "../middleware/auth.js";
 
+//  middleware to ensure that user must be authenticated before other routes can be handled
 const router = express.Router();
+
+router.use(verifyAuth);
 
 router.post("/", addGroup);
 router.get("/", showAll);

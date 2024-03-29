@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../components/navbar/Navbar.tsx";
 import GroupCard from "../components/navbar/GroupCard.tsx";
 import axios from 'axios';
+import { useAuthContext } from "../hooks/useAuthContext.js";
 
 const Home = () => {
 
     const [groups, setGroups] = useState([]);
+    // const {user} = useAuthContext();
 
     useEffect(() => {
         const fetchGroups = async () => {
@@ -28,12 +30,12 @@ const Home = () => {
             <div className="flex justify-center flex-row pt-[20px]">
                 {
                     groups.slice(0, 3).map((group, id) =>
-                    <GroupCard
-                        key={id}
-                        group_name={group['name']} 
-                        url={""} 
-                        participants={[]}
-                    />)
+                        <GroupCard
+                            key={id}
+                            group_name={group['name']}
+                            url={""}
+                            participants={[]}
+                        />)
                 }
             </div>
             {groups?.length > 3 ?

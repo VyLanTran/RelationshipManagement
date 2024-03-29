@@ -43,7 +43,7 @@ export const signup = async (req, res) => {
     const savedUser = await newUser.save(); // save() is a form of MongoDB query
     const token = createToken(savedUser._id);
 
-    res.status(201).json({ savedUser, token });
+    res.status(201).json({ user: savedUser, token });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -57,21 +57,26 @@ export const login = async (req, res) => {
     if (!email || !password) {
       throw Error("All fields must be filled");
     }
-
+    if (!validator.isEmail(email)) {
+      throw Error("Email is not valid");
+    }
     // Check if an user with that email exists in our database
     const user = await UserModel.findOne({ email: email }); // findOne() is a form of MongoDB query, returning instance of User schema
 
     // If no such email is found in the database
-    if (!user) return res.status(400).json({ msg: "Email does not exist" });
+    if (!user) {
+      throw Error("This email doesn't match an account");
+    }
 
     // Check if password is matched
-    const isMatch = bcrypt.compare(password, user.password);
-
-    if (!isMatch) return res.status(400).json({ msg: "Password is incorrect" });
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      throw Error("Password is incorrect");
+    }
 
     const token = createToken(user._id);
 
-    res.status(201).json({ msg: "Successfully log in", token, user });
+    res.status(201).json({ user, token });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
