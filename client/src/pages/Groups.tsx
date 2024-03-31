@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/navbar/Navbar.tsx";
-import GroupCard from "../components/navbar/GroupCard.tsx";
-import GroupCardSmall from "../components/navbar/GroupCardSmall.tsx";
+import GroupCard from "../components/groups/GroupCard.tsx";
+import GroupCardSmall from "../components/groups/GroupCardSmall.tsx";
 import axios from 'axios';
 import { useAuthContext } from "../hooks/useAuthContext.js";
 
@@ -44,16 +44,16 @@ const Groups = () => {
             <Navbar />
             <div>
                 <div className="flex justify-center flex-row pt-[90px] items-center px-[5vh]">
-                    <input className="text-xl mr-[3vh] w-[100vh] rounded-[10px] px-[3vh] py-[2vh]" 
+                    <input className="text-xl mr-[3vh] w-[100vh] rounded-[10px] px-[3vh] py-[2vh]"
                         placeholder="Search groups"
                         onChange={sortGroup}
                         value={searchInput}
                     />
-                    <button className="mx-[1vh] rounded-[10px] bg-[#FFB302] px-[3vh] text-l h-[6vh]" 
+                    <button className="mx-[1vh] rounded-[10px] bg-[#FFB302] px-[3vh] text-l h-[6vh]"
                         onClick={toggleLargeView}>
                         Large
                     </button>
-                    <button className="ml-[1vh] rounded-[10px] bg-[#FFB302] px-[3vh] text-l h-[6vh]" 
+                    <button className="ml-[1vh] rounded-[10px] bg-[#FFB302] px-[3vh] text-l h-[6vh]"
                         onClick={toggleSmallView}>
                         Small
                     </button>
@@ -62,27 +62,27 @@ const Groups = () => {
                     {
                         filteredData.map((group, id) =>
                             <div>
-                            {
-                                showDetails ? 
-                                    <GroupCard
-                                        key={id}
-                                        group_name={group['name']}
-                                        url={""}
-                                        participants={["something", "something"]} // Placeholder for now
-                                    />
-                                : 
-                                    <GroupCardSmall 
-                                        key={id}
-                                        group_name={group['name']}
-                                        url={""}
-                                    />
-                            }
+                                {
+                                    showDetails ?
+                                        <GroupCard
+                                            key={id}
+                                            group_name={group['name']}
+                                            url={""}
+                                            participants={["something", "something"]} // Placeholder for now
+                                        />
+                                        :
+                                        <GroupCardSmall
+                                            key={id}
+                                            group_name={group['name']}
+                                            url={""}
+                                        />
+                                }
                             </div>
                         )
                     }
                 </div>
             </div>
-            
+
         </div>
     );
 }

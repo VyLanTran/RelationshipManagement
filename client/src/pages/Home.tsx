@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar/Navbar.tsx";
-import GroupCard from "../components/navbar/GroupCard.tsx";
+import GroupCard from "../components/groups/GroupCard.tsx";
 import axios from 'axios';
 import { useAuthContext } from "../hooks/useAuthContext.js";
 
@@ -11,11 +11,11 @@ const Home = () => {
 
     const navigate = useNavigate()
 
-    const routeChange = () =>{  
+    const routeChange = () => {
         navigate('/groups');
-      }
+    }
 
-    const {user} = useAuthContext();
+    const { user } = useAuthContext();
 
     useEffect(() => {
         const fetchGroups = async () => {
@@ -53,7 +53,7 @@ const Home = () => {
                 :
                 <div>
                     <div className="text-center pt-[90px]">
-                    <h1 className="text-4xl">Discover your friend groups.</h1>
+                        <h1 className="text-4xl">Discover your friend groups.</h1>
                     </div>
                     <div className="flex justify-center flex-row pt-[20px]">
                         {
