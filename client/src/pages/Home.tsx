@@ -8,25 +8,36 @@ import { useAuthContext } from "../hooks/useAuthContext.js";
 const Home = () => {
 
     const [groups, setGroups] = useState([]);
+
     const navigate = useNavigate()
 
     const routeChange = () =>{  
         navigate('/groups');
       }
 
-    // const {user} = useAuthContext();
+    const {user} = useAuthContext();
 
     useEffect(() => {
         const fetchGroups = async () => {
             try {
-                const response = await axios.get("http://localhost:3001/groups");
+                const response = await axios.get(
+                    "http://localhost:3001/groups",
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${user.token}`
+                        }
+                    });
                 setGroups(response.data);
             } catch (err) {
                 console.error(err);
             }
         };
-        fetchGroups();
-    }, [groups]);
+
+        // Make sure that the user must be authenticated before they can view their groups
+        if (user) {
+            fetchGroups();
+        }
+    }, [groups, user]);
 
     return (
         <div>
