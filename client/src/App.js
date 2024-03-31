@@ -5,6 +5,7 @@ import Notification from "./pages/Notification.tsx";
 import Profile from "./pages/Profile.tsx";
 import Setting from "./pages/Setting.tsx";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import ProtectedRoute from "./context/ProtectedRoute.js";
 
 function App() {
   return (
@@ -12,11 +13,14 @@ function App() {
       <div className="app">
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/SignUp" element={<SignUp />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/setting" element={<Setting />} />
-          <Route path="/notification" element={<Notification />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/signup" element={<SignUp />} />
+
+          <Route element={<ProtectedRoute />}>
+            <Route path="/home" element={<Home />} />
+            <Route path="/setting" element={<Setting />} />
+            <Route path="/notification" element={<Notification />} />
+            <Route path="/profile" element={<Profile />} />
+          </Route>
         </Routes>
       </div>
     </Router>
