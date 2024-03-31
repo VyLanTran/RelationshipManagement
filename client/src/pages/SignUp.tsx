@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import Icon from "react-icons-kit";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SocialIcon } from 'react-social-icons';
 import { eyeOff } from "react-icons-kit/feather/eyeOff";
 import { eye } from "react-icons-kit/feather/eye";
-import axios from "axios";
 import { useSignup } from "../hooks/useSignup";
-import { FcGoogle } from "react-icons/fc";
-
 
 const SignUp: React.FC = () => {
 
@@ -130,9 +127,8 @@ const SignUp: React.FC = () => {
                             </div>
                         }
                     </div>
-
                     <button
-                        className="font-azeret bg-[#FFB302] w-[20vh] text-[large] font-bold border h-[7vh] mb-[-2vh] mt-[-10vh] rounded-[5px] border-solid border-[rgb(84,84,84)] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
+                        className="font-azeret bg-[#FFB302] w-[20vh] text-[large] font-bold border h-[7vh] mb-[-2vh] mt-[1vh] rounded-[5px] border-solid border-[rgb(84,84,84)] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
                         disabled={isLoading}
                     >
                         Sign up

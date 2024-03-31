@@ -32,7 +32,7 @@ export const signup = async (req, res) => {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newUser = new UserModel({
+    const user = await UserModel.create({
       firstName,
       lastName,
       email,
@@ -40,10 +40,9 @@ export const signup = async (req, res) => {
       password: hashedPassword,
     });
 
-    const savedUser = await newUser.save(); // save() is a form of MongoDB query
-    const token = createToken(savedUser._id);
+    const token = createToken(user._id);
 
-    res.status(201).json({ user: savedUser, token });
+    res.status(201).json({ ...user.toObject(), token });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -61,7 +60,7 @@ export const login = async (req, res) => {
       throw Error("Email is not valid");
     }
     // Check if an user with that email exists in our database
-    const user = await UserModel.findOne({ email: email }); // findOne() is a form of MongoDB query, returning instance of User schema
+    const user = await UserModel.findOne({ email: email }).lean(); // findOne() is a form of MongoDB query, returning instance of User schema
 
     // If no such email is found in the database
     if (!user) {
@@ -76,7 +75,7 @@ export const login = async (req, res) => {
 
     const token = createToken(user._id);
 
-    res.status(201).json({ user, token });
+    res.status(201).json({ ...user, token });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

@@ -1,5 +1,4 @@
 import React from "react";
-import { FaUserLarge } from "react-icons/fa6";
 import NavbarButton from "./NavbarButton.tsx";
 import { FaGear } from "react-icons/fa6";
 import { RiBookletFill } from "react-icons/ri";
@@ -31,7 +30,7 @@ const Navbar = () => {
                 {
                     user ?
                         <div className="flex flex-row items-center gap-4">
-                            <span>{user.user.username}</span>
+                            <span>{user.username}</span>
                             {/* Log out */}
                             <button
                                 onClick={handleLogout}
