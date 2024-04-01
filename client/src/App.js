@@ -5,6 +5,7 @@ import Notification from "./pages/Notification.tsx";
 import Profile from "./pages/Profile.tsx";
 import Setting from "./pages/Setting.tsx";
 import Groups from "./pages/Groups.tsx";
+import Map from "./pages/Map.tsx";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./context/ProtectedRoute.js";
 
@@ -22,6 +23,7 @@ function App() {
             <Route path="/notification" element={<Notification />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/groups" element={<Groups />} />
+            <Route path="/map" element={<Map />} />
           </Route>
         </Routes>
       </div>

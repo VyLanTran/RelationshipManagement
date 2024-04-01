@@ -7,6 +7,7 @@ import { useLogout } from "../../hooks/useLogout.js";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext.js";
 import { MdLogout } from "react-icons/md";
+import { FaMap } from "react-icons/fa";
 
 const Navbar = () => {
 
@@ -26,6 +27,7 @@ const Navbar = () => {
                 <NavbarButton icon={<RiBookletFill size={18} />} name="My space" url="/home" />
                 <NavbarButton icon={<FaBell size={18} />} name="Notifications" url="/notification" />
                 <NavbarButton icon={<FaGear size={18} />} name="Settings" url="/setting" />
+                <NavbarButton icon={<FaMap size={18} />} name="Map" url="/map" />
 
                 {
                     user ?
