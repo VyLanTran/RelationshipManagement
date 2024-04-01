@@ -12,7 +12,7 @@ const MapGroup = () => {
 
         const initMap = async () => {
             const loader = new Loader({
-                apiKey: "AIzaSyBUIvdKMKt7Hav5Ly79qwuTEZszxLw1X1I",
+                apiKey: process.env.MAP_API_KEY,
                 version: "weekly",
             })
 
@@ -29,7 +29,7 @@ const MapGroup = () => {
             const mapOptions: google.maps.MapOptions = {
                 center: position,
                 zoom: 17,
-                mapId: '416e6fbb21cbb74a',
+                mapId: process.env.MAP_ID
             }
 
             // setup

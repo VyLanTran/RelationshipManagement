@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^20.12.2",
     "concurrently": "^8.2.2"
   },
   "dependencies": {
