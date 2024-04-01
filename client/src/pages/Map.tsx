@@ -1,28 +1,59 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+'use client';
+
+import React, { useEffect, version } from "react";
+import { Loader } from "@googlemaps/js-api-loader";
 import GroupMap from "../components/groups/GroupMap.tsx";
 import Navbar from "../components/navbar/Navbar.tsx";
 
-const Map: React.FC = () => {
-  return (
-    <div>
-      <Navbar />
-      <div className="flex flex-wrap justify-center flex-row pt-[10vh]">
-        <GroupMap
-          group_name={"Test"}
-          url={""}
-          participants={["something", "something"]} // Placeholder for now
-        />
-        <div className="w-[150vh] bg-[#FFB302] rounded-[20px] h-[84vh] p-[2.5vh] m-[2vh]">
-            <div>
-                <button></button>
-                <button></button>
-                <button></button>
+const MapGroup = () => {
+    const mapRef = React.useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+
+        const initMap = async () => {
+            const loader = new Loader({
+                apiKey: "AIzaSyBUIvdKMKt7Hav5Ly79qwuTEZszxLw1X1I",
+                version: "weekly",
+            })
+
+            const { Map } = await loader.importLibrary('maps');
+
+            type Position = {
+                lat: number;
+                lng: number;
+              };
+              
+            const position: Position = { lat: 53.54, lng: 10 };
+
+            // map options
+            const mapOptions: google.maps.MapOptions = {
+                center: position,
+                zoom: 17,
+                mapId: '416e6fbb21cbb74a',
+            }
+
+            // setup
+            const map = new Map(mapRef.current as HTMLDivElement, mapOptions);
+        }
+
+        initMap();
+    }, []);
+    
+    return (
+        <div>
+            <Navbar />
+            <div className="flex flex-wrap justify-center flex-row pt-[10vh]">
+                <GroupMap
+                    group_name={"Test"}
+                    url={""}
+                    participants={["something", "something"]} // Placeholder for now
+                />
+            <div className="w-[150vh] bg-[#FFB302] rounded-[20px] h-[84vh] p-[2.5vh] m-[2vh]">
+                <div className="w-[145vh] rounded-[20px] h-[80vh] mt-[-0.5vh]" ref={mapRef} />
             </div>
         </div>
-      </div>
-    </div>
-  );
+        </div>
+    );
 };
 
-export default Map;
+export default MapGroup;
