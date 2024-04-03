@@ -3,14 +3,14 @@ import Login from "./pages/Login.tsx";
 import SignUp from "./pages/SignUp.tsx";
 import Notification from "./pages/Notification.tsx";
 import Profile from "./pages/Profile.tsx";
+import Groups from "./pages/Groups.tsx";
+
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useAuthContext } from "./hooks/useAuthContext.js";
 import ProtectedRoute from "./utils/ProtectedRoute.js";
 import Settings from "./pages/Settings.tsx";
 
 function App() {
-  // const { user } = useAuthContext();
-
   return (
     <Router>
       <div className="app">

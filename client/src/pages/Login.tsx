@@ -33,7 +33,7 @@ const Login: React.FC = () => {
                 className="w-full h-screen flex justify-center items-center"
                 onSubmit={handleSubmit}
             >
-                <div className="bg-slate-50    w-2/5 flex flex-col items-center gap-3 rounded-[30px] justify-center py-10">
+                <div className="bg-slate-50 w-2/5 flex flex-col items-center gap-3 rounded-[30px] justify-center py-10">
                     <h3 style={{ fontSize: "8vh", marginTop: "2vh" }}>Log in</h3>
                     <input
                         className="textStyles outline-none"
@@ -70,7 +70,7 @@ const Login: React.FC = () => {
                         }
                     </div>
                     <button
-                        className="font-azeret bg-[#FFB302] w-[20vh] text-[large] font-bold border h-[7vh] mb-[-2vh] mt-[1vh] rounded-[5px] border-solid border-[rgb(84,84,84)] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
+                        className="font-azeret bg-[#FFB302] w-[20vh] text-[large] font-bold border h-[7vh] mb-[-2vh] mt-[-7.5vh] rounded-[5px] border-solid border-[rgb(84,84,84)] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
                         disabled={isLoading}
                     >
                         Log in
