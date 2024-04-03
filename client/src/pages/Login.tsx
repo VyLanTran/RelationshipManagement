@@ -21,7 +21,7 @@ const Login: React.FC = () => {
         e.preventDefault()
         try {
             await login(email, password)
-            navigate('/home')
+            navigate('/')
         } catch (error) {
             console.log(error)
         }
@@ -79,7 +79,7 @@ const Login: React.FC = () => {
                         <span>
                             Don't have an account?
                         </span>
-                        <Link to="/SignUp" className="text-[#FFB302]">
+                        <Link to="/signup" className="text-[#FFB302]">
                             <span>
                                 Sign up
                             </span>

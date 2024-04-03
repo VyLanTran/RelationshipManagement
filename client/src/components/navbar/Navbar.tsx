@@ -16,16 +16,16 @@ const Navbar = () => {
 
     const handleLogout = () => {
         logout()
-        navigate('/')
+        navigate('/login')
     }
 
     return (
         <div className="fixed h-[60px] z-10 w-full bg-[#FFB302] flex flex-row justify-between items-center px-10">
             <div>Logo</div>
             <div className="flex flex-row gap-4 items-center">
-                <NavbarButton icon={<RiBookletFill size={18} />} name="My space" url="/home" />
+                <NavbarButton icon={<RiBookletFill size={18} />} name="My space" url="/" />
                 <NavbarButton icon={<FaBell size={18} />} name="Notifications" url="/notification" />
-                <NavbarButton icon={<FaGear size={18} />} name="Settings" url="/setting" />
+                <NavbarButton icon={<FaGear size={18} />} name="Settings" url="/settings" />
 
                 {
                     user ?
@@ -40,7 +40,7 @@ const Navbar = () => {
 
                         </div> :
                         <div className="flex flex-row items-center gap-4">
-                            <Link to='/'>Log in</Link>
+                            <Link to='/login'>Log in</Link>
                             <Link to='/signup'>Sign up</Link>
                         </div>
                 }

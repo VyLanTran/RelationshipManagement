@@ -1,7 +1,10 @@
 import React from "react";
 import Navbar from "../components/navbar/Navbar.tsx";
+import { useAuthContext } from "../hooks/useAuthContext.js";
 
-const Setting = () => {
+const Settings = () => {
+    const { user } = useAuthContext();
+
     return (
         <div>
             <Navbar />
@@ -10,4 +13,4 @@ const Setting = () => {
     );
 }
 
-export default Setting;
+export default Settings;

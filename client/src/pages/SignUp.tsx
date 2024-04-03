@@ -32,7 +32,7 @@ const SignUp: React.FC = () => {
 
         try {
             await signup(firstName, lastName, email, username, password, confirmPassword)
-            navigate('/home')
+            navigate('/')
         } catch (error) {
             console.log(error)
         }
@@ -137,7 +137,7 @@ const SignUp: React.FC = () => {
                         <span>
                             Already have an account?
                         </span>
-                        <Link to="/" className="text-[#FFB302]">
+                        <Link to="/login" className="text-[#FFB302]">
                             <span>
                                 Log in
                             </span>
