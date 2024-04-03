@@ -1,11 +1,18 @@
 import React from "react";
-import Navbar from "../components/navbar/Navbar.tsx";
 
 const Profile = () => {
     return (
-        <div>
-            <Navbar />
-            <div className="pt-[60px]">This is profile page</div>
+        <div className="bg-green-500">
+            <div>
+                {/* Left sidebar */}
+                <div className="w-[20%] bg-yellow-400"></div>
+                {/* Main */}
+                <div className="w-[60%] bg-red-400">
+                    profile
+                </div>
+                {/* Right sidebar */}
+                <div className="w-[20%] bg-blue-400"></div>
+            </div>
         </div>
     );
 }

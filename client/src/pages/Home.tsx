@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Navbar from "../components/navbar/Navbar.tsx";
 import GroupCard from "../components/groups/GroupCard.tsx";
 import axios from 'axios';
 import { useAuthContext } from "../hooks/useAuthContext.js";
@@ -41,7 +40,6 @@ const Home = () => {
 
     return (
         <div>
-            <Navbar />
             {groups?.length == 0 ?
                 <div className="text-center pt-[90px] space-y-3">
                     <h1 className="text-6xl">Oh no!</h1>
