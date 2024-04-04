@@ -1,9 +1,11 @@
 import React from "react";
+import Navbar from "../components/navbar/Navbar.tsx";
 
 const Notification = () => {
     return (
-        <div>
-            <div>This is the notification page</div>
+        <div className="">
+            <Navbar />
+            <div className="pt-[60px]">This is the notification</div>
         </div>
     );
 }

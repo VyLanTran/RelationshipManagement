@@ -8,9 +8,9 @@ import {
 } from "../controllers/groupControllers.js";
 import { verifyAuth } from "../middleware/auth.js";
 
-//  middleware to ensure that user must be authenticated before other routes can be handled
 const router = express.Router();
 
+//  middleware to ensure that user must be authenticated before other routes can be handled
 router.use(verifyAuth);
 
 router.post("/", addGroup);
