@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import Navbar from "../components/navbar/Navbar.tsx";
+import About from "../components/users/About.tsx";
 
 const Profile = () => {
 
@@ -31,7 +32,7 @@ const Profile = () => {
         if (currentUser) {
             getUser()
         }
-    }, [user, currentUser])
+    }, [])
 
 
 
@@ -47,12 +48,9 @@ const Profile = () => {
                             left sidebar
                         </div>
                         {/* Main */}
-
-
-
-                        <div className="w-[60%] p-4">
+                        <div className="w-[60%] p-4 flex flex-col gap-4">
                             {/* Profile navbar: background image, avatar, tabs */}
-                            <div className="h-[450px] relative shadow-md">
+                            <div className="h-[450px] relative shadow-md bg-[#f5f2d9]">
                                 <div className="h-[300px]">
                                     <img
                                         src="https://www.up.edu/admissions/images/banner-aerial-dec-2022.jpg"
@@ -84,6 +82,10 @@ const Profile = () => {
                                     <div>About</div>
                                     <div>Photos</div>
                                 </div>
+                            </div>
+
+                            <div className="shadow-md bg-[#f5f2d9]">
+                                <About userId={userId} />
                             </div>
                         </div>
 
