@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import GroupCard from "../components/groups/GroupCard.tsx";
 import axios from 'axios';
 import { useAuthContext } from "../hooks/useAuthContext.js";
+import Navbar from "../components/navbar/Navbar.tsx";
 
 const Home = () => {
 
@@ -40,47 +41,50 @@ const Home = () => {
 
     return (
         <div>
-            {groups?.length == 0 ?
-                <div className="text-center pt-[90px] space-y-3">
-                    <h1 className="text-6xl">Oh no!</h1>
-                    <h3 className="text-xl">You haven't created any friend group yet.</h3>
-                    <button className="bg-[#FFB302] text-xl text-center w-[100vh] text-[large] h-[7vh] mb-[-2vh] mt-[1vh] rounded-[10px] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]">
-                        Create a new friend group
-                    </button>
-                </div>
-                :
-                <div>
-                    <div className="text-center pt-[90px]">
-                        <h1 className="text-4xl">Discover your friend groups.</h1>
+            <Navbar />
+            <div className="pt-[90px]">
+                {groups?.length == 0 ?
+                    <div className="text-center space-y-3">
+                        <h1 className="text-6xl">Oh no!</h1>
+                        <h3 className="text-xl">You haven't created any friend group yet.</h3>
+                        <button className="bg-[#FFB302] text-xl text-center w-[100vh] text-[large] h-[7vh] mb-[-2vh] mt-[1vh] rounded-[10px] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]">
+                            Create a new friend group
+                        </button>
                     </div>
-                    <div className="flex justify-center flex-row pt-[20px]">
-                        {
-                            groups.slice(0, 3).map((group, id) =>
-                                <GroupCard
-                                    key={id}
-                                    group_name={group['name']}
-                                    url={""}
-                                    participants={[]}
-                                />)
+                    :
+                    <div>
+                        <div className="text-center">
+                            <h1 className="text-4xl">Discover your friend groups.</h1>
+                        </div>
+                        <div className="flex justify-center flex-row pt-[20px]">
+                            {
+                                groups.slice(0, 3).map((group, id) =>
+                                    <GroupCard
+                                        key={id}
+                                        group_name={group['name']}
+                                        url={""}
+                                        participants={[]}
+                                    />)
+                            }
+                        </div>
+                        {groups?.length > 3 ?
+                            <div>
+                                <button className="bg-[#FFB302] text-xl text-center w-[100vh] text-[large] h-[7vh] mb-[-2vh] mt-[1vh] rounded-[10px] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
+                                    onClick={routeChange}
+                                >
+                                    See all of your friend groups
+                                </button>
+                            </div>
+                            :
+                            <div>
+                            </div>
                         }
-                    </div>
-                    {groups?.length > 3 ?
-                        <div>
-                            <button className="bg-[#FFB302] text-xl text-center w-[100vh] text-[large] h-[7vh] mb-[-2vh] mt-[1vh] rounded-[10px] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
-                                onClick={routeChange}
-                            >
-                                See all of your friend groups
-                            </button>
+                        <div className="mt-[3vh]">
+                            <p className="text-l text-gray-700">...or, discover common friends by clicking outside the group</p>
                         </div>
-                        :
-                        <div>
-                        </div>
-                    }
-                    <div className="mt-[3vh]">
-                        <p className="text-l text-gray-700">...or, discover common friends by clicking outside the group</p>
                     </div>
-                </div>
-            }
+                }
+            </div>
         </div>
     );
 }

@@ -31,6 +31,7 @@ export const AuthContextProvider = ({ children }) => {
       dispatch({ type: "LOGIN", payload: user });
     }
     setLoading(false);
+    console.log(user);
   }, []);
 
   // If the page is still loading, we return null
