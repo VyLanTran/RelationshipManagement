@@ -2,20 +2,21 @@ import React from "react";
 import { Link } from 'react-router-dom'
 
 // TODO: show name when hovering over icon
-interface GroupCardProps {
-    group_name: string
-    url: string
-    participants: string[]
-}
+// interface GroupCardProps {
+//     group_name: string
+//     url: string
+//     participants: string[]
+// }
 
-const ConnectionCard: React.FC<GroupCardProps> = ({ group_name, participants, url }) => {
+const ConnectionCard: React.FC = () => {
     return (
-        <div className="bg-[#FFB302] rounded-[20px] w-[50vh] h-[84vh] p-[2.5vh] m-[2vh]">
+        <div className="h-[19vh] w-[67vh] bg-white rounded-[20px] flex">
+            <div className="ml-[2vh] mt-[1.5vh] w-[16vh] h-[16vh] bg-slate-500 rounded-full"></div>
             <div>
-                <p className="text-3xl pb-[2.5vh]"> {group_name} </p>
-            </div>
-            <div className="text-left pl-[3vh]">
-                {participants.map(participant => <p className="text-xl">{participant}</p>)}
+                <h2>Jimmy Khang Nguyen</h2>
+                <div>
+                    <p><b>Groups in:</b> Viet Tech, Team4,...</p>
+                </div>
             </div>
         </div>
     );
