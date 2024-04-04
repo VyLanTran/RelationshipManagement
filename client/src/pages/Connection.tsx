@@ -13,7 +13,7 @@ const Connection = () => {
                     url={""}
                     participants={["something", "something"]} // Placeholder for now
                 />
-        </div>
+            </div>
         </div>
     );
 };
