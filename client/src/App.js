@@ -73,6 +73,14 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/groups"
+            element={
+              <ProtectedRoute>
+                <Groups />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Router>
     </div>
