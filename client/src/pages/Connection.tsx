@@ -22,7 +22,6 @@ const Connection = () => {
                             'Authorization': `Bearer ${user.token}`
                         }
                     });
-                console.log(response.data)
                 setConnections(response.data.connections);
             } catch (err) {
                 console.error(err)
@@ -55,11 +54,12 @@ const Connection = () => {
                             <button className="font-azeret bg-[#8DC363] w-[20vh] text-[large] font-bold border h-[6vh] rounded-3xl ml-[2vh] border-solid border-[rgb(84,84,84)] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]">Add</button>
                         </form>
                         <section className="h-[75vh] mt-[2vh] rounded-[20px]">
-                        <div className="flex justify-between flex-wrap overflow-scroll h-[100%] overflow-x-hidden">
+                        <div className="flex justify-between flex-wrap overflow-auto max-h-[100%] overflow-x-hidden">
                             {
                                 connections.slice().map((connection, id) =>
                                     <ConnectionCard
                                         key={id}
+                                        _id={connection["_id"]}
                                         name={connection["name"]}
                                         member_of={[ "Viet Tech", "Team4"].join(", ")}
                                         phone={connection['phone']}
@@ -67,70 +67,11 @@ const Connection = () => {
                                         last_contacted={"02/04/2023"}
                                     />)
                             }
-                            {/* <ConnectionCard 
-                                name={"Jimmy Khang Nguyen"}
-                                member_of={[ "Viet Tech", "Team4"].join(", ")}
-                                phone={"098403463"}
-                                email={"test@gmail.com"}
-                                last_contacted={"02/04/2023"}
-                            />
-                            <ConnectionCard 
-                                name={"Jimmy Khang Nguyen"}
-                                member_of={[ "Viet Tech", "Team4"].join(", ")}
-                                phone={"098403463"}
-                                email={"test@gmail.com"}
-                                last_contacted={"02/04/2023"}
-                            /> */}
                         </div>
                         </section>
                     </div>
                 </div>
                 }
-                {/* <ConnectionGroup />
-                <div className="w-[145vh] rounded-[20px] h-[84vh] p-[1vh] m-[2vh]">
-                    <form className="flex justify-between">
-                        <div className="flex">
-                            <input className="border border-solid border-[rgb(84,84,84)] bg-slate-50 w-[40vh] h-[6vh] outline-none rounded-3xl pl-[2vh]" placeholder="Finding someone?"></input>
-                            <button className="font-azeret bg-slate-50 w-[25vh] text-[large] font-bold border h-[6vh] rounded-3xl ml-[2vh] border-solid border-[rgb(84,84,84)] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]">Search</button>
-                        </div>
-                        <button className="font-azeret bg-[#8DC363] w-[20vh] text-[large] font-bold border h-[6vh] rounded-3xl ml-[2vh] border-solid border-[rgb(84,84,84)] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]">Add</button>
-                    </form>
-                    <section className="h-[75vh] mt-[2vh] rounded-[20px]">
-                        <div className="flex justify-between">
-                            <ConnectionCard 
-                                name={"Jimmy Khang Nguyen"}
-                                member_of={[ "Viet Tech", "Team4"].join(", ")}
-                                phone={"098403463"}
-                                email={"test@gmail.com"}
-                                last_contacted={"02/04/2023"}
-                            />
-                            <ConnectionCard 
-                                name={"Jimmy Khang Nguyen"}
-                                member_of={[ "Viet Tech", "Team4"].join(", ")}
-                                phone={"098403463"}
-                                email={"test@gmail.com"}
-                                last_contacted={"02/04/2023"}
-                            />
-                        </div>
-                        <div className="flex justify-between mt-[4vh]">
-                            <ConnectionCard 
-                                name={"Jimmy Khang Nguyen"}
-                                member_of={[ "Viet Tech", "Team4"].join(", ")}
-                                phone={"098403463"}
-                                email={"test@gmail.com"}
-                                last_contacted={"02/04/2023"}
-                            />
-                            <ConnectionCard 
-                                name={"Jimmy Khang Nguyen"}
-                                member_of={[ "Viet Tech", "Team4"].join(", ")}
-                                phone={"098403463"}
-                                email={"test@gmail.com"}
-                                last_contacted={"02/04/2023"}
-                            />
-                        </div>
-
-                    </section>
-                </div> */}
             </div>
     );
 };
