@@ -14,8 +14,7 @@ interface ConnectionCardProps {
 
 const ConnectionCard: React.FC<ConnectionCardProps> = ({ name, member_of, phone, email, last_contacted }) => {
     return (
-        <div className="h-[21vh] w-[67vh] bg-white rounded-[20px] flex">
-            {/* <div className="ml-[2vh] mt-[2.5vh] w-[16vh] h-[16vh] bg-slate-500 rounded-full"></div> */}
+        <div className="h-[21vh] w-[67vh] bg-white rounded-[20px] flex mb-[4vh]">
             <IoPersonCircleSharp className="ml-[2vh] mt-[2.5vh] w-[16vh] h-[16vh]"/>
             <div className="mt-[1vh] w-[43vh]">
                 <h2 className="font-bold text-left text-[3.5vh] ml-[2vh]">{name}</h2>
@@ -23,7 +22,7 @@ const ConnectionCard: React.FC<ConnectionCardProps> = ({ name, member_of, phone,
                     <p><b>Groups in:</b> {member_of}</p>
                     <p><b>Phone:</b> {phone}</p>
                     <p><b>Email:</b> {email}</p>
-                    <p><b>Last</b> {last_contacted}</p>
+                    <p><b>Last contacted:</b> {last_contacted}</p>
                 </div>
             </div>
             <div className="w-[8vh] h-[21vh] rounded-[20px] flex  flex-col items-center justify-around pt-[2vh] pb-[2vh] mr-[0.5vh]">

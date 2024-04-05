@@ -22,7 +22,8 @@ const Connection = () => {
                             'Authorization': `Bearer ${user.token}`
                         }
                     });
-                setConnections(response.data);
+                console.log(response.data)
+                setConnections(response.data.connections);
             } catch (err) {
                 console.error(err)
             }
@@ -36,7 +37,7 @@ const Connection = () => {
     return (
         <div>
             <Navbar />
-                {connections.length == 0 ?
+                {connections?.length == 0 ?
                 <div className="flex justify-center pt-[10vh]">
                     <ConnectionGroup />
                     <div className="w-[145vh] rounded-[20px] h-[84vh] p-[1vh] m-[2vh]">
@@ -54,7 +55,33 @@ const Connection = () => {
                             <button className="font-azeret bg-[#8DC363] w-[20vh] text-[large] font-bold border h-[6vh] rounded-3xl ml-[2vh] border-solid border-[rgb(84,84,84)] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]">Add</button>
                         </form>
                         <section className="h-[75vh] mt-[2vh] rounded-[20px]">
-                            
+                        <div className="flex justify-between flex-wrap overflow-scroll h-[100%] overflow-x-hidden">
+                            {
+                                connections.slice().map((connection, id) =>
+                                    <ConnectionCard
+                                        key={id}
+                                        name={connection["name"]}
+                                        member_of={[ "Viet Tech", "Team4"].join(", ")}
+                                        phone={connection['phone']}
+                                        email={connection['email']}
+                                        last_contacted={"02/04/2023"}
+                                    />)
+                            }
+                            {/* <ConnectionCard 
+                                name={"Jimmy Khang Nguyen"}
+                                member_of={[ "Viet Tech", "Team4"].join(", ")}
+                                phone={"098403463"}
+                                email={"test@gmail.com"}
+                                last_contacted={"02/04/2023"}
+                            />
+                            <ConnectionCard 
+                                name={"Jimmy Khang Nguyen"}
+                                member_of={[ "Viet Tech", "Team4"].join(", ")}
+                                phone={"098403463"}
+                                email={"test@gmail.com"}
+                                last_contacted={"02/04/2023"}
+                            /> */}
+                        </div>
                         </section>
                     </div>
                 </div>
