@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar/Navbar.tsx";
 import ConnectionGroup from "../components/groups/ConnectionGroup.tsx";
 import ConnectionCard from "../components/groups/ConnectionCard.tsx";
+import { useAuthContext } from "../hooks/useAuthContext.js";
+import axios from 'axios';
 
 const Connection = () => {
     
@@ -9,11 +12,7 @@ const Connection = () => {
         <div>
             <Navbar />
             <div className="flex justify-center pt-[10vh]">
-                <ConnectionGroup
-                    group_name={"Test"}
-                    url={""}
-                    participants={["something", "something"]} // Placeholder for now
-                />
+                <ConnectionGroup />
                 <div className="w-[145vh] rounded-[20px] h-[84vh] p-[1vh] m-[2vh]">
                     <form className="flex justify-between">
                         <div className="flex">
@@ -24,17 +23,38 @@ const Connection = () => {
                     </form>
                     <section className="h-[75vh] mt-[2vh] rounded-[20px]">
                         <div className="flex justify-between">
-                            <ConnectionCard />
-                            <ConnectionCard />
+                            <ConnectionCard 
+                                name={"Jimmy Khang Nguyen"}
+                                member_of={[ "Viet Tech", "Team4"].join(", ")}
+                                phone={"098403463"}
+                                email={"test@gmail.com"}
+                                last_contacted={"02/04/2023"}
+                            />
+                            <ConnectionCard 
+                                name={"Jimmy Khang Nguyen"}
+                                member_of={[ "Viet Tech", "Team4"].join(", ")}
+                                phone={"098403463"}
+                                email={"test@gmail.com"}
+                                last_contacted={"02/04/2023"}
+                            />
                         </div>
                         <div className="flex justify-between mt-[4vh]">
-                            <ConnectionCard />
-                            <ConnectionCard />
+                            <ConnectionCard 
+                                name={"Jimmy Khang Nguyen"}
+                                member_of={[ "Viet Tech", "Team4"].join(", ")}
+                                phone={"098403463"}
+                                email={"test@gmail.com"}
+                                last_contacted={"02/04/2023"}
+                            />
+                            <ConnectionCard 
+                                name={"Jimmy Khang Nguyen"}
+                                member_of={[ "Viet Tech", "Team4"].join(", ")}
+                                phone={"098403463"}
+                                email={"test@gmail.com"}
+                                last_contacted={"02/04/2023"}
+                            />
                         </div>
-                        <div className="flex justify-between mt-[4vh]">
-                        <ConnectionCard />
-                            <ConnectionCard />
-                        </div>
+
                     </section>
                 </div>
             </div>
