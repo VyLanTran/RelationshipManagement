@@ -2,6 +2,7 @@ import Home from "./pages/Home.tsx";
 import Login from "./pages/Login.tsx";
 import SignUp from "./pages/SignUp.tsx";
 import Notification from "./pages/Notification.tsx";
+import Connection from "./pages/Connection.tsx";
 import Profile from "./pages/Profile.tsx";
 import Groups from "./pages/Groups.tsx";
 
@@ -45,6 +46,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Settings />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/connection"
+            element={
+              <ProtectedRoute>
+                <Connection />
               </ProtectedRoute>
             }
           />
