@@ -7,13 +7,6 @@ import { IoChatboxEllipses } from "react-icons/io5";
 import { IoDocumentText } from "react-icons/io5";
 
 
-// TODO: show name when hovering over icon
-interface GroupCardProps {
-    group_name: string
-    url: string
-    participants: string[]
-}
-
 const options: { value: string, label: string }[] = [
     { value: "Viet Tech", label: "Viet Tech" },
     { value: "Team 4", label: "Team 4" },
@@ -21,7 +14,7 @@ const options: { value: string, label: string }[] = [
     { value: "Everyone", label: "Everyone" }
 ];
 
-const ConnectionGroup: React.FC<GroupCardProps> = ({ group_name, participants, url }) => {
+const ConnectionGroup: React.FC = () => {
    
     return (
         <div className="bg-[#FFB302] rounded-[20px] w-[50vh] h-[84vh] p-[2.5vh] m-[2vh]">
