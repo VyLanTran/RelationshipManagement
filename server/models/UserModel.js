@@ -24,18 +24,23 @@ const UserSchema = new mongoose.Schema(
     },
     company: {
       type: String,
+      default: "",
     },
     school: {
       type: String,
+      default: "",
     },
     phone: {
       type: String,
+      default: "",
     },
     hometown: {
       type: String,
+      default: "",
     },
     currentCity: {
       type: String,
+      default: "",
     },
     // social media links
   },
