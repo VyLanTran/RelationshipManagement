@@ -9,7 +9,7 @@ import axios from 'axios';
 const Connection = () => {
 
     const [ connections, setConnections ] = useState([]);
-
+    const [ searchInput, setSearchInput ] = useState("");
     const { user } = useAuthContext();
 
     useEffect(() => {
@@ -33,6 +33,13 @@ const Connection = () => {
         }
     }, [connections, user]);
     
+    const searchConnection = (e) => {
+        e.preventDefault();
+        setSearchInput(e.target.value);
+    }
+
+    const filteredData = connections.filter(connection => String(connection['name']).toLowerCase().match(searchInput.toLowerCase()))
+
     return (
         <div>
             <Navbar />
@@ -48,7 +55,7 @@ const Connection = () => {
                     <div className="w-[145vh] rounded-[20px] h-[84vh] p-[1vh] m-[2vh]">
                         <form className="flex justify-between">
                             <div className="flex">
-                                <input className="border border-solid border-[rgb(84,84,84)] bg-slate-50 w-[40vh] h-[6vh] outline-none rounded-3xl pl-[2vh]" placeholder="Finding someone?"></input>
+                                <input value={searchInput} onChange={searchConnection} className="border border-solid border-[rgb(84,84,84)] bg-slate-50 w-[40vh] h-[6vh] outline-none rounded-3xl pl-[2vh]" placeholder="Finding someone?"></input>
                                 <button className="font-azeret bg-slate-50 w-[25vh] text-[large] font-bold border h-[6vh] rounded-3xl ml-[2vh] border-solid border-[rgb(84,84,84)] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]">Search</button>
                             </div>
                             <button className="font-azeret bg-[#8DC363] w-[20vh] text-[large] font-bold border h-[6vh] rounded-3xl ml-[2vh] border-solid border-[rgb(84,84,84)] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]">Add</button>
@@ -56,7 +63,7 @@ const Connection = () => {
                         <section className="h-[75vh] mt-[2vh] rounded-[20px]">
                         <div className="flex justify-between flex-wrap overflow-auto max-h-[100%] overflow-x-hidden">
                             {
-                                connections.slice().map((connection, id) =>
+                                filteredData.slice().map((connection, id) =>
                                     <ConnectionCard
                                         key={id}
                                         _id={connection["_id"]}
