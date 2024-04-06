@@ -5,8 +5,10 @@ import { RiBookletFill } from "react-icons/ri";
 import { FaBell } from "react-icons/fa";
 import { useLogout } from "../../hooks/useLogout.js";
 import { Link, useNavigate } from "react-router-dom";
+import { IoIosContacts } from "react-icons/io";
 import { useAuthContext } from "../../hooks/useAuthContext.js";
 import { MdLogout } from "react-icons/md";
+import { FaMap } from "react-icons/fa";
 
 const Navbar = () => {
 
@@ -16,7 +18,7 @@ const Navbar = () => {
 
     const handleLogout = () => {
         logout()
-        navigate('/login')
+        navigate('/')
     }
 
     return (
@@ -27,9 +29,11 @@ const Navbar = () => {
                 Logo
             </div>
             <div className="flex flex-row gap-4 items-center">
-                <NavbarButton icon={<RiBookletFill size={18} />} name="My space" url="/" />
+                <NavbarButton icon={<RiBookletFill size={18} />} name="My space" url="/home" />
                 <NavbarButton icon={<FaBell size={18} />} name="Notifications" url="/notification" />
-                <NavbarButton icon={<FaGear size={18} />} name="Settings" url="/settings" />
+                <NavbarButton icon={<FaGear size={18} />} name="Settings" url="/setting" />
+                <NavbarButton icon={<FaMap size={18} />} name="Map" url="/map" />
+                <NavbarButton icon={<IoIosContacts size={20}/>} name="Connection" url="/connection" />
 
                 {
                     user ?
@@ -49,7 +53,7 @@ const Navbar = () => {
 
                         </div> :
                         <div className="flex flex-row items-center gap-4">
-                            <Link to='/login'>Log in</Link>
+                            <Link to='/'>Log in</Link>
                             <Link to='/signup'>Sign up</Link>
                         </div>
                 }
