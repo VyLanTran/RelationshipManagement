@@ -2,6 +2,7 @@ import React from "react";
 
 import Navbar from '../components/navbar/Navbar.tsx'
 
+// TODO: edit username, password here
 const Settings = () => {
     return (
         <div className="">

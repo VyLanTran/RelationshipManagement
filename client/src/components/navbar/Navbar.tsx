@@ -21,7 +21,11 @@ const Navbar = () => {
 
     return (
         <div className="fixed h-[60px] z-10 w-full bg-[#FFB302] flex flex-row justify-between items-center px-10">
-            <div>Logo</div>
+            <div
+                onClick={() => navigate('/')}
+                className="cursor-pointer font-bold">
+                Logo
+            </div>
             <div className="flex flex-row gap-4 items-center">
                 <NavbarButton icon={<RiBookletFill size={18} />} name="My space" url="/" />
                 <NavbarButton icon={<FaBell size={18} />} name="Notifications" url="/notification" />
@@ -30,7 +34,12 @@ const Navbar = () => {
                 {
                     user ?
                         <div className="flex flex-row items-center gap-4">
-                            <span>{user.username}</span>
+                            <span
+                                onClick={() => navigate(`/${user._id}`)}
+                                className="cursor-pointer font-bold"
+                            >
+                                {user.username}
+                            </span>
                             {/* Log out */}
                             <button
                                 onClick={handleLogout}

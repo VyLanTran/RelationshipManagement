@@ -1,6 +1,10 @@
 import express from "express";
 
-import { getAllUsers, getUser } from "../controllers/userControllers.js";
+import {
+  getAllUsers,
+  getUser,
+  updateUser,
+} from "../controllers/userControllers.js";
 
 import { verifyAuth } from "../middleware/auth.js";
 
@@ -11,5 +15,6 @@ router.use(verifyAuth);
 
 router.get("/", getAllUsers);
 router.get("/:userId", getUser);
+router.patch("/:userId", updateUser);
 
 export default router;

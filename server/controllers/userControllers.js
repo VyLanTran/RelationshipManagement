@@ -18,3 +18,23 @@ export const getUser = async (req, res) => {
     res.status(404).json({ message: err.message });
   }
 };
+
+export const updateUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const updatedUser = await UserModel.findOneAndUpdate(
+      { _id: userId },
+      {
+        ...req.body,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    return res.status(200).json(updatedUser);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
