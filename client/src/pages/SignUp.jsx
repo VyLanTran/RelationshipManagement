@@ -6,7 +6,7 @@ import { eyeOff } from "react-icons-kit/feather/eyeOff";
 import { eye } from "react-icons-kit/feather/eye";
 import { useSignup } from "../hooks/useSignup";
 
-const SignUp: React.FC = () => {
+const SignUp = () => {
 
     const navigate = useNavigate()
 

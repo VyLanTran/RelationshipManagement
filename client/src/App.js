@@ -1,14 +1,14 @@
-import Home from "./pages/Home.tsx";
-import Login from "./pages/Login.tsx";
-import SignUp from "./pages/SignUp.tsx";
-import Notification from "./pages/Notification.tsx";
-import Connection from "./pages/Connection.tsx";
-import Profile from "./pages/Profile.tsx";
-import Groups from "./pages/Groups.tsx";
+import Home from "./pages/Home.jsx";
+import Login from "./pages/Login.jsx";
+import SignUp from "./pages/SignUp.jsx";
+import Notification from "./pages/Notification.jsx";
+import Connection from "./pages/Connection.jsx";
+import Profile from "./pages/Profile.jsx";
+import Groups from "./pages/Groups.jsx";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./utils/ProtectedRoute.js";
-import Settings from "./pages/Settings.tsx";
+import Settings from "./pages/Settings.jsx";
 
 // TODO: responsive to screen size
 
@@ -33,6 +33,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/"
             element={
@@ -41,6 +42,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/settings"
             element={
@@ -73,6 +75,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/groups"
             element={

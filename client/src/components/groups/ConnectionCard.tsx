@@ -22,13 +22,13 @@ const ConnectionCard: React.FC<ConnectionCardProps> = ({ _id, name, member_of, p
 
         const res = await fetch("http://localhost:3001/connections/" + _id, {
             method: "DELETE",
-            headers: {"Content-Type": "application/json"},
+            headers: { "Content-Type": "application/json" },
         })
     }
 
     return (
         <div className="h-[21vh] w-[67vh] bg-white rounded-[20px] flex mb-[4vh]">
-            <IoPersonCircleSharp className="ml-[2vh] mt-[2.5vh] w-[16vh] h-[16vh]"/>
+            <IoPersonCircleSharp className="ml-[2vh] mt-[2.5vh] w-[16vh] h-[16vh]" />
             <div className="mt-[1vh] w-[43vh]">
                 <h2 className="font-bold text-left text-[3.5vh] ml-[2vh]">{name}</h2>
                 <div className="text-left ml-[2vh] text-[2.2vh]">
@@ -44,6 +44,6 @@ const ConnectionCard: React.FC<ConnectionCardProps> = ({ _id, name, member_of, p
             </div>
         </div>
     );
-    }
+}
 
 export default ConnectionCard;

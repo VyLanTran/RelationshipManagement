@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
-import Navbar from "../components/navbar/Navbar.tsx";
+import Navbar from "../components/navbar/Navbar.jsx";
 import GroupCard from "../components/groups/GroupCard.tsx";
 import GroupCardSmall from "../components/groups/GroupCardSmall.tsx";
 import axios from 'axios';
-import { useAuthContext } from "../hooks/useAuthContext.js";
+import { useSelector } from 'react-redux'
 
 const Groups = () => {
 
-    const currentUser = useAuthContext().user
-    const authHeader = { headers: { 'Authorization': `Bearer ${currentUser.token}` } }
+    const currentUser = useSelector((state) => state.auth.user)
+    const token = useSelector((state) => state.auth.token)
+
+    const authHeader = { headers: { 'Authorization': `Bearer ${token}` } }
 
     const [showDetails, setShowDetails] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
@@ -25,7 +27,7 @@ const Groups = () => {
     const toggleSmallView = () => {
         setShowDetails(false);
     };
-    
+
     const toggleModal = () => {
         setIsOpen(!isOpen);
     };

@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Navbar from "../components/navbar/Navbar.tsx";
+import Navbar from "../components/navbar/Navbar.jsx";
 import ConnectionGroup from "../components/groups/ConnectionGroup.tsx";
 import ConnectionCard from "../components/groups/ConnectionCard.tsx";
-import { useAuthContext } from "../hooks/useAuthContext.js";
 import axios from 'axios';
+import { useSelector } from "react-redux";
 
 const Connection = () => {
 
-    const [ connections, setConnections ] = useState([]);
-    const [ searchInput, setSearchInput ] = useState("");
-    const { user } = useAuthContext();
+    const [connections, setConnections] = useState([]);
+    const [searchInput, setSearchInput] = useState("");
+    const user = useSelector((state) => state.auth.user)
+    const token = useSelector((state) => state.auth.token)
 
     useEffect(() => {
-        const fetchConnections = async() => {
+        const fetchConnections = async () => {
             try {
                 const response = await axios.get(
                     "http://localhost:3001/connections",
                     {
                         headers: {
-                            'Authorization': `Bearer ${user.token}`
+                            'Authorization': `Bearer ${token}`
                         }
                     });
                 setConnections(response.data.connections);
@@ -32,7 +32,7 @@ const Connection = () => {
             fetchConnections();
         }
     }, [connections, user]);
-    
+
     const searchConnection = (e) => {
         e.preventDefault();
         setSearchInput(e.target.value);
@@ -43,7 +43,7 @@ const Connection = () => {
     return (
         <div>
             <Navbar />
-                {connections?.length == 0 ?
+            {connections?.length == 0 ?
                 <div className="flex justify-center pt-[10vh]">
                     <ConnectionGroup />
                     <div className="w-[145vh] rounded-[20px] h-[84vh] p-[1vh] m-[2vh]">
@@ -61,25 +61,25 @@ const Connection = () => {
                             <button className="font-azeret bg-[#8DC363] w-[20vh] text-[large] font-bold border h-[6vh] rounded-3xl ml-[2vh] border-solid border-[rgb(84,84,84)] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]">Add</button>
                         </form>
                         <section className="h-[75vh] mt-[2vh] rounded-[20px]">
-                        <div className="flex justify-between flex-wrap overflow-auto max-h-[100%] overflow-x-hidden">
-                            {
-                                filteredData.slice().map((connection, id) =>
-                                    <ConnectionCard
-                                        key={id}
-                                        _id={connection["_id"]}
-                                        name={connection["name"]}
-                                        member_of={[ "Viet Tech", "Team4"].join(", ")}
-                                        phone={connection['phone']}
-                                        email={connection['email']}
-                                        last_contacted={"02/04/2023"}
-                                    />)
-                            }
-                        </div>
+                            <div className="flex justify-between flex-wrap overflow-auto max-h-[100%] overflow-x-hidden">
+                                {
+                                    filteredData.slice().map((connection, id) =>
+                                        <ConnectionCard
+                                            key={id}
+                                            _id={connection["_id"]}
+                                            name={connection["name"]}
+                                            member_of={["Viet Tech", "Team4"].join(", ")}
+                                            phone={connection['phone']}
+                                            email={connection['email']}
+                                            last_contacted={"02/04/2023"}
+                                        />)
+                                }
+                            </div>
                         </section>
                     </div>
                 </div>
-                }
-            </div>
+            }
+        </div>
     );
 };
 
