@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-// import { useAuthContext } from "../../hooks/useAuthContext";
 import { useSelector } from 'react-redux'
 
 const EditModal = ({ isOpen, onClose, user, userId }) => {
-    // const currentUser = useAuthContext().user
     const currentUser = useSelector((state) => state.auth.user)
     const token = useSelector((state) => state.auth.token)
 

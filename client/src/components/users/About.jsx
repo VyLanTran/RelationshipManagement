@@ -1,25 +1,12 @@
 import React, { useEffect, useState } from "react";
-// import { useAuthContext } from "../../hooks/useAuthContext";
 import { MdOutlineEdit } from "react-icons/md";
 import EditModal from "./EditModal.jsx";
 import { useSelector } from "react-redux";
 
 const About = ({ userId }) => {
     // this user is myself, who is authenticated to use this app
-    // const currentUser = useAuthContext().user
     const currentUser = useSelector((state) => state.auth.user)
     const token = useSelector((state) => state.auth.token)
-
-
-    // this is the user that owns this profile page
-    // const [user, setUser] = useState<{
-    //     currentCity: string,
-    //     hometown: string,
-    //     company: string,
-    //     school: string,
-    //     phone: string,
-    //     email: string
-    // } | null>(null);
     const [user, setUser] = useState(null)
 
     const [isModalOpen, setIsModalOpen] = useState(false);

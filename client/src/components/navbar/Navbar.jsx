@@ -6,7 +6,6 @@ import { FaBell } from "react-icons/fa";
 import { useLogout } from "../../hooks/useLogout.js";
 import { Link, useNavigate } from "react-router-dom";
 import { IoIosContacts } from "react-icons/io";
-// import { useAuthContext } from "../../hooks/useAuthContext.js";
 import { MdLogout } from "react-icons/md";
 import { FaMap } from "react-icons/fa";
 import { useSelector } from 'react-redux'
@@ -14,8 +13,6 @@ import { useSelector } from 'react-redux'
 const Navbar = () => {
 
     const navigate = useNavigate()
-    // const { user } = useAuthContext()
-    // const user = useSelector((state) => state.user);
     const user = useSelector((state) => state.auth.user);
 
     const { logout } = useLogout()
