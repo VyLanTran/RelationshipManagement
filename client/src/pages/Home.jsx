@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import GroupCard from "../components/groups/GroupCard.tsx";
 import axios from 'axios';
-import { useAuthContext } from "../hooks/useAuthContext.js";
-import Navbar from "../components/navbar/Navbar.tsx";
+import Navbar from "../components/navbar/Navbar.jsx";
+import { useSelector } from "react-redux";
 
 const Home = () => {
 
@@ -15,7 +15,8 @@ const Home = () => {
         navigate('/groups');
     }
 
-    const { user } = useAuthContext();
+    const user = useSelector((state) => state.auth.user);
+    const token = useSelector((state) => state.auth.token)
 
     useEffect(() => {
         const fetchGroups = async () => {
@@ -24,7 +25,7 @@ const Home = () => {
                     "http://localhost:3001/groups",
                     {
                         headers: {
-                            'Authorization': `Bearer ${user.token}`
+                            'Authorization': `Bearer ${token}`
                         }
                     });
                 setGroups(response.data);
