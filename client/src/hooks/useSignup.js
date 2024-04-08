@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { useAuthContext } from "./useAuthContext";
+import { useDispatch } from "react-redux";
+import { setLogin } from "../store/authReducer";
 
 export const useSignup = () => {
   const [error, setError] = useState(null); // at the beginning, there is no error
   const [isLoading, setIsLoading] = useState(false);
-  const { dispatch } = useAuthContext();
+  const dispatch = useDispatch();
 
   const signup = async (
     firstName,
@@ -30,18 +31,23 @@ export const useSignup = () => {
       }), // convert json-formatted data into a string and parse it to extract required field
     });
 
-    const resJson = await res.json();
+    const json = await res.json();
 
     if (!res.ok) {
       setIsLoading(false); // stop loading
-      setError(resJson.error);
-      throw new Error(resJson.error);
+      setError(json.error);
+      throw new Error(json.error);
     } else {
       // save user into local storage
-      localStorage.setItem("user", JSON.stringify(resJson));
+      localStorage.setItem("user", JSON.stringify(json.user));
+      localStorage.setItem("token", JSON.stringify(json.token));
       // update auth context with current user
-      dispatch({ type: "LOGIN", payload: resJson });
-
+      dispatch(
+        setLogin({
+          user: json.user,
+          token: json.token,
+        })
+      );
       setIsLoading(false);
     }
   };

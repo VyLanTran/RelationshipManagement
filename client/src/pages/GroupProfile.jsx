@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
-import Navbar from '../components/navbar/Navbar.tsx'
+import Navbar from '../components/navbar/Navbar.jsx'
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";

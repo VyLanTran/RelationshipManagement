@@ -5,7 +5,7 @@ import { eyeOff } from "react-icons-kit/feather/eyeOff";
 import { eye } from "react-icons-kit/feather/eye";
 import { useLogin } from "../hooks/useLogin";
 
-const Login: React.FC = () => {
+const Login = () => {
     // Show/hide Password
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState('')

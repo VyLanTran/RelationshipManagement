@@ -42,7 +42,7 @@ export const signup = async (req, res) => {
 
     const token = createToken(user._id);
 
-    res.status(201).json({ ...user.toObject(), token });
+    res.status(201).json({ user, token });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -75,7 +75,7 @@ export const login = async (req, res) => {
 
     const token = createToken(user._id);
 
-    res.status(201).json({ ...user, token });
+    res.status(201).json({ user, token });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

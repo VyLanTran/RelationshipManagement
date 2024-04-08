@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useAuthContext } from "../hooks/useAuthContext";
-import Navbar from "../components/navbar/Navbar.tsx";
-import About from "../components/users/About.tsx";
+import Navbar from "../components/navbar/Navbar.jsx";
+import About from "../components/users/About.jsx";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
 
     // this user is myself, who is authenticated to use this app
-    const currentUser = useAuthContext().user
-
+    const currentUser = useSelector((state) => state.auth.user)
+    const token = useSelector((state) => state.auth.token)
 
     // this is the user that owns this profile page
-    const [user, setUser] = useState<{ firstName: string } | null>(null);
+    const [user, setUser] = useState(null)
     const { userId } = useParams();
 
     // fetch the data of this profile from the database once when we load this page
@@ -19,7 +19,7 @@ const Profile = () => {
         const getUser = async () => {
             const res = await fetch(`http://localhost:3001/users/${userId}`, {
                 method: 'GET',
-                headers: { 'Authorization': `Bearer ${currentUser.token}` },
+                headers: { 'Authorization': `Bearer ${token}` },
             })
             const data = await res.json()
 

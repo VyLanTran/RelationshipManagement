@@ -1,6 +1,6 @@
 import React from "react";
 
-import Navbar from '../components/navbar/Navbar.tsx'
+import Navbar from '../components/navbar/Navbar.jsx'
 
 // TODO: edit username, password here
 const Settings = () => {
