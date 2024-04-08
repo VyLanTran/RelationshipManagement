@@ -2,20 +2,20 @@
 
 import React, { useEffect, useState } from "react";
 import { Loader } from "@googlemaps/js-api-loader";
-import MapCard from "../components/groups/MapCard.tsx";
-import Navbar from "../components/navbar/Navbar.tsx";
+import MapCard from "../components/map/MapCard.tsx";
+import Navbar from "../components/navbar/Navbar.jsx";
 import usePlaceAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete";
 import axios from "axios";
-import { useAuthContext } from "../hooks/useAuthContext.js";
+import { useSelector } from "react-redux";
 
 const MapGroup = () => {
-    const mapRef = React.useRef<HTMLDivElement>(null);
+    const mapRef = React.useRef(null);
 
     const [ connections, setConnections ] = useState([]);
 
-    const { user } = useAuthContext();
+    const user = useSelector((state) => state.auth.user);
 
-    //Grabing the connections to display positions on the map
+    //Grabing the connections to display positions on the map 
     useEffect(() => {
         const fetchConnections = async() => {
             try {
