@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import Navbar from "../components/navbar/Navbar.jsx";
 import About from "../components/users/About.jsx";
 import { useSelector } from "react-redux";
+import { IoIosCamera } from "react-icons/io";
+import UploadImageModal from "../components/users/UploadImageModal.jsx";
+
 
 const Profile = () => {
 
@@ -13,6 +16,8 @@ const Profile = () => {
     // this is the user that owns this profile page
     const [user, setUser] = useState(null)
     const { userId } = useParams();
+
+    const [isUploadModalOpen, setIsUploadModalOpen] = useState(false)
 
     // fetch the data of this profile from the database once when we load this page
     useEffect(() => {
@@ -32,9 +37,7 @@ const Profile = () => {
         if (currentUser) {
             getUser()
         }
-    }, [])
-
-
+    }, [user])
 
     return (
         <div>
@@ -49,7 +52,6 @@ const Profile = () => {
                         </div>
                         {/* Main */}
                         <div className="w-[60%] p-4 flex flex-col gap-4">
-                            {/* Profile navbar: background image, avatar, tabs */}
                             <div className="h-[450px] relative shadow-md bg-[#f5f2d9]">
                                 <div className="h-[300px]">
                                     <img
@@ -61,13 +63,27 @@ const Profile = () => {
 
                                 <div className="flex gap-10 h-[150px] mt-[-75px]">
 
-                                    <div className="w-[150px] ml-[20px] bg-white rounded-full flex items-center justify-center">
+                                    <div
+                                        className="w-[150px] ml-[20px] bg-white rounded-full flex items-center justify-center relative"
+                                        onClick={() => setIsUploadModalOpen(true)}>
                                         <img
-                                            src="https://www.wilsoncenter.org/sites/default/files/media/images/person/james-person-1.jpg"
-                                            alt="avatar"
+                                            // src="https://www.wilsoncenter.org/sites/default/files/media/images/person/james-person-1.jpg"
+                                            src={user.profilePicture.url}
+                                            alt="profilePicture"
                                             className="object-cover w-[140px] h-[140px] rounded-full"
                                         />
+                                        {currentUser._id === userId &&
+                                            <div
+                                                className="absolute bottom-0 right-0 transform translate-x-1/4 -translate-y-1/4 bg-gray-300 rounded-full p-1.5 flex items-center justify-center"
+
+                                            >
+                                                <IoIosCamera size={28} />
+                                            </div>
+                                        }
+
+
                                     </div>
+
 
                                     <div className="flex items-center">
                                         <span className="text-[26px] font-bold mt-auto pb-[10%]">
@@ -87,6 +103,13 @@ const Profile = () => {
                             <div className="shadow-md bg-[#f5f2d9]">
                                 <About userId={userId} />
                             </div>
+
+                            <UploadImageModal
+                                user={user}
+                                userId={userId}
+                                isOpen={isUploadModalOpen}
+                                onClose={() => setIsUploadModalOpen(false)}
+                            />
                         </div>
 
                         {/* Right sidebar */}

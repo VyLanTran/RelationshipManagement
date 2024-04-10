@@ -44,7 +44,7 @@ const Home = () => {
         <div>
             <Navbar />
             <div className="pt-[90px]">
-                {groups?.length == 0 ?
+                {groups?.length === 0 ?
                     <div className="text-center space-y-3">
                         <h1 className="text-6xl">Oh no!</h1>
                         <h3 className="text-xl">You haven't created any friend group yet.</h3>

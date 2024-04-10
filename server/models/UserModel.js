@@ -42,6 +42,16 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    profilePicture: {
+      type: Object,
+      default: null,
+      // type: String,
+      // default: "no image",
+    },
+    coverPhoto: {
+      type: Object,
+      default: null,
+    },
     // social media links
   },
   { timestamps: true }

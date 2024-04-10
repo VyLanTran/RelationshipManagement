@@ -1,6 +1,7 @@
 import express from "express";
 
 import {
+  createProfilePicture,
   getAllUsers,
   getUser,
   updateUser,
@@ -16,5 +17,6 @@ router.use(verifyAuth);
 router.get("/", getAllUsers);
 router.get("/:userId", getUser);
 router.patch("/:userId", updateUser);
+router.patch("/:userId/profilePicture", createProfilePicture);
 
 export default router;

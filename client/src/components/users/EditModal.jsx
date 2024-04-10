@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { updateUser } from "../../store/authReducer";
 
 const EditModal = ({ isOpen, onClose, user, userId }) => {
-    const currentUser = useSelector((state) => state.auth.user)
+    // TODO: close button on top right corner, and go out by either clicking on that button, or anywhere outside of the modal
     const token = useSelector((state) => state.auth.token)
+    const dispatch = useDispatch();
 
     const [userData, setUserData] = useState(user);
 
@@ -38,8 +40,17 @@ const EditModal = ({ isOpen, onClose, user, userId }) => {
             if (!res.ok) {
                 throw new Error(json.error)
             }
-
-            handleClose();
+            else {
+                // store info of updated user into local storage
+                localStorage.setItem("user", JSON.stringify(json));
+                //  store info of updated user into redux store
+                dispatch(
+                    updateUser({
+                        user: json,
+                    })
+                );
+                handleClose();
+            }
 
         } catch (error) {
             console.log(error)
@@ -109,11 +120,6 @@ const EditModal = ({ isOpen, onClose, user, userId }) => {
                         </button>
                     </div>
                 </form>
-                {/* <button onClick={onClose} className="absolute top-0 right-0 m-4 text-gray-500 hover:text-gray-800">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button> */}
             </div>
         </div>
     );
