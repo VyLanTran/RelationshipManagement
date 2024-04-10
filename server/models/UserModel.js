@@ -45,8 +45,6 @@ const UserSchema = new mongoose.Schema(
     profilePicture: {
       type: Object,
       default: null,
-      // type: String,
-      // default: "no image",
     },
     coverPhoto: {
       type: Object,

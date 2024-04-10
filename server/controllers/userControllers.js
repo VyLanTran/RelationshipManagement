@@ -50,11 +50,33 @@ export const createProfilePicture = async (req, res) => {
     const uploadRes = await cloudinary.uploader.upload(profilePicture, {
       upload_preset: "group4-preset",
     });
-    // const uploadRes = profilePicture;
     if (uploadRes) {
       const updatedUser = await UserModel.findOneAndUpdate(
         { _id: userId },
         { $set: { profilePicture: uploadRes } },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+      res.status(200).json(updatedUser);
+    }
+  } catch (err) {
+    res.status(404).json({ mesage: err.message });
+  }
+};
+
+export const createCoverPhoto = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { coverPhoto } = req.body;
+    const uploadRes = await cloudinary.uploader.upload(coverPhoto, {
+      upload_preset: "group4-preset",
+    });
+    if (uploadRes) {
+      const updatedUser = await UserModel.findOneAndUpdate(
+        { _id: userId },
+        { $set: { coverPhoto: uploadRes } },
         {
           new: true,
           runValidators: true,

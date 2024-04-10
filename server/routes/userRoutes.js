@@ -1,10 +1,11 @@
 import express from "express";
 
 import {
-  createProfilePicture,
   getAllUsers,
   getUser,
   updateUser,
+  createProfilePicture,
+  createCoverPhoto,
 } from "../controllers/userControllers.js";
 
 import { verifyAuth } from "../middleware/auth.js";
@@ -18,5 +19,6 @@ router.get("/", getAllUsers);
 router.get("/:userId", getUser);
 router.patch("/:userId", updateUser);
 router.patch("/:userId/profilePicture", createProfilePicture);
+router.patch("/:userId/coverPhoto", createCoverPhoto);
 
 export default router;
