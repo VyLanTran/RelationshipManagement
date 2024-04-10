@@ -6,6 +6,7 @@ import {
   updateUser,
   createProfilePicture,
   createCoverPhoto,
+  getAllFriends,
 } from "../controllers/userControllers.js";
 
 import { verifyAuth } from "../middleware/auth.js";
@@ -17,6 +18,7 @@ router.use(verifyAuth);
 
 router.get("/", getAllUsers);
 router.get("/:userId", getUser);
+router.get("/:userId/friends", getAllFriends);
 router.patch("/:userId", updateUser);
 router.patch("/:userId/profilePicture", createProfilePicture);
 router.patch("/:userId/coverPhoto", createCoverPhoto);

@@ -50,6 +50,10 @@ const UserSchema = new mongoose.Schema(
       type: Object,
       default: null,
     },
+    friends: {
+      type: Array, // array of userId of our friends
+      default: [],
+    },
     // social media links
   },
   { timestamps: true }
