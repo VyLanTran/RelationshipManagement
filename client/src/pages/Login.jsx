@@ -16,7 +16,7 @@ const Login = () => {
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
-
+    // TODO: show error messagse as in SignUp
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {

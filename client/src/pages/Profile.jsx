@@ -5,6 +5,7 @@ import About from "../components/users/About.jsx";
 import { useSelector } from "react-redux";
 import { IoIosCamera } from "react-icons/io";
 import UploadImageModal from "../components/users/UploadImageModal.jsx";
+import FriendList from "../components/users/FriendList.jsx";
 
 
 const Profile = () => {
@@ -16,6 +17,7 @@ const Profile = () => {
     // this is the user that owns this profile page
     const [user, setUser] = useState(null)
     const { userId } = useParams();
+    const [friends, setFriends] = useState([])
 
     const [isProfilePictureOpen, setIsProfilePictureOpen] = useState(false)
     const [isCoverPhotoOpen, setIsCoverPhotoOpen] = useState(false)
@@ -34,9 +36,22 @@ const Profile = () => {
             }
         }
 
+        const getFriends = async () => {
+            const res = await fetch(`http://localhost:3001/users/${currentUser._id}/friends`, {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+            const data = await res.json()
+
+            if (res.ok) {
+                setFriends(data)
+            }
+        }
+
         // only allow currentUser to read this profile if they are authenticated
         if (currentUser) {
             getUser()
+            getFriends()
         }
     }, [user])
 
@@ -148,8 +163,9 @@ const Profile = () => {
                         </div>
 
                         {/* Right sidebar */}
-                        <div className="w-[20%] bg-blue-400">
-                            right sidebar
+                        <div className="w-[20%] p-4">
+                            <FriendList
+                                friends={friends} />
                         </div>
 
                     </div> :
