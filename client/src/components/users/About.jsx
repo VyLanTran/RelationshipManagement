@@ -31,14 +31,6 @@ const About = ({ userId }) => {
         }
     }, [user])
 
-    const handleEditClick = () => {
-        setIsModalOpen(true);
-    };
-
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-    };
-
     return (
         <div>
             {
@@ -86,7 +78,7 @@ const About = ({ userId }) => {
                         {/* You are only allowed to edit if this is your profile page */}
                         {currentUser._id === userId &&
                             <div
-                                onClick={handleEditClick}
+                                onClick={() => setIsModalOpen(true)}
                                 className="absolute top-0 right-0 transform translate-x-1/4 -translate-y-1/4 bg-[#FFB302] w-8 h-8 rounded-full flex items-center justify-center">
                                 <MdOutlineEdit size={20} />
                             </div>}
@@ -95,7 +87,7 @@ const About = ({ userId }) => {
                             user={user}
                             userId={userId}
                             isOpen={isModalOpen}
-                            onClose={handleCloseModal} />
+                            onClose={() => setIsModalOpen(false)} />
                     </div>
             }
         </div>

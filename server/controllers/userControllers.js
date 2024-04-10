@@ -1,5 +1,7 @@
 import UserModel from "../models/UserModel.js";
+import cloudinary from "../utils/cloudinary.js";
 
+// GET
 export const getAllUsers = async (req, res) => {
   try {
     const users = await UserModel.find({});
@@ -19,6 +21,7 @@ export const getUser = async (req, res) => {
   }
 };
 
+// PUT
 export const updateUser = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -36,5 +39,30 @@ export const updateUser = async (req, res) => {
     return res.status(200).json(updatedUser);
   } catch (err) {
     res.status(404).json({ message: err.message });
+  }
+};
+
+// PUT
+export const createProfilePicture = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { profilePicture } = req.body;
+    const uploadRes = await cloudinary.uploader.upload(profilePicture, {
+      upload_preset: "group4-preset",
+    });
+    // const uploadRes = profilePicture;
+    if (uploadRes) {
+      const updatedUser = await UserModel.findOneAndUpdate(
+        { _id: userId },
+        { $set: { profilePicture: uploadRes } },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+      res.status(200).json(updatedUser);
+    }
+  } catch (err) {
+    res.status(404).json({ mesage: err.message });
   }
 };
