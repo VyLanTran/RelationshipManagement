@@ -25,7 +25,7 @@ const EditModal = ({ isOpen, onClose, connection, connectionId }) => {
 			const res = await fetch(
 				`http://localhost:3001/connections/${connectionId}`,
 				{
-					method: "PATCH",
+					method: "PUT",
 					headers: {
 						Authorization: `Bearer ${token}`,
 						"Content-Type": "application/json",
@@ -33,10 +33,10 @@ const EditModal = ({ isOpen, onClose, connection, connectionId }) => {
 					body: JSON.stringify(connectionData),
 				}
 			);
-			const json = await res.json();
+			console.log(res);
 
 			if (!res.ok) {
-				throw new Error(json.error);
+				throw new Error("Network response was not ok");
 			}
 			handleClose();
 		} catch (error) {

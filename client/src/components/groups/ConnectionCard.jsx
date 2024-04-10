@@ -25,7 +25,7 @@ const ConnectionCard = ({
 }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const token = useSelector((state) => state.auth.token);
-	const [connection, setConnection] = useState(null);
+	const [connection, setConnection] = useState("");
 
 	const currentConnection = useSelector((state) => state.auth.user);
 
@@ -40,7 +40,7 @@ const ConnectionCard = ({
 
 	useEffect(() => {
 		const getConnection = async () => {
-			const res = await fetch(`http://localhost:3001/connection/${_id}`, {
+			const res = await fetch(`http://localhost:3001/connections/${_id}`, {
 				method: "GET",
 				headers: { Authorization: `Bearer ${token}` },
 			});
