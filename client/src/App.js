@@ -5,6 +5,7 @@ import Notification from "./pages/Notification.jsx";
 import Connection from "./pages/Connection.jsx";
 import Profile from "./pages/Profile.jsx";
 import Groups from "./pages/Groups.jsx";
+import Map from "./pages/Map.jsx";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./utils/ProtectedRoute.js";
@@ -75,8 +76,15 @@ function App() {
               </ProtectedRoute>
             }
           />
-
           <Route
+            path="/map"
+            element={
+              <ProtectedRoute>
+                <Map />
+              </ProtectedRoute>
+            }
+          />
+        <Route
             path="/groups"
             element={
               <ProtectedRoute>
