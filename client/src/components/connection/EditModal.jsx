@@ -33,7 +33,6 @@ const EditModal = ({ isOpen, onClose, connection, connectionId }) => {
 					body: JSON.stringify(connectionData),
 				}
 			);
-			console.log(res);
 
 			if (!res.ok) {
 				throw new Error("Network response was not ok");

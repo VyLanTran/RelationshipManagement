@@ -36,23 +36,8 @@ const Connection = () => {
 		setSearchInput(e.target.value);
 	};
 
-	const addConnection = async (connectionData) => {
-		try {
-			const response = await axios.post(
-				"http://localhost:3001/connections",
-				connectionData,
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				}
-			);
-			setConnections((prev) => [...prev, response.data]);
-			setShowAddForm(false);
-		} catch (error) {
-			console.error("Error: ", error);
-			setShowAddForm(false);
-		}
+	const handleCloseForm = () => {
+		setShowAddForm(false);
 	};
 
 	const filteredData = connections.filter((connection) =>
@@ -90,13 +75,12 @@ const Connection = () => {
 								}}>
 								Add
 							</button>
-							{showAddForm && (
-								<AddConnectionForm
-									onSubmit={addConnection}
-									onCancel={() => setShowAddForm(false)}
-								/>
-							)}
 						</form>
+						<AddConnectionForm
+							isOpen={showAddForm}
+							onClose={handleCloseForm}
+							userId={user._id}
+						/>
 						<section className="h-[75vh] mt-[2vh] rounded-[20px]">
 							<div className="flex justify-between flex-wrap overflow-auto max-h-[100%] overflow-x-hidden">
 								{filteredData.slice().map((connection, id) => (
