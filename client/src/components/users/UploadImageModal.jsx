@@ -1,8 +1,9 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { useSelector, useDispatch } from 'react-redux'
 import { updateUser } from "../../store/authReducer"
 
-const UploadImageModal = ({ user, userId, isOpen, onClose }) => {
+// TODO : make responsive to screen size
+const UploadImageModal = ({ user, userId, isOpen, onClose, isProfilePicture }) => {
 
     const token = useSelector((state) => state.auth.token)
     const dispatch = useDispatch()
@@ -11,7 +12,8 @@ const UploadImageModal = ({ user, userId, isOpen, onClose }) => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const res = await fetch(`http://localhost:3001/users/${userId}/profilePicture`,
+            const res = await fetch(
+                (isProfilePicture ? `http://localhost:3001/users/${userId}/profilePicture` : `http://localhost:3001/users/${userId}/coverPhoto`),
                 {
                     method: 'PATCH',
                     headers: {
@@ -19,7 +21,8 @@ const UploadImageModal = ({ user, userId, isOpen, onClose }) => {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        profilePicture: image
+                        profilePicture: image,
+                        coverPhoto: image
                     })
                 })
             const json = await res.json()
@@ -70,9 +73,21 @@ const UploadImageModal = ({ user, userId, isOpen, onClose }) => {
         }
     }
 
+    // TODO: close modal when clicking outside of its area
     return (
-        <div className={`fixed top-0 left-0 pt-[3%] w-full h-full bg-black bg-opacity-50 flex justify-center items-center ${isOpen ? "" : "hidden"}`}>
-            <div className="bg-white p-8 rounded shadow-md">
+        <div className={`fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center pt-[60px] ${isOpen ? "" : "hidden"}`}>
+            <div
+                className="bg-white p-8 rounded-lg shadow-xl relative py-[20px]">
+                <span className="text-md">
+                    {isProfilePicture ? "Choose profile picture" : "Choose cover photo"}
+                </span>
+                <div
+                    className="absolute top-[2%] right-[2%] cursor-pointer bg-gray-200 hover:bg-gray-300 rounded-full w-[34px] h-[34px] flex items-center justify-center text-gray-700"
+                    onClick={handleClose}
+                >
+                    X
+                </div>
+                <div className="border-t border-gray-300 my-4"></div>
                 <form onSubmit={handleSubmit}>
                     <div className="flex flex-col gap-6 text-sm">
                         <input

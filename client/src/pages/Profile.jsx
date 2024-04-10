@@ -17,7 +17,8 @@ const Profile = () => {
     const [user, setUser] = useState(null)
     const { userId } = useParams();
 
-    const [isUploadModalOpen, setIsUploadModalOpen] = useState(false)
+    const [isProfilePictureOpen, setIsProfilePictureOpen] = useState(false)
+    const [isCoverPhotoOpen, setIsCoverPhotoOpen] = useState(false)
 
     // fetch the data of this profile from the database once when we load this page
     useEffect(() => {
@@ -52,29 +53,55 @@ const Profile = () => {
                         </div>
                         {/* Main */}
                         <div className="w-[60%] p-4 flex flex-col gap-4">
-                            <div className="h-[450px] relative shadow-md bg-[#f5f2d9]">
-                                <div className="h-[300px]">
-                                    <img
-                                        src="https://www.up.edu/admissions/images/banner-aerial-dec-2022.jpg"
-                                        alt="background"
-                                        className="object-cover w-full h-full"
-                                    />
+                            <div className="h-[450px] relative shadow-md bg-[#fffdf0]">
+                                <div
+                                    className="h-[300px] relative"
+                                    onClick={() => setIsCoverPhotoOpen(true)}
+                                >
+                                    {
+                                        user.coverPhoto ?
+                                            <img
+                                                src={user.coverPhoto.url}
+                                                alt="background"
+                                                className="object-cover w-full h-full"
+                                            /> :
+                                            <div
+                                                className="object-cover w-full h-full bg-[#f0cb87]"
+                                            ></div>
+                                    }
+                                    {currentUser._id === userId &&
+                                        <div
+                                            className="absolute bottom-0 right-0 mr-[1%] mb-[1%] bg-gray-100 hover:bg-gray-200 rounded-md  p-1.5 flex items-center justify-center flex-row gap-2 text-sm cursor-pointer"
+                                        >
+                                            <IoIosCamera size={22} />
+                                            <span> Add cover photo </span>
+                                        </div>
+                                    }
                                 </div>
 
                                 <div className="flex gap-10 h-[150px] mt-[-75px]">
 
                                     <div
-                                        className="w-[150px] ml-[20px] bg-white rounded-full flex items-center justify-center relative"
-                                        onClick={() => setIsUploadModalOpen(true)}>
-                                        <img
-                                            // src="https://www.wilsoncenter.org/sites/default/files/media/images/person/james-person-1.jpg"
-                                            src={user.profilePicture.url}
-                                            alt="profilePicture"
-                                            className="object-cover w-[140px] h-[140px] rounded-full"
-                                        />
+                                        className="w-[150px] ml-[20px] bg-gray-100 rounded-full flex items-center justify-center relative cursor-pointer"
+                                        onClick={() => setIsProfilePictureOpen(true)}>
+                                        {
+                                            user.profilePicture ?
+                                                <img
+                                                    src={
+                                                        user.profilePicture.url
+                                                    }
+                                                    alt="profilePicture"
+                                                    className="object-cover w-[140px] h-[140px] rounded-full"
+                                                /> :
+                                                <img
+                                                    src="../../../assets/default-user.png"
+                                                    alt="profilePicture"
+                                                    className="object-cover w-[100px] h-[100px] rounded-full"
+                                                />
+                                        }
                                         {currentUser._id === userId &&
                                             <div
-                                                className="absolute bottom-0 right-0 transform translate-x-1/4 -translate-y-1/4 bg-gray-300 rounded-full p-1.5 flex items-center justify-center"
+                                                className="absolute bottom-0 right-0 transform translate-x-1/4 -translate-y-1/4 bg-gray-200 hover:bg-gray-300 rounded-full p-1.5 flex items-center justify-center"
 
                                             >
                                                 <IoIosCamera size={28} />
@@ -87,7 +114,7 @@ const Profile = () => {
 
                                     <div className="flex items-center">
                                         <span className="text-[26px] font-bold mt-auto pb-[10%]">
-                                            {user?.firstName}
+                                            {user.firstName} {" "} {user.lastName}
                                         </span>
                                     </div>
 
@@ -100,15 +127,23 @@ const Profile = () => {
                                 </div>
                             </div>
 
-                            <div className="shadow-md bg-[#f5f2d9]">
+                            <div className="shadow-md bg-[#fffdf0]">
                                 <About userId={userId} />
                             </div>
 
                             <UploadImageModal
                                 user={user}
                                 userId={userId}
-                                isOpen={isUploadModalOpen}
-                                onClose={() => setIsUploadModalOpen(false)}
+                                isOpen={isProfilePictureOpen}
+                                onClose={() => setIsProfilePictureOpen(false)}
+                                isProfilePicture={true}
+                            />
+                            <UploadImageModal
+                                user={user}
+                                userId={userId}
+                                isOpen={isCoverPhotoOpen}
+                                onClose={() => setIsCoverPhotoOpen(false)}
+                                isProfilePicture={false}
                             />
                         </div>
 
@@ -120,7 +155,7 @@ const Profile = () => {
                     </div> :
                     <div className="pt-[60px]">User Not Found</div>
             }
-        </div>
+        </div >
 
     );
 }
