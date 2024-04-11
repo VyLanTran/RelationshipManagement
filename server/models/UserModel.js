@@ -50,7 +50,7 @@ const UserSchema = new mongoose.Schema(
       type: Object,
       default: null,
     },
-    friends: {
+    friendIds: {
       type: Array, // array of userId of our friends
       default: [],
     },

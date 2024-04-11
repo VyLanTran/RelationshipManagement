@@ -1,3 +1,6 @@
+import { useNavigate } from 'react-router-dom';
+
+
 const FriendList = ({ friends }) => {
     return (
         <div
@@ -12,6 +15,7 @@ const FriendList = ({ friends }) => {
                         ({ _id, firstName, lastName, profilePicture }) => {
                             return (
                                 <FriendCard
+                                    friendId={_id}
                                     name={firstName + " " + lastName}
                                     profilePictureUrl={profilePicture ? profilePicture.url : null}
                                 />
@@ -26,24 +30,27 @@ const FriendList = ({ friends }) => {
 
 export default FriendList;
 // TODO: avoid relative path like ../../, instead @components/
-export const FriendCard = ({ name, profilePictureUrl }) => {
+// TODO: a green dot for active users
+export const FriendCard = ({ friendId, name, profilePictureUrl }) => {
+    const navigate = useNavigate()
+
     return (
-        <div className="flex flex-row text-[14px] cursor-pointer items-center gap-3 p-3 rounded-sm hover:bg-[#eaead4] hover:bg-opacity-50" >
-            < div className="w-[28px] h-[28px] rounded-full flex items-center justify-centers" >
-                {
-                    profilePictureUrl ?
-                        <img
-                            src={profilePictureUrl}
-                            alt="profilePicture"
-                            className="object-cover w-[28px] h-[28px] rounded-full"
-                        /> :
-                        <img
-                            className="object-cover w-[28px] h-[28px] rounded-full bg-gray-300 "
-                            src={'../../../assets/default-user.png'}
-                            alt="profilePicture"
-                        />
-                }
-            </ div>
+        <div
+            className="flex flex-row text-[13px] cursor-pointer items-center gap-3 p-3 rounded-sm hover:bg-[#eaead4] hover:bg-opacity-50"
+            onClick={() => navigate(`/${friendId}`)}>
+            {
+                profilePictureUrl ?
+                    <img
+                        src={profilePictureUrl}
+                        alt="profilePicture"
+                        className="object-cover w-[28px] h-[28px] rounded-full"
+                    /> :
+                    <img
+                        className="object-cover w-[28px] h-[28px] rounded-full bg-gray-300 "
+                        src={'../../../assets/default-user.png'}
+                        alt="profilePicture"
+                    />
+            }
 
             <span>{name}</span>
         </div >
