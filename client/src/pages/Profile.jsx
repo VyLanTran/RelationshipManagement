@@ -13,11 +13,14 @@ const Profile = () => {
     // this user is myself, who is authenticated to use this app
     const currentUser = useSelector((state) => state.auth.user)
     const token = useSelector((state) => state.auth.token)
+    const friendIds = useSelector((state) => state.auth.user.friendIds)
 
     // this is the user that owns this profile page
     const [user, setUser] = useState(null)
     const { userId } = useParams();
     const [friends, setFriends] = useState([])
+    const isFriend = friendIds.includes(userId)
+    console.log(friendIds)
 
     const [isProfilePictureOpen, setIsProfilePictureOpen] = useState(false)
     const [isCoverPhotoOpen, setIsCoverPhotoOpen] = useState(false)
@@ -53,8 +56,8 @@ const Profile = () => {
             getUser()
             getFriends()
         }
-    }, [user])
-
+    }, [userId])
+    // TODO: degree of connection, can only see those within 3 for privacy
     return (
         <div>
             <Navbar />
@@ -67,7 +70,7 @@ const Profile = () => {
                             left sidebar
                         </div>
                         {/* Main */}
-                        <div className="w-[60%] p-4 flex flex-col gap-4">
+                        <div className="w-[60%] px-4 flex flex-col gap-4">
                             <div className="h-[450px] relative shadow-md bg-[#fffdf0]">
                                 <div
                                     className="h-[300px] relative"
@@ -127,15 +130,45 @@ const Profile = () => {
                                     </div>
 
 
-                                    <div className="flex items-center">
-                                        <span className="text-[26px] font-bold mt-auto pb-[10%]">
+                                    <div className="flex items-center flex-row justify-center mt-[75px]">
+                                        <span className="text-[26px] ">
                                             {user.firstName} {" "} {user.lastName}
                                         </span>
+
+                                    </div>
+                                    <div className="mt-[75px] flex items-center ml-auto text-[14px] pr-2 gap-2">
+                                        {
+                                            currentUser._id !== userId && isFriend &&
+                                            <button
+                                                className=" bg-[#FFB302]  py-1 px-4 rounded-md"
+                                            >
+                                                Message
+                                            </button>
+                                        }
+                                        {/* TODO: pending friend request */}
+                                        {
+                                            currentUser._id !== userId &&
+                                            <div >
+                                                {
+                                                    isFriend ?
+                                                        <button
+                                                            className=" bg-gray-300 py-1 px-4 rounded-md"
+                                                        >
+                                                            Friends
+                                                        </button> :
+                                                        <button
+                                                            className=" bg-gray-300 py-1 px-4 rounded-md"
+                                                        >
+                                                            Add friend
+                                                        </button>
+                                                }
+                                            </div>
+                                        }
                                     </div>
 
                                 </div>
-
-                                <div className="flex flex-row gap-8 mt-6 pl-10 py-4">
+                                <div className="border-t border-gray-300 mt-4 mb-2"></div>
+                                <div className="flex flex-row gap-8 pl-10 py-2 text-[14px]">
                                     <div>Posts</div>
                                     <div>About</div>
                                     <div>Photos</div>
