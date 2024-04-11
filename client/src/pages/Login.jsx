@@ -17,6 +17,7 @@ const Login = () => {
         setShowPassword(!showPassword);
     };
     // TODO: show error messagse as in SignUp
+    // Login by username or email
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {

@@ -14,6 +14,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    // TODO: username has to be unique
     username: {
       type: String,
       requied: true,
