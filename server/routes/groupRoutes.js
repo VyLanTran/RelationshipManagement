@@ -5,6 +5,7 @@ import {
   deleteGroup,
   showGroup,
   editGroup,
+  showMember,
 } from "../controllers/groupControllers.js";
 import { verifyAuth } from "../middleware/auth.js";
 
@@ -18,5 +19,6 @@ router.get("/", showAll);
 router.delete("/:id", deleteGroup);
 router.get("/:id", showGroup);
 router.put("/:id", editGroup);
+router.get("/:id/members", showMember);
 
 export default router;
