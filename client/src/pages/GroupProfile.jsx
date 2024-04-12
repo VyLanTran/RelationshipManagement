@@ -172,6 +172,10 @@ const GroupProfile = () => {
                                     onClick={deleteGroup}>
                                     Delete
                                 </button>
+                                <button className="mx-[1vh] rounded-[10px] bg-[#FFB302] ml-[5vh] px-[3vh] text-l h-[6vh] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
+                                    onClick={() => navigate('/groups')}>
+                                    Return
+                                </button>
                             </div>
                         </div>
 
