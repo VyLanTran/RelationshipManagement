@@ -14,6 +14,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    // TODO: username has to be unique
     username: {
       type: String,
       requied: true,
@@ -41,6 +42,18 @@ const UserSchema = new mongoose.Schema(
     currentCity: {
       type: String,
       default: "",
+    },
+    profilePicture: {
+      type: Object,
+      default: null,
+    },
+    coverPhoto: {
+      type: Object,
+      default: null,
+    },
+    friendIds: {
+      type: Array, // array of userId of our friends
+      default: [],
     },
     // social media links
   },

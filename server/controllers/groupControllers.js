@@ -3,7 +3,7 @@ import Group from "../models/GroupModel.js";
 export const addGroup = async (req, res) => {
     try {
         const savedGroup = await Group.create(req.body);
-        res.status(201).json({ savedGroup });
+        res.status(201).json({savedGroup});
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
@@ -23,7 +23,7 @@ export const deleteGroup = async (req, res) => {
         const { id: groupId } = req.params;
 
 	const group = await Group.deleteOne({ _id: groupId });
-	res.status(201).json({ group });
+	res.status(201).json(group);
     } catch (err) {
         res.status(404).json({ error: err.message });
     }
@@ -34,7 +34,7 @@ export const showGroup = async (req, res) => {
         const { id: groupId } = req.params;
 
 	const group = await Group.findOne({ _id: groupId });
-	res.status(201).json({ group });
+	res.status(201).json(group);
     } catch (err) {
         res.status(404).json({ error: err.message });
     }
@@ -51,7 +51,7 @@ export const editGroup = async (req, res) => {
                 new: true,
             }
         );
-	res.status(201).json({ group });
+	res.status(201).json(group);
     } catch (err) {
         res.status(404).json({ error: err.message });
     }

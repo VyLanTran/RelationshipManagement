@@ -119,14 +119,14 @@ const Groups = () => {
                                         <GroupCard
                                             key={id}
                                             group_name={group['name']}
-                                            url={""}
+                                            url={group['_id']}
                                             participants={["something", "something"]} // Placeholder for now
                                         />
                                         :
                                         <GroupCardSmall
                                             key={id}
                                             group_name={group['name']}
-                                            url={""}
+                                            url={group['_id']}
                                         />
                                 }
                             </div>
