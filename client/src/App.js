@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./utils/ProtectedRoute.js";
 import Settings from "./pages/Settings.jsx";
 import GroupProfile from "./pages/GroupProfile.jsx";
+import Chat from "./pages/Chat.jsx";
 
 // TODO: responsive to screen size
 
@@ -85,7 +86,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-        <Route
+          <Route
             path="/groups"
             element={
               <ProtectedRoute>
@@ -93,11 +94,19 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route 
+          <Route
             path="/groups/:groupId"
             element={
               <ProtectedRoute>
                 <GroupProfile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/chat"
+            elements={
+              <ProtectedRoute>
+                <Chat />
               </ProtectedRoute>
             }
           />
