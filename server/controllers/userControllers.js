@@ -34,6 +34,32 @@ export const getAllFriends = async (req, res) => {
   }
 };
 
+// Search users with keyword
+// route: /users/?search={keyword}
+export const searchUsers = async (req, res) => {
+  try {
+    const keyword = req.query.search
+      ? {
+          // either email, firstName, lastName, username contains the keyword
+          $or: [
+            { firstName: { $regex: req.query.search, $options: "i" } }, // option = "i" for case-insensitive matches
+            { lastName: { $regex: req.query.search, $options: "i" } },
+            { email: { $regex: req.query.search, $options: "i" } },
+            { username: { $regex: req.query.search, $options: "i" } },
+          ],
+        }
+      : {};
+
+    // Find all users with that keyword (except from ourself)
+    const users = await UserModel.find(keyword).find({
+      _id: { $ne: req.user._id },
+    });
+    res.status(201).json(users);
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
+};
+
 // PATCH
 export const updateUser = async (req, res) => {
   try {
