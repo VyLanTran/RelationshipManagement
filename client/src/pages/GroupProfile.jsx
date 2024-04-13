@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import Navbar from '../components/navbar/Navbar.jsx'
 import { useNavigate, useParams } from "react-router-dom";
+import Select from 'react-select'
 import axios from "axios";
 import { useSelector } from 'react-redux'
 
@@ -17,10 +18,12 @@ const GroupProfile = () => {
     const [group, setGroup] = useState(null);
     const { groupId } = useParams();
     const navigate = useNavigate();
-    const [view, setView] = useState("");
+    const [view, setView] = useState("diary");
     const [editGroup, setEditGroup] = useState(false);
     const [newGroupName, setNewGroupName] = useState("");
     const [message, setMessage] = useState('');
+    const [members, setMembers] = useState([]);
+    const [users, setUsers] = useState([]);
 
     const toggleEdit = () => {
         setEditGroup(!editGroup);
@@ -55,6 +58,16 @@ const GroupProfile = () => {
             if (res.ok) {
                 setGroup(data);
             }
+            const res_2 = await fetch(`http://localhost:3001/groups/${groupId}/members`, authHeader);
+            const data_2 = await res_2.json();
+            if (res_2.ok) {
+                setMembers(data_2);
+            }
+            const res_3 = await fetch(`http://localhost:3001/users`, authHeader);
+            const data_3 = await res_3.json();
+            if (res_3.ok) {
+                setUsers(data_3);
+            }
         }
         if (currentUser) {
             getGroup();
@@ -64,16 +77,25 @@ const GroupProfile = () => {
     const onSubmit = async (event) => {
         event.preventDefault();
         setMessage('');
+        console.log(members);
         try {
             const res = await axios.put(`http://localhost:3001/groups/${groupId}`,
                 {
                     name: newGroupName,
+                    members: members,
                 }, authHeader);
             setMessage("Group edited sucessfully!");
         } catch (error) {
             setMessage(error.response.data["message"]);
         }
     };
+
+    const addMember = async (event) => {
+        event.preventDefault();
+        setMembers([...members, {firstName: " ", lastName: " ", _id: null}])
+    }
+
+    const option = users.map(({ firstName, lastName, _id }) => ({ value: _id, label: firstName + " " + lastName }))
 
     return (
         <div className="">
@@ -84,9 +106,10 @@ const GroupProfile = () => {
                         <div className="w-[25%]  my-[3vh] mr-[1.5vh]">
                             <div className="h-[90%] bg-[#FFB302] rounded-[20px] mb-[1.5vh] p-[2vh]">
                                 <p className="text-3xl m-[2vh]">{group["name"]}</p>
-                                <div className="text-left pl-[3vh]">
-                                    <p className="text-xl">Placeholder</p>
-                                    <p className="text-xl">Placeholder</p>
+                                <div className="text-left pl-[5vh]">
+                                    {
+                                        members.map(member => <p className="text-xl">{member["firstName"] + " " + member["lastName"]}</p>)
+                                    }
                                 </div>
                             </div>
                             <div className="h-[10%] flex flex-row mt-[1.5vh] justify-center">
@@ -113,17 +136,27 @@ const GroupProfile = () => {
                                             />
                                             <p className="text-xl m-[3vh]">Members:</p>
                                             <ul className="col-span-4">
-                                                <li className="flex justify-between px-[3vh] py-[1vh]">
-                                                    <p className="">Member 1</p>
-                                                    <button className="rounded-[10px] bg-[#FFB302] px-[3vh] py-[1vh] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]">Remove</button>
-                                                </li>
-                                                <li className="flex justify-between px-[3vh] py-[1vh]">
-                                                    <p className="">Member 2</p>
-                                                    <button className="rounded-[10px] bg-[#FFB302] px-[3vh] py-[1vh] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]">Remove</button>
-                                                </li>
+                                                {
+                                                    members.map((member, index) => 
+                                                        <li className="flex justify-between px-[3vh] py-[1vh]">
+                                                            <Select placeholder={member["firstName"] + " " + member["lastName"]} 
+                                                                className="text-left w-[45vh]" 
+                                                                options={option}
+                                                                onChange={(newValue) => {
+                                                                    members[index] = users.find(user => user["_id"] === newValue.value)
+                                                                    setMembers(members);
+                                                                }}/>
+                                                            <button className="rounded-[10px] bg-[#FFB302] px-[3vh] py-[1vh] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
+                                                                onClick={() => {setMembers(members.filter((_, i) => i !== index));}}>
+                                                                Remove
+                                                            </button>
+                                                        </li>
+                                                    )
+                                                }
                                             </ul>
 
-                                            <button className="rounded-[10px] bg-[#FFB302] px-[3vh] text-l h-[6vh] col-span-5 hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]">
+                                            <button className="rounded-[10px] bg-[#FFB302] px-[3vh] text-l h-[6vh] col-span-5 hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
+                                                onClick={addMember}>
                                                 Add new members
                                             </button>
                                         </div>
@@ -138,6 +171,10 @@ const GroupProfile = () => {
                                 <button className="mx-[1vh] rounded-[10px] bg-[#FFB302] px-[3vh] text-l h-[6vh] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
                                     onClick={deleteGroup}>
                                     Delete
+                                </button>
+                                <button className="mx-[1vh] rounded-[10px] bg-[#FFB302] ml-[5vh] px-[3vh] text-l h-[6vh] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
+                                    onClick={() => navigate('/groups')}>
+                                    Return
                                 </button>
                             </div>
                         </div>
@@ -158,6 +195,7 @@ const GroupProfile = () => {
                                 </button>
                             </div>
                             <div>
+                                <p>{view}</p>
                             </div>
                         </div>
                     </div>

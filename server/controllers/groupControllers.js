@@ -1,4 +1,5 @@
 import Group from "../models/GroupModel.js";
+import User from "../models/UserModel.js"
 
 export const addGroup = async (req, res) => {
     try {
@@ -56,3 +57,16 @@ export const editGroup = async (req, res) => {
         res.status(404).json({ error: err.message });
     }
 };
+
+export const showMember = async (req, res) => {
+    try {
+        const { id: groupId } = req.params;
+        const group = await Group.findOne({ _id: groupId });
+        const members = await Promise.all(
+            group.members.map((memberId) => User.findOne({_id: memberId}))
+        );
+        res.status(201).json(members);
+    } catch (err) {
+        res.status(404).json({ error: err.message })
+    }
+}
