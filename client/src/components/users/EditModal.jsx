@@ -26,7 +26,7 @@ const EditModal = ({ isOpen, onClose, user, userId }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch(`http://localhost:3001/users/${userId}`,
+            const res = await fetch(`http://localhost:3001/users/`,
                 {
                     method: 'PATCH',
                     headers: {

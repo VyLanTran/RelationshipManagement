@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/navbar/Navbar.jsx";
-import ConnectionGroup from "../components/groups/ConnectionGroup.tsx";
+import ConnectionGroup from "../components/connection/ConnectionGroup.tsx";
 import ConnectionCard from "../components/groups/ConnectionCard.jsx";
 import AddConnectionForm from "../components/connection/AddConnectionForm.jsx";
 import axios from "axios";

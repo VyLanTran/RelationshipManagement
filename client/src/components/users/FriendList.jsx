@@ -15,6 +15,7 @@ const FriendList = ({ friends }) => {
                         ({ _id, firstName, lastName, profilePicture }) => {
                             return (
                                 <FriendCard
+                                    key={_id}
                                     friendId={_id}
                                     name={firstName + " " + lastName}
                                     profilePictureUrl={profilePicture ? profilePicture.url : null}

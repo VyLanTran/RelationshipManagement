@@ -4,7 +4,11 @@ const Chat = () => {
     return (
         <div>
             <Navbar />
-            This is inbox place
+            <div
+                className="pt-[60px] "
+            >
+                This is chat
+            </div>
         </div>
     );
 }

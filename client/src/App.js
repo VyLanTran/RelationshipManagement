@@ -104,7 +104,7 @@ function App() {
           />
           <Route
             path="/chat"
-            elements={
+            element={
               <ProtectedRoute>
                 <Chat />
               </ProtectedRoute>
