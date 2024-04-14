@@ -16,7 +16,8 @@ export const verifyAuth = async (req, res, next) => {
 
   try {
     const { _id } = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = await UserModel.findOne({ _id }).select("_id");
+    // req.user = await UserModel.findOne({ _id }).select("_id");
+    req.user = await UserModel.findOne({ _id });
     next();
   } catch (error) {
     res.status(500).json({ error: error.message });

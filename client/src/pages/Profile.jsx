@@ -56,7 +56,7 @@ const Profile = () => {
             getUser()
             getFriends()
         }
-    }, [userId])
+    }, [user, userId])
     // TODO: degree of connection, can only see those within 3 for privacy
     return (
         <div>

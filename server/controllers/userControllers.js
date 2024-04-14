@@ -35,7 +35,7 @@ export const getAllFriends = async (req, res) => {
 };
 
 // Search users with keyword
-// route: /users/?search={keyword}
+// route: /users/search/?search={keyword}
 export const searchUsers = async (req, res) => {
   try {
     const keyword = req.query.search
@@ -61,9 +61,9 @@ export const searchUsers = async (req, res) => {
 };
 
 // PATCH
-export const updateUser = async (req, res) => {
+export const updateProfile = async (req, res) => {
   try {
-    const { userId } = req.params;
+    const userId = req.user._id;
     const updatedUser = await UserModel.findOneAndUpdate(
       { _id: userId },
       {
@@ -83,7 +83,7 @@ export const updateUser = async (req, res) => {
 
 export const createProfilePicture = async (req, res) => {
   try {
-    const { userId } = req.params;
+    const userId = req.user._id;
     const { profilePicture } = req.body;
     const uploadRes = await cloudinary.uploader.upload(profilePicture, {
       upload_preset: "group4-preset",
@@ -106,7 +106,7 @@ export const createProfilePicture = async (req, res) => {
 
 export const createCoverPhoto = async (req, res) => {
   try {
-    const { userId } = req.params;
+    const userId = req.user._id;
     const { coverPhoto } = req.body;
     const uploadRes = await cloudinary.uploader.upload(coverPhoto, {
       upload_preset: "group4-preset",

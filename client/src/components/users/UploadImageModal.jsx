@@ -13,7 +13,7 @@ const UploadImageModal = ({ user, userId, isOpen, onClose, isProfilePicture }) =
         e.preventDefault()
         try {
             const res = await fetch(
-                (isProfilePicture ? `http://localhost:3001/users/${userId}/profilePicture` : `http://localhost:3001/users/${userId}/coverPhoto`),
+                (isProfilePicture ? `http://localhost:3001/users/profilePicture` : `http://localhost:3001/users/coverPhoto`),
                 {
                     method: 'PATCH',
                     headers: {

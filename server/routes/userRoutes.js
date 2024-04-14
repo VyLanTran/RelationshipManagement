@@ -3,7 +3,7 @@ import express from "express";
 import {
   getAllUsers,
   getUser,
-  updateUser,
+  updateProfile,
   createProfilePicture,
   createCoverPhoto,
   getAllFriends,
@@ -17,12 +17,12 @@ const router = express.Router();
 // middleware to ensure that user must be authenticated before they can use any of these routes
 router.use(verifyAuth);
 
-router.get("/", searchUsers);
+router.get("/search", searchUsers);
 router.get("/:userId", getUser);
 router.get("/:userId/friends", getAllFriends);
 router.get("/", getAllUsers);
-router.patch("/:userId", updateUser);
-router.patch("/:userId/profilePicture", createProfilePicture);
-router.patch("/:userId/coverPhoto", createCoverPhoto);
+router.patch("/", updateProfile);
+router.patch("/profilePicture", createProfilePicture);
+router.patch("/coverPhoto", createCoverPhoto);
 
 export default router;
