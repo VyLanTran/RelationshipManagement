@@ -28,8 +28,8 @@ export const useLogin = () => {
       throw new Error(json.error);
     } else {
       // save user into local storage
-      localStorage.setItem("user", JSON.stringify(json.user));
-      localStorage.setItem("token", JSON.stringify(json.token));
+      // localStorage.setItem("user", JSON.stringify(json.user));
+      // localStorage.setItem("token", JSON.stringify(json.token));
       dispatch(
         setLogin({
           user: json.user,

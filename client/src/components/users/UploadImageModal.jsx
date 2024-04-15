@@ -31,7 +31,7 @@ const UploadImageModal = ({ user, userId, isOpen, onClose, isProfilePicture }) =
                 throw new Error(json.error)
             }
             else {
-                localStorage.setItem("user", JSON.stringify(json));
+                // localStorage.setItem("user", JSON.stringify(json));
                 dispatch(
                     updateUser({
                         user: json

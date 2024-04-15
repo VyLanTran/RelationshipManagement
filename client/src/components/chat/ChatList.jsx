@@ -2,45 +2,42 @@ import { useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import SearchLoading from "./SearchLoading";
 import { useSelector } from "react-redux";
+import ChatItem from "./ChatItem";
+import { RiCloseCircleFill } from "react-icons/ri";
 
 const ChatList = () => {
-    const currentUser = useSelector((state) => state.auth.user)
-    const token = useSelector((state) => state.auth.token)
+
+    const chats = useSelector((state) => state.chat.allChats)
 
     const [search, setSearch] = useState("");
     const [searchResult, setSearchResult] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [loadingChat, setLoadingChat] = useState(false);
-    const [chats, setChats] = useState([])
 
-    useEffect(() => {
-        const getAllMyChats = async () => {
-            const res = await fetch(`http://localhost:3001/chats/`, {
-                method: "GET",
-                headers: { 'Authorization': `Bearer ${token}` }
-            })
 
-            const data = await res.json()
 
-            if (res.ok) {
-                setChats(data)
-            }
-        }
-
-        if (currentUser) {
-            getAllMyChats()
-        }
-    }, [])
+    const handleClearInput = () => {
+        setSearch("")
+    }
 
     return (
         <div className="w-full">
-            <div className="w-full pb-4">
+            {/* Search bar */}
+            <div className="w-full pb-6 relative flex items-center ">
                 <Input
+                    className="h-[50px] pr-10"
                     placeholder="Search"
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
-
+                {search && (
+                    <button
+                        className="absolute right-2 text-gray-400 hover:text-gray-500 focus:outline-none"
+                        onClick={handleClearInput}
+                    >
+                        <RiCloseCircleFill size={20} />
+                    </button>
+                )}
             </div>
             {/* List of chats */}
             <div className="w-full flex flex-col">
@@ -54,7 +51,11 @@ const ChatList = () => {
                     chats.map(
                         ({ _id, chatName }) => {
                             return (
-                                <span>{chatName}</span>
+                                <ChatItem
+                                    id={_id}
+                                    chatName={chatName}
+                                // isSelected={_id === selectedChatId}
+                                />
                             )
                         }
                     )
