@@ -42,7 +42,7 @@ const EditModal = ({ isOpen, onClose, user, userId }) => {
             }
             else {
                 // store info of updated user into local storage
-                localStorage.setItem("user", JSON.stringify(json));
+                // localStorage.setItem("user", JSON.stringify(json));
                 //  store info of updated user into redux store
                 dispatch(
                     updateUser({
