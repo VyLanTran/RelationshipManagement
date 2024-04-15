@@ -20,7 +20,6 @@ const Profile = () => {
     const { userId } = useParams();
     const [friends, setFriends] = useState([])
     const isFriend = friendIds.includes(userId)
-    // console.log(friendIds)
 
     const [isProfilePictureOpen, setIsProfilePictureOpen] = useState(false)
     const [isCoverPhotoOpen, setIsCoverPhotoOpen] = useState(false)
