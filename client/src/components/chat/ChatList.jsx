@@ -8,13 +8,12 @@ import { RiCloseCircleFill } from "react-icons/ri";
 const ChatList = () => {
 
     const chats = useSelector((state) => state.chat.allChats)
+    const currentChat = useSelector((state) => state.chat.currentChat)
 
     const [search, setSearch] = useState("");
     const [searchResult, setSearchResult] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [loadingChat, setLoadingChat] = useState(false);
-
-
 
     const handleClearInput = () => {
         setSearch("")
@@ -49,12 +48,11 @@ const ChatList = () => {
 
                 {
                     chats.map(
-                        ({ _id, chatName }) => {
+                        (chat) => {
                             return (
                                 <ChatItem
-                                    id={_id}
-                                    chatName={chatName}
-                                // isSelected={_id === selectedChatId}
+                                    id={chat._id}
+                                    chat={chat}
                                 />
                             )
                         }
