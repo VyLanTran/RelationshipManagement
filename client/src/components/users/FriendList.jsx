@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 
-
 const FriendList = ({ friends }) => {
     return (
         <div

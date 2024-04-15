@@ -1,8 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  //   allChats: JSON.parse(localStorage.getItem("allChats")) || null,
-  //   selectedChat: JSON.parse(localStorage.getItem("selectedChat")) || null,
   allChats: [],
   selectedChat: null,
 };
