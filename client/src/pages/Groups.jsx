@@ -19,6 +19,7 @@ const Groups = () => {
     const [newGroupName, setNewGroupName] = useState("");
     const [groups, setGroups] = useState([]);
     const [message, setMessage] = useState('');
+    // const { userId } = useParams();
 
     const toggleLargeView = () => {
         setShowDetails(true);
@@ -36,11 +37,13 @@ const Groups = () => {
         event.preventDefault();
         setMessage('');
         try {
-            const res = await axios.post("http://localhost:3001/groups",
+            const res = await axios.post("http://localhost:3001/groups/",
                 {
                     name: newGroupName,
+                    admin: currentUser._id,
                 }, authHeader);
             setMessage("New group added successfully");
+            setNewGroupName("");
         } catch (error) {
             setMessage(error.response.data["message"]);
         }
@@ -49,7 +52,7 @@ const Groups = () => {
     useEffect(() => {
         const fetchGroups = async () => {
             try {
-                const response = await axios.get("http://localhost:3001/groups", authHeader);
+                const response = await axios.get(`http://localhost:3001/groups/user/${currentUser._id}`, authHeader);
                 setGroups(response.data);
             } catch (err) {
                 console.error(err);

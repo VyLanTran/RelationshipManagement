@@ -15,7 +15,7 @@ const router = express.Router();
 router.use(verifyAuth);
 
 router.post("/", addGroup);
-router.get("/", showAll);
+router.get("/user/:user", showAll);
 router.delete("/:id", deleteGroup);
 router.get("/:id", showGroup);
 router.put("/:id", editGroup);
