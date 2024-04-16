@@ -28,6 +28,39 @@ export const getAllMyChats = async (req, res) => {
 };
 
 /**
+ * route: /chats/search/?search={keyword}
+ * given a keyword, return all chats such that:
+ * we are a member
+ * either chat name match
+ * or some members has firstname, lastname, email, username match the keyword
+ */
+export const searchChats = async (req, res) => {
+  try {
+    const keyword = req.query.search;
+    const chats = await ChatModel.find({
+      members: { $in: [req.user._id] },
+    })
+      .populate("members")
+      .populate("admin")
+      .sort({ updatedAt: -1 });
+
+    const filteredChats = chats.filter((chat) =>
+      chat.members.some(
+        (member) =>
+          member.firstName.toLowerCase().includes(keyword.toLowerCase()) ||
+          member.lastName.toLowerCase().includes(keyword.toLowerCase()) ||
+          member.email.toLowerCase().includes(keyword.toLowerCase()) ||
+          member.username.toLowerCase().includes(keyword.toLowerCase())
+      )
+    );
+
+    res.status(201).json(filteredChats);
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
+};
+
+/**
  * Access a chat that you are a member of
  */
 export const getChat = async (req, res) => {
