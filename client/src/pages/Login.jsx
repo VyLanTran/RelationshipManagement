@@ -34,7 +34,7 @@ const Login = () => {
                 className="w-full h-screen flex justify-center items-center"
                 onSubmit={handleSubmit}
             >
-                <div className="bg-slate-50 w-2/5 flex flex-col items-center gap-3 rounded-[30px] justify-center py-10">
+                <div className="bg-slate-50 flex flex-col items-center gap-3 rounded-[30px] justify-center py-10 w-4/5 sm:w-2/5">
                     <h3 style={{ fontSize: "8vh", marginTop: "2vh" }}>Log in</h3>
                     <input
                         className="textStyles outline-none"
