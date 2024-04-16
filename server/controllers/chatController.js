@@ -37,6 +37,8 @@ export const getAllMyChats = async (req, res) => {
 export const searchChats = async (req, res) => {
   try {
     const keyword = req.query.search;
+    const words = keyword.toLowerCase().split(/\s+/);
+
     const chats = await ChatModel.find({
       members: { $in: [req.user._id] },
     })
@@ -44,20 +46,31 @@ export const searchChats = async (req, res) => {
       .populate("admin")
       .sort({ updatedAt: -1 });
 
-    const filteredChats = chats.filter((chat) =>
-      chat.members.some(
-        (member) =>
-          member.firstName.toLowerCase().includes(keyword.toLowerCase()) ||
-          member.lastName.toLowerCase().includes(keyword.toLowerCase()) ||
-          member.email.toLowerCase().includes(keyword.toLowerCase()) ||
-          member.username.toLowerCase().includes(keyword.toLowerCase())
-      )
-    );
+    const filteredChats = chats.filter((chat) => {
+      return (
+        isNameMatch(chat, words) ||
+        chat.members.some((member) => isMemberMatch(member, words))
+      );
+    });
 
     res.status(201).json(filteredChats);
   } catch (err) {
     res.status(404).json({ error: err.message });
   }
+};
+
+const isNameMatch = (chat, words) => {
+  return words.some((word) => chat.chatName.toLowerCase().includes(word));
+};
+
+const isMemberMatch = (member, words) => {
+  return words.some(
+    (word) =>
+      member.firstName.toLowerCase().includes(word) ||
+      member.lastName.toLowerCase().includes(word) ||
+      member.email.toLowerCase().includes(word) ||
+      member.username.toLowerCase().includes(word)
+  );
 };
 
 /**
