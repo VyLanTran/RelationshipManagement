@@ -9,6 +9,7 @@ import { ToastAction } from "../ui/toast";
 import { Button } from "../ui/button";
 import { CirclePlus } from "lucide-react";
 import { NewGroupModal } from "./NewGroupModal";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 
 const ChatList = () => {
 
@@ -37,8 +38,8 @@ const ChatList = () => {
                     headers: { 'Authorization': `Bearer ${token}` },
                 })
                 const data = await res.json()
-                setIsLoading(false)
                 setSearchResult(data)
+                setIsLoading(false)
             } catch (error) {
                 toast({
                     variant: "destructive",
@@ -57,11 +58,23 @@ const ChatList = () => {
         <div className="w-full">
             <div className="flex flex-row justify-between items-center mb-6">
                 <span className="font-bold text-[20px]">My Chats</span>
-                <Button
-                    className="rounded-full border-none shadow-none p-1"
-                    variant="outline" size="icon">
-                    <CirclePlus size={36} strokeWidth={1.5} absoluteStrokeWidth />
-                </Button>
+                <TooltipProvider>
+                    <Tooltip>
+                        <NewGroupModal>
+                            <TooltipTrigger asChild>
+                                <Button
+                                    className="rounded-full border-none shadow-none p-1"
+                                    variant="outline" size="icon">
+                                    <CirclePlus size={36} strokeWidth={1.5} absoluteStrokeWidth />
+                                </Button>
+                            </TooltipTrigger>
+                        </NewGroupModal>
+                        <TooltipContent className="bg-gray-100">
+                            <p>New group chat</p>
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+
             </div>
             {/* Search bar */}
             <div className="w-full pb-6 relative flex items-center ">
@@ -102,7 +115,7 @@ const ChatList = () => {
                 }
             </div>
 
-            <NewGroupModal />
+
         </div>
     );
 }
