@@ -6,6 +6,9 @@ import ChatItem from "./ChatItem";
 import { RiCloseCircleFill } from "react-icons/ri";
 import { useToast } from "../ui/use-toast"
 import { ToastAction } from "../ui/toast";
+import { Button } from "../ui/button";
+import { CirclePlus } from "lucide-react";
+import { NewGroupModal } from "./NewGroupModal";
 
 const ChatList = () => {
 
@@ -17,6 +20,7 @@ const ChatList = () => {
     const [searchResult, setSearchResult] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [loadingChat, setLoadingChat] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const { toast } = useToast()
 
@@ -51,6 +55,14 @@ const ChatList = () => {
 
     return (
         <div className="w-full">
+            <div className="flex flex-row justify-between items-center mb-6">
+                <span className="font-bold text-[20px]">My Chats</span>
+                <Button
+                    className="rounded-full border-none shadow-none p-1"
+                    variant="outline" size="icon">
+                    <CirclePlus size={36} strokeWidth={1.5} absoluteStrokeWidth />
+                </Button>
+            </div>
             {/* Search bar */}
             <div className="w-full pb-6 relative flex items-center ">
                 <Input
@@ -89,6 +101,8 @@ const ChatList = () => {
                         </span>
                 }
             </div>
+
+            <NewGroupModal />
         </div>
     );
 }
