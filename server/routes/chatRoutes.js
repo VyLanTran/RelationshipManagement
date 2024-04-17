@@ -9,6 +9,7 @@ import {
   getOrCreatePrivateChat,
   removeMembers,
   renameChat,
+  searchChats,
 } from "../controllers/chatController.js";
 
 const router = express.Router();
@@ -16,8 +17,9 @@ const router = express.Router();
 // middleware to ensure that user must be authenticated before they can use any of these routes
 router.use(verifyAuth);
 
-router.get("/", getAllMyChats);
+router.get("/search", searchChats);
 router.get("/:chatId", getChat);
+router.get("/", getAllMyChats);
 router.post("/", getOrCreatePrivateChat);
 router.post("/group", createGroupChat);
 router.put("/:chatId/rename", renameChat);

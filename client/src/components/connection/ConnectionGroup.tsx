@@ -17,7 +17,7 @@ const options: { value: string, label: string }[] = [
 const ConnectionGroup: React.FC = () => {
    
     return (
-        <div className="bg-[#FFB302] rounded-[20px] w-[50vh] h-[84vh] p-[2.5vh] m-[2vh]">
+        <div className="bg-[#FFB302] rounded-[20px] w-[43vh] h-[84vh] p-[2.5vh] m-[2vh]">
             <Select placeholder="Select group:" className="text-left" options={ options } />
             <div>
                 <div className="text-left ml-[6vh] mt-[10vh] text-[2.5vh]">

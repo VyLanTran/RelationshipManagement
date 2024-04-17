@@ -38,26 +38,31 @@ export const getAllFriends = async (req, res) => {
 // route: /users/search/?search={keyword}
 export const searchUsers = async (req, res) => {
   try {
-    const keyword = req.query.search
-      ? {
-          // either email, firstName, lastName, username contains the keyword
-          $or: [
-            { firstName: { $regex: req.query.search, $options: "i" } }, // option = "i" for case-insensitive matches
-            { lastName: { $regex: req.query.search, $options: "i" } },
-            { email: { $regex: req.query.search, $options: "i" } },
-            { username: { $regex: req.query.search, $options: "i" } },
-          ],
-        }
-      : {};
+    const keyword = req.query.search;
+    const words = keyword.toLowerCase().split(/\s+/);
 
     // Find all users with that keyword (except from ourself)
-    const users = await UserModel.find(keyword).find({
+    // TODO: find those in our friend list only
+    // TODO: create a json file of 100+ fake users for testing
+    const users = await UserModel.find({
       _id: { $ne: req.user._id },
     });
-    res.status(201).json(users);
+    const filteredUsers = users.filter((user) => isMatch(user, words));
+
+    res.status(201).json(filteredUsers);
   } catch (err) {
     res.status(404).json({ error: err.message });
   }
+};
+
+const isMatch = (user, words) => {
+  return words.some(
+    (word) =>
+      user.firstName.toLowerCase().includes(word) ||
+      user.lastName.toLowerCase().includes(word) ||
+      user.email.toLowerCase().includes(word) ||
+      user.username.toLowerCase().includes(word)
+  );
 };
 
 // PATCH

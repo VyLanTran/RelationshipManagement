@@ -145,6 +145,7 @@ const Connection = () => {
 										phone={connection["phone"]}
 										email={connection["email"]}
 										last_contacted={"02/04/2023"}
+										userId={userId}
 									/>
 								))}
 							</div>

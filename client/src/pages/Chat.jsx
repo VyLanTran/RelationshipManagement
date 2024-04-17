@@ -44,7 +44,7 @@ const Chat = () => {
                     <ChatList
                     />
                 </div>
-                <div className="w-[70%] bg-[#d5edff]">
+                <div className="w-[70%] border-l bg-white">
                     {/* <SearchLoading /> */}
                 </div>
             </div>

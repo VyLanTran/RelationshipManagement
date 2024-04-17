@@ -45,7 +45,7 @@ const SignUp = () => {
                 className="w-full h-[100vh] flex justify-center items-center overflow-hidden"
                 onSubmit={handleSubmit}
             >
-                <div className="bg-slate-50 w-2/5 flex flex-col items-center gap-3 justify-center py-10">
+                <div className="bg-slate-50 flex flex-col items-center gap-3 justify-center py-10 w-4/5 md:w-2/5">
                     <h3 className="text-[40px]">Sign up</h3>
                     <div className="grid grid-cols-2 w-[70%] gap-4">
                         <input

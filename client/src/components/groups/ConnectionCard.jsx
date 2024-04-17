@@ -6,15 +6,6 @@ import { IoPersonCircleSharp } from "react-icons/io5";
 import EditModal from "../connection/EditModal.jsx";
 import { useSelector } from "react-redux";
 
-// interface ConnectionCardProps {
-// 	_id: object;
-// 	name: string;
-// 	member_of: string;
-// 	phone: string;
-// 	email: string;
-// 	last_contacted: string;
-// }
-
 const ConnectionCard = ({
 	_id,
 	name,
@@ -22,6 +13,7 @@ const ConnectionCard = ({
 	phone,
 	email,
 	last_contacted,
+	userId,
 }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const token = useSelector((state) => state.auth.token);
@@ -36,6 +28,32 @@ const ConnectionCard = ({
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" },
 		});
+		const updateConnectionIds = async () => {
+			const res = await fetch(`http://localhost:3001/users/${userId}`, {
+				method: "GET",
+				headers: { Authorization: `Bearer ${token}` },
+			});
+			if (!res.ok) {
+				throw new Error("Network response was not ok");
+			}
+			const updateUser = await fetch(`http://localhost:3001/users/`, {
+				method: "PATCH",
+				headers: {
+					Authorization: `Bearer ${token}`,
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					$pull: { connectionIds: _id },
+				}),
+			});
+			if (!updateUser.ok) {
+				throw new Error("Network response was not ok");
+			}
+		};
+		updateConnectionIds();
+		if (!res.ok) {
+			throw new Error("Network response was not ok");
+		}
 	};
 
 	useEffect(() => {
