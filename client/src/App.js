@@ -16,104 +16,104 @@ import Chat from "./pages/Chat.jsx";
 // TODO: responsive to screen size
 
 function App() {
-  return (
-    <div className="app">
-      <Router>
-        <Routes>
-          <Route
-            path="/login"
-            element={
-              <ProtectedRoute isAuthPage={true}>
-                <Login />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/signup"
-            element={
-              <ProtectedRoute isAuthPage={true}>
-                <SignUp />
-              </ProtectedRoute>
-            }
-          />
+	return (
+		<div className="app">
+			<Router>
+				<Routes>
+					<Route
+						path="/login"
+						element={
+							<ProtectedRoute isAuthPage={true}>
+								<Login />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/signup"
+						element={
+							<ProtectedRoute isAuthPage={true}>
+								<SignUp />
+							</ProtectedRoute>
+						}
+					/>
 
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            }
-          />
+					<Route
+						path="/"
+						element={
+							<ProtectedRoute>
+								<Home />
+							</ProtectedRoute>
+						}
+					/>
 
-          <Route
-            path="/settings"
-            element={
-              <ProtectedRoute>
-                <Settings />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/connection"
-            element={
-              <ProtectedRoute>
-                <Connection />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/notification"
-            element={
-              <ProtectedRoute>
-                <Notification />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/:userId"
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/map"
-            element={
-              <ProtectedRoute>
-                <Map />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/groups"
-            element={
-              <ProtectedRoute>
-                <Groups />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/groups/:groupId"
-            element={
-              <ProtectedRoute>
-                <GroupProfile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/chats"
-            element={
-              <ProtectedRoute>
-                <Chat />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </Router>
-    </div>
-  );
+					<Route
+						path="/settings"
+						element={
+							<ProtectedRoute>
+								<Settings />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/connection/:userId"
+						element={
+							<ProtectedRoute>
+								<Connection />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/notification"
+						element={
+							<ProtectedRoute>
+								<Notification />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/:userId"
+						element={
+							<ProtectedRoute>
+								<Profile />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/map"
+						element={
+							<ProtectedRoute>
+								<Map />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/groups"
+						element={
+							<ProtectedRoute>
+								<Groups />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/groups/:groupId"
+						element={
+							<ProtectedRoute>
+								<GroupProfile />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/chats"
+						element={
+							<ProtectedRoute>
+								<Chat />
+							</ProtectedRoute>
+						}
+					/>
+				</Routes>
+			</Router>
+		</div>
+	);
 }
 
 export default App;

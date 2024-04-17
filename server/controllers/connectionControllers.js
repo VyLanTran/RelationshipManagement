@@ -1,8 +1,16 @@
+import ConnectionModel from "../models/ConnectionModel.js";
 import Connection from "../models/ConnectionModel.js";
+import UserModel from "../models/UserModel.js";
 
 export const getAllConnections = async (req, res) => {
 	try {
-		const connections = await Connection.find({});
+		const { userId } = req.params;
+		const user = await UserModel.findById(userId);
+		const connections = await Promise.all(
+			user.connectionIds.map((connectionId) =>
+				ConnectionModel.findById(connectionId)
+			)
+		);
 		res.status(200).json({ connections });
 	} catch (error) {
 		res.status(500).json({ msg: error });
