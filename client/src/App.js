@@ -12,6 +12,7 @@ import ProtectedRoute from "./utils/ProtectedRoute.js";
 import Settings from "./pages/Settings.jsx";
 import GroupProfile from "./pages/GroupProfile.jsx";
 import Chat from "./pages/Chat.jsx";
+import Diary from "./pages/Diary.jsx";
 
 // TODO: responsive to screen size
 
@@ -107,6 +108,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Chat />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/diary"
+            element={
+              <ProtectedRoute>
+                <Diary />
               </ProtectedRoute>
             }
           />
