@@ -167,10 +167,18 @@ export const createGroupChat = async (req, res) => {
         admin: req.user._id,
         members: parsedMembers,
       });
-      const chat = await ChatModel.findById(newChat._id)
-        .populate("members")
-        .populate("admin");
-      res.status(201).json(chat);
+      // const chat = await ChatModel.findById(newChat._id)
+      //   .populate("members")
+      //   .populate("admin");
+      // res.status(201).json(chat);
+
+      const chats = await ChatModel.find({
+        members: { $in: [req.user._id] },
+      })
+        .populate("members") // add the whole data of each member (instead of just their id)
+        .populate("admin")
+        .sort({ updatedAt: -1 });
+      res.status(201).json(chats);
     } catch (error) {
       res.status(404).json({ error: error.message });
     }

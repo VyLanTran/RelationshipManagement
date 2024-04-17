@@ -12,87 +12,163 @@ import {
 } from "../ui/dialog"
 import { Input } from "../ui/input"
 import { Label } from "../ui/label"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { ScrollArea } from "../ui/scroll-area"
 import UserItem from "./UserItem"
+import { useToast } from "../ui/use-toast"
+import { ToastAction } from "../ui/toast"
+import { HiddenInput } from "../ui/hidden-input"
+import { Badge } from "../ui/badge"
+import { X } from "lucide-react"
+import { setAllChats, setCurrentChat } from "../../store/chatReducer.js"
 
 export function NewGroupModal({ children }) {
 
     const token = useSelector((state) => state.auth.token)
+    const dispatch = useDispatch()
 
     const [chatName, setChatName] = useState("")
-    const [members, setMembers] = useState([])
-    const [search, setSearch] = useState("")
+    const [selectedUsers, setSelectedUsers] = useState([])
     const [searchResult, setSearchResult] = useState([])
-    const [isLoading, setIsLoading] = useState(false)
-    const [isDropdownVisible, setIsDropdownVisible] = useState(false)
-    const [position, setPosition] = React.useState("bottom")
 
-    // searchResult = Array.from({ length: 50 }).map(
-    //     (_, i, a) => `v1.2.0-beta.${a.length - i}`
-    // )
+
+    const { toast } = useToast()
+
+    // TODO: clear search after close
 
     const handleSearch = async (query) => {
-
-
         try {
-            setIsLoading(true)
             const res = await fetch(`http://localhost:3001/users/search/?search=${query}`, {
                 method: 'GET',
                 headers: { 'Authorization': `Bearer ${token}` },
             })
-            const data = await res.json()
+            let data = await res.json()
+            data = data.filter((user) => !selectedUsers.some((selectedUser) => user._id === selectedUser._id))
             setSearchResult(data)
-            setIsLoading(false)
         } catch (error) {
-
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: error.message,
+                action: <ToastAction altText="Try again">Try again</ToastAction>,
+            })
         }
     }
 
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        try {
+            const selectedUserIds = selectedUsers.map(user => user._id)
+            const res = await fetch(`http://localhost:3001/chats/group`, {
+                method: "POST",
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    chatName,
+                    memberIds: JSON.stringify(selectedUserIds)
+                })
+            })
+            const data = await res.json()
+            dispatch(setAllChats(data))
+            dispatch(setCurrentChat(data))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const addMember = (newMember) => {
+        setSelectedUsers([...selectedUsers, newMember])
+        setSearchResult(searchResult.filter((user) => user._id !== newMember._id))
+
+    }
+
+    const deleteMember = (deletedMember) => {
+        setSelectedUsers(selectedUsers.filter((user) => user._id !== deletedMember._id))
+        setSearchResult([...searchResult, deletedMember])
+    }
+
+    // TODO: call handleClose when closing modal
+    const handleClose = () => {
+        setChatName("")
+        setSelectedUsers([])
+        setSearchResult([])
+    }
+
     return (
-        <Dialog>
-            <DialogTrigger asChild>
-                {children}
-            </DialogTrigger>
+        <form onClick={handleSubmit}>
+            <Dialog>
+                <DialogTrigger asChild>
+                    {children}
+                </DialogTrigger>
 
-            <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader className="items-center">
-                    <DialogTitle>Create new group chat</DialogTitle>
-                </DialogHeader>
-                <div className="grid gap-4 py-4 ">
-                    <div className="grid grid-cols-3 items-center ">
-                        <Input
-                            id="chatName"
-                            placeholder="Chat name"
-                            className="col-span-3"
-                            value={chatName}
-                            onChange={(e) => setChatName(e.target.value)}
-                        />
-                    </div>
-                    <div className="grid grid-cols-3 items-center ">
-                        <Input
-                            id="members"
-                            placeholder="Members"
-                            className="col-span-3"
-                            onChange={(e) => handleSearch(e.target.value)}
-
-                        />
-                    </div>
-                    <ScrollArea className="h-72 w-full rounded-md border">
-                        <div className="p-4">
-                            {searchResult.map((user) => (
-                                <UserItem
-                                    id={user._id}
-                                    user={user}
-                                />
-                            ))}
+                <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader className="items-center">
+                        <DialogTitle>Create new group chat</DialogTitle>
+                    </DialogHeader>
+                    <div className="flex flex-col gap-4 py-4">
+                        <div className="  ">
+                            <Input
+                                id="chatName"
+                                placeholder="Chat name"
+                                className=""
+                                value={chatName}
+                                onChange={(e) => setChatName(e.target.value)}
+                            />
                         </div>
-                    </ScrollArea>
-                </div>
-                <DialogFooter>
-                    <Button type="submit">Save</Button>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog >
+                        <div className="rounded-md border border-input flex flex-wrap p-2 gap-2">
+                            {selectedUsers.map((selectedUser) => (
+                                <Badge
+                                    key={selectedUser._id}
+                                    id={selectedUser._id}
+                                    variant="secondary"
+                                    className="bg-[#fde09c] p-2 gap-2 hover:bg-[#fde09c] inline-flex mr-1"
+                                >
+                                    <span className="whitespace-no-wrap">{selectedUser.firstName} {selectedUser.lastName}</span>
+                                    <div
+                                        className="rounded-full hover:bg-[#FFB302] p-0.5"
+                                        onClick={() => deleteMember(selectedUser)}>
+                                        <X size={10} strokeWidth={1.25} />
+                                    </div>
+                                </Badge>
+                            ))}
+                            <HiddenInput
+                                id="members"
+                                placeholder="Members"
+                                className="border-none shadow-none focus:border-none focus:outline-none focus:none"
+                                onChange={(e) => handleSearch(e.target.value)}
+                            />
+                        </div>
+
+                        <ScrollArea className="h-72 w-full rounded-md border">
+                            <div className="p-2">
+                                {
+
+                                    searchResult.map((user) => (
+                                        <UserItem
+                                            id={user._id}
+                                            user={user}
+                                            addMember={() => addMember(user)}
+                                        />
+                                    ))
+                                }
+                            </div>
+                        </ScrollArea>
+                    </div>
+                    <div className="flex justify-between flex-row">
+                        <Button
+                            className="bg-gray-300 text-black hover:bg-gray-200 "
+                            onClick={handleClose}
+                        >
+                            Cancel
+                        </Button>
+                        <Button type="submit" className="bg-[#FFB302]">
+                            Save
+                        </Button>
+                    </div>
+                </DialogContent>
+            </Dialog >
+        </form>
     )
 }
