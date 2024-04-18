@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose'
 
 // TODO: connect to groupId
 const ChatSchema = mongoose.Schema(
@@ -13,13 +13,13 @@ const ChatSchema = mongoose.Schema(
     },
     admin: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       default: null, // only available if this is a group chat
     },
     members: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        ref: 'User',
       },
     ],
     // messages: [
@@ -31,7 +31,7 @@ const ChatSchema = mongoose.Schema(
     // ],
   },
   { timestamps: true }
-);
+)
 
-const ChatModel = mongoose.model("Chat", ChatSchema);
-export default ChatModel;
+const ChatModel = mongoose.model('Chat', ChatSchema)
+export default ChatModel
