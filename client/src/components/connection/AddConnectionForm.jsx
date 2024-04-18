@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Loader } from "@googlemaps/js-api-loader";
-import AutoComplete from "../map/AutoComplete.tsx";
 
 const AddConnectionForm = ({ isOpen, onClose, userId }) => {
 	const [formData, setFormData] = useState({
