@@ -22,41 +22,21 @@ const Navbar = () => {
 
 	const connectionUrl = user ? `/connection/${user._id}` : "/login";
 
-	return (
-		// TODO: use shadcn menu
-		<div className="fixed h-[60px] z-10 w-full bg-[#FFB302] flex flex-row justify-between items-center px-10">
-			<div
-				onClick={() => navigate("/")}
-				className="cursor-pointer font-bold">
-				Logo
-			</div>
-			<div className="flex flex-row gap-4 items-center">
-				{/* TODO: use tooltips for these buttons */}
-				<NavbarButton
-					icon={<RiBookletFill size={18} />}
-					name="My space"
-					url="/home"
-				/>
-				<NavbarButton
-					icon={<FaBell size={18} />}
-					name="Notifications"
-					url="/notification"
-				/>
-				<NavbarButton
-					icon={<FaGear size={18} />}
-					name="Settings"
-					url="/setting"
-				/>
-				<NavbarButton
-					icon={<FaMap size={18} />}
-					name="Map"
-					url="/map"
-				/>
-				<NavbarButton
-					icon={<IoIosContacts size={20} />}
-					name="Connection"
-					url={connectionUrl}
-				/>
+    return (
+        // TODO: use shadcn menu
+        <div className="fixed h-[60px] z-10 w-full bg-[#FFB302] flex flex-row justify-between items-center px-10">
+            <div
+                onClick={() => navigate('/')}
+                className="cursor-pointer font-bold">
+                Logo
+            </div>
+            <div className="flex flex-row gap-4 items-center">
+                {/* TODO: use tooltips for these buttons */}
+                <NavbarButton icon={<RiBookletFill size={18} />} name="My space" url="/diary" />
+                <NavbarButton icon={<FaBell size={18} />} name="Notifications" url="/notification" />
+                <NavbarButton icon={<FaGear size={18} />} name="Settings" url="/setting" />
+                <NavbarButton icon={<FaMap size={18} />} name="Map" url="/map" />
+                <NavbarButton icon={<IoIosContacts size={20} />} name="Connection" url={connectionUrl} />
 
 				{user ? (
 					<div className="flex flex-row items-center gap-4">

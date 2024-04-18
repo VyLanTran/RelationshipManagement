@@ -7,7 +7,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentChat } from "../../store/chatReducer";
 
-const UserItem = ({ user }) => {
+const UserItem = ({ user, addMember }) => {
 
     // const dispatch = useDispatch()
     // const currentChat = useSelector((state) => state.chat.currentChat)
@@ -23,7 +23,7 @@ const UserItem = ({ user }) => {
             className={`flex flex-row p-2 py-3 gap-4 border-none shadow-none cursor-pointer hover:bg-gray-100 rounded-md 
            
             `}
-        // onClick={handleClick}
+            onClick={addMember}
         >
             <Avatar>
                 <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
