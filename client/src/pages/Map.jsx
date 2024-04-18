@@ -11,9 +11,7 @@ import { createDropdownMenuScope } from "@radix-ui/react-dropdown-menu";
 
 const MapGroup = () => {
     const mapRef = React.useRef(null);
-
     const [ connections, setConnections ] = useState([]);
-
     const user = useSelector((state) => state.auth.user);
 
     //Grabing the connections to display positions on the map 
@@ -36,8 +34,6 @@ const MapGroup = () => {
             fetchConnections();
         }
     }, [user]);
-
-    console.log(connections)
 
     // Load the map in + general map configuration
     useEffect(() => {
