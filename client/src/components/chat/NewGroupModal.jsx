@@ -21,6 +21,7 @@ import { HiddenInput } from "../ui/hidden-input"
 import { Badge } from "../ui/badge"
 import { X } from "lucide-react"
 import { setAllChats, setCurrentChat } from "../../store/chatReducer.js"
+import { Toaster } from "../ui/toaster"
 
 export function NewGroupModal({ children }) {
 
@@ -30,11 +31,9 @@ export function NewGroupModal({ children }) {
     const [chatName, setChatName] = useState("")
     const [selectedUsers, setSelectedUsers] = useState([])
     const [searchResult, setSearchResult] = useState([])
-
+    const [open, setOpen] = useState(false);
 
     const { toast } = useToast()
-
-    // TODO: clear search after close
 
     const handleSearch = async (query) => {
         try {
@@ -58,6 +57,7 @@ export function NewGroupModal({ children }) {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
+
             const selectedUserIds = selectedUsers.map(user => user._id)
             const res = await fetch(`http://localhost:3001/chats/group`, {
                 method: "POST",
@@ -70,11 +70,24 @@ export function NewGroupModal({ children }) {
                     memberIds: JSON.stringify(selectedUserIds)
                 })
             })
-            const data = await res.json()
-            dispatch(setAllChats(data))
-            dispatch(setCurrentChat(data))
-        } catch (error) {
-            console.log(error)
+            const json = await res.json()
+            if (res.ok) {
+                dispatch(setAllChats(json))
+                dispatch(setCurrentChat(json))
+                handleClose()
+            }
+            else {
+                toast({
+                    variant: "destructive",
+                    title: json.error,
+                })
+            }
+        }
+        catch (error) {
+            toast({
+                variant: "destructive",
+                title: error,
+            })
         }
     }
 
@@ -94,16 +107,22 @@ export function NewGroupModal({ children }) {
         setChatName("")
         setSelectedUsers([])
         setSearchResult([])
+        setOpen(false)
     }
 
     return (
-        <form onClick={handleSubmit}>
-            <Dialog>
+        <form onSubmit={handleSubmit}>
+            <Dialog
+                open={open}
+                onOpenChange={setOpen}
+            >
                 <DialogTrigger asChild>
                     {children}
                 </DialogTrigger>
 
-                <DialogContent className="sm:max-w-[425px]">
+                <DialogContent
+                    className="sm:max-w-[425px]"
+                    handleClose={handleClose}>
                     <DialogHeader className="items-center">
                         <DialogTitle>Create new group chat</DialogTitle>
                     </DialogHeader>
@@ -156,19 +175,15 @@ export function NewGroupModal({ children }) {
                             </div>
                         </ScrollArea>
                     </div>
-                    <div className="flex justify-between flex-row">
-                        <Button
-                            className="bg-gray-300 text-black hover:bg-gray-200 "
-                            onClick={handleClose}
-                        >
-                            Cancel
-                        </Button>
-                        <Button type="submit" className="bg-[#FFB302]">
+                    <DialogFooter>
+                        < Button className="bg-[#FFB302]"
+                            onClick={handleSubmit}>
                             Save
                         </Button>
-                    </div>
+                    </DialogFooter>
                 </DialogContent>
+                <Toaster />
             </Dialog >
-        </form>
+        </form >
     )
 }

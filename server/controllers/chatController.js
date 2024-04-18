@@ -144,13 +144,14 @@ export const createGroupChat = async (req, res) => {
   try {
     const { chatName, memberIds } = req.body;
     if (!chatName || !memberIds) {
-      throw Error("All fields must be filled");
+      return res.status(404).json({ error: "All fields must be filled" });
     }
     let parsedMembers = JSON.parse(memberIds);
     if (parsedMembers.length < 1) {
-      throw Error(
-        "A group chat must contain at least 2 people (including yourself)"
-      );
+      return res.status(404).json({
+        error:
+          "A group chat must contain at least 2 people (including yourself)",
+      });
     }
     // Add ourself as a member of this group
     parsedMembers.push(req.user._id);
@@ -160,28 +161,20 @@ export const createGroupChat = async (req, res) => {
     parsedMembers = Array.from(uniqueMembersSet);
 
     // Create a new GroupModel instance
-    try {
-      const newChat = await ChatModel.create({
-        chatName,
-        isGroupChat: true,
-        admin: req.user._id,
-        members: parsedMembers,
-      });
-      // const chat = await ChatModel.findById(newChat._id)
-      //   .populate("members")
-      //   .populate("admin");
-      // res.status(201).json(chat);
+    const newChat = await ChatModel.create({
+      chatName,
+      isGroupChat: true,
+      admin: req.user._id,
+      members: parsedMembers,
+    });
 
-      const chats = await ChatModel.find({
-        members: { $in: [req.user._id] },
-      })
-        .populate("members") // add the whole data of each member (instead of just their id)
-        .populate("admin")
-        .sort({ updatedAt: -1 });
-      res.status(201).json(chats);
-    } catch (error) {
-      res.status(404).json({ error: error.message });
-    }
+    const chats = await ChatModel.find({
+      members: { $in: [req.user._id] },
+    })
+      .populate("members") // add the whole data of each member (instead of just their id)
+      .populate("admin")
+      .sort({ updatedAt: -1 });
+    res.status(201).json(chats);
   } catch (err) {
     res.status(404).json({ error: err.message });
   }
