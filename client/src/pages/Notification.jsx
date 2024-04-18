@@ -3,7 +3,7 @@ import Navbar from "../components/navbar/Navbar.jsx";
 
 const Notification = () => {
     return (
-        <div className="">
+        <div>
             <Navbar />
             <div className="pt-[60px]">This is the notification</div>
         </div>

@@ -1,17 +1,18 @@
-import Home from "./pages/Home.jsx";
-import Login from "./pages/Login.jsx";
-import SignUp from "./pages/SignUp.jsx";
-import Notification from "./pages/Notification.jsx";
-import Connection from "./pages/Connection.jsx";
-import Profile from "./pages/Profile.jsx";
-import Groups from "./pages/Groups.jsx";
-import Map from "./pages/Map.jsx";
+import Home from './pages/Home.jsx'
+import Login from './pages/Login.jsx'
+import SignUp from './pages/SignUp.jsx'
+import Notification from './pages/Notification.jsx'
+import Connection from './pages/Connection.jsx'
+import Profile from './pages/Profile.jsx'
+import Groups from './pages/Groups.jsx'
+import Map from './pages/Map.jsx'
 
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import ProtectedRoute from "./utils/ProtectedRoute.js";
-import Settings from "./pages/Settings.jsx";
-import GroupProfile from "./pages/GroupProfile.jsx";
-import Chat from "./pages/Chat.jsx";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import ProtectedRoute from './utils/ProtectedRoute.js'
+import Settings from './pages/Settings.jsx'
+import GroupProfile from './pages/GroupProfile.jsx'
+import Chat from './pages/Chat.jsx'
+import Diary from './pages/Diary.jsx'
 
 // TODO: responsive to screen size
 
@@ -110,10 +111,18 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/diary"
+            element={
+              <ProtectedRoute>
+                <Diary />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Router>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

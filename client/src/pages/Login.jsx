@@ -5,6 +5,7 @@ import { eyeOff } from "react-icons-kit/feather/eyeOff";
 import { eye } from "react-icons-kit/feather/eye";
 import { useLogin } from "../hooks/useLogin";
 
+// TODO: keep log in for a longer time
 const Login = () => {
     // Show/hide Password
     const [showPassword, setShowPassword] = useState(false);
