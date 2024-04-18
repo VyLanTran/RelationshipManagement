@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import React, { useEffect, useState } from "react";
 import { Loader } from "@googlemaps/js-api-loader";
@@ -39,51 +39,86 @@ const MapGroup = () => {
 
     console.log(connections)
 
-    // Load the map in + general map configuration
-    useEffect(() => {
+  const [connections, setConnections] = useState([])
 
-        const initMap = async () => {
-            const loader = new Loader({
-                apiKey: 'AIzaSyBUIvdKMKt7Hav5Ly79qwuTEZszxLw1X1I',
-                version: "weekly",
-            })
+  const user = useSelector((state) => state.auth.user)
 
-            const { Map } = await loader.importLibrary('maps');
+  //Grabing the connections to display positions on the map
+  useEffect(() => {
+    const fetchConnections = async () => {
+      try {
+        const response = await axios.get('http://localhost:3001/connections', {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        })
+        setConnections(response.data.connections)
+      } catch (err) {
+        console.error(err)
+      }
+    }
 
-            const { AdvancedMarkerElement } = await loader.importLibrary('marker');
-              
-            const position = { lat: 53.54, lng: 10 };
+    if (user) {
+      fetchConnections()
+    }
+  }, [connections, user])
 
-            // map options
-            const mapOptions = {
-                center: position,
-                zoom: 3,
-                mapId: "416e6fbb21cbb74a"
-            }
+  // Load the map in + general map configuration
+  useEffect(() => {
+    const initMap = async () => {
+      const loader = new Loader({
+        apiKey: 'AIzaSyBUIvdKMKt7Hav5Ly79qwuTEZszxLw1X1I',
+        version: 'weekly',
+      })
 
-            // setup map
-            const map = new Map(mapRef.current, mapOptions);
+          const { Map } = await loader.importLibrary('maps');
 
-            console.log(connections)
+          const { AdvancedMarkerElement } = await loader.importLibrary('marker');
 
-            connections.slice().map(async (connection) => {
-                if (connection["location"]) {
-                    try {
-                        // Perform geocoding to get latitude and longitude
-                        const results = await getGeocode({ 'address': connection.location });
-                        const { lat, lng } = await getLatLng(results[0]);
-                        new AdvancedMarkerElement({
-                            map,
-                            position: { lat, lng }
-                        })
-                    } catch (error) {
-                        console.error(error)
-                    }                        
-                } else {
-                    console.log("No location")
-                }
-            })
+          const position = { lat: 53.54, lng: 10 };
+
+          // map options
+          const mapOptions = {
+              center: position,
+              zoom: 3,
+              mapId: "416e6fbb21cbb74a"
+          }
+
+          // setup map
+          const map = new Map(mapRef.current, mapOptions);
+
+          console.log(connections)
+
+          connections.slice().map(async (connection) => {
+              if (connection["location"]) {
+                  try {
+                      // Perform geocoding to get latitude and longitude
+                      const results = await getGeocode({ 'address': connection.location });
+                      const { lat, lng } = await getLatLng(results[0]);
+                      new AdvancedMarkerElement({
+                          map,
+                          position: { lat, lng }
+                      })
+                  } catch (error) {
+                      console.error(error)
+                  }                        
+              } else {
+                  console.log("No location")
+              }
+          })
+          const { lat, lng } = getLatLng(results[0])
+          let marker = new AdvancedMarkerElement({
+            map,
+            position: { lat, lng },
+          })
+        } catch (error) {
+          console.error(error)
         }
+      } else {
+        console.log('No location')
+      }
+    })
+  }
 
         initMap();
     }, [connections]);
@@ -98,7 +133,9 @@ const MapGroup = () => {
             </div>
         </div>
         </div>
-    );
-};
+      </div>
+    </div>
+  )
+}
 
-export default MapGroup;
+export default MapGroup

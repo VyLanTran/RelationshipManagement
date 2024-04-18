@@ -51,7 +51,7 @@ const ChatList = () => {
         }
 
         handleSearch()
-    }, [search])
+    }, [searchResult, chats])
 
 
     return (
@@ -76,7 +76,6 @@ const ChatList = () => {
                 </TooltipProvider>
 
             </div>
-            {/* Search bar */}
             <div className="w-full pb-6 relative flex items-center ">
                 <Input
                     className="h-[50px] pr-10"
@@ -93,7 +92,6 @@ const ChatList = () => {
                     </button>
                 )}
             </div>
-            {/* List of chats */}
             <div className="w-full flex flex-col">
                 {
                     searchResult.length > 0 ?
@@ -114,8 +112,6 @@ const ChatList = () => {
                         </span>
                 }
             </div>
-
-
         </div>
     );
 }
