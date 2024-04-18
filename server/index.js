@@ -9,6 +9,7 @@ import userRoutes from './routes/userRoutes.js'
 import groupRoutes from './routes/groupRoutes.js'
 import connectionRoutes from './routes/connectionRoutes.js'
 import chatRoutes from './routes/chatRoutes.js'
+import messageRoutes from './routes/messageRoutes.js'
 import diaryRoutes from './routes/diaryRoutes.js'
 
 dotenv.config()
@@ -24,6 +25,7 @@ app.use('/users', userRoutes)
 app.use('/groups', groupRoutes)
 app.use('/connections', connectionRoutes)
 app.use('/chats', chatRoutes)
+app.use('/messages', messageRoutes)
 app.use('/diary', diaryRoutes)
 
 const PORT = process.env.PORT || 8080

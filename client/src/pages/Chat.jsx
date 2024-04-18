@@ -4,6 +4,7 @@ import SearchLoading from '../components/chat/SearchLoading.jsx'
 import Navbar from '../components/navbar/Navbar.jsx'
 import { useDispatch, useSelector } from 'react-redux'
 import { setAllChats } from '../store/chatReducer.js'
+import CurrentChat from '../components/chat/CurrentChat.jsx'
 
 const Chat = () => {
   const dispatch = useDispatch()
@@ -35,12 +36,12 @@ const Chat = () => {
   return (
     <div>
       <Navbar />
-      <div className="flex flex-row w-screen pt-[60px] ">
-        <div className="w-[30%] bg-white border-r p-4">
+      <div className="flex flex-row w-full pt-[60px] h-screen">
+        <div className="w-[30%] bg-white border-r p-4 overflow-y-auto">
           <ChatList />
         </div>
-        <div className="w-[70%] border-l bg-white">
-          {/* <SearchLoading /> */}
+        <div className="w-[70%]  bg-white border-l overflow-y-auto">
+          <CurrentChat />
         </div>
       </div>
     </div>
