@@ -32,7 +32,7 @@ const Navbar = () => {
             </div>
             <div className="flex flex-row gap-4 items-center">
                 {/* TODO: use tooltips for these buttons */}
-                <NavbarButton icon={<RiBookletFill size={18} />} name="My space" url="/home" />
+                <NavbarButton icon={<RiBookletFill size={18} />} name="My space" url="/diary" />
                 <NavbarButton icon={<FaBell size={18} />} name="Notifications" url="/notification" />
                 <NavbarButton icon={<FaGear size={18} />} name="Settings" url="/setting" />
                 <NavbarButton icon={<FaMap size={18} />} name="Map" url="/map" />
