@@ -7,6 +7,7 @@ import Navbar from "../components/navbar/Navbar.jsx";
 import usePlaceAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { createDropdownMenuScope } from "@radix-ui/react-dropdown-menu";
 
 const MapGroup = () => {
     const mapRef = React.useRef(null);
@@ -31,11 +32,12 @@ const MapGroup = () => {
                 console.error(err)
             }
         };
-
         if (user) {
             fetchConnections();
         }
-    }, [connections, user]);
+    }, [user]);
+
+    console.log(connections)
 
     // Load the map in + general map configuration
     useEffect(() => {
@@ -62,13 +64,15 @@ const MapGroup = () => {
             // setup map
             const map = new Map(mapRef.current, mapOptions);
 
-            connections.slice().map(async (connection, id) => {
-                console.log(connection["location"])
+            console.log(connections)
+
+            connections.slice().map(async (connection) => {
                 if (connection["location"]) {
                     try {
-                        const results = await getGeocode({ "address": connection["location"] });
-                        const { lat, lng } = getLatLng(results[0]);
-                        let marker = new AdvancedMarkerElement({
+                        // Perform geocoding to get latitude and longitude
+                        const results = await getGeocode({ 'address': connection.location });
+                        const { lat, lng } = await getLatLng(results[0]);
+                        new AdvancedMarkerElement({
                             map,
                             position: { lat, lng }
                         })
@@ -82,8 +86,8 @@ const MapGroup = () => {
         }
 
         initMap();
-    }, []);
-    
+    }, [connections]);
+
     return (
         <div>
             <Navbar />

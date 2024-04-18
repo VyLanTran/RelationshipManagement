@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { Loader } from "@googlemaps/js-api-loader";
+import usePlaceAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete";
 
 const AddConnectionForm = ({ isOpen, onClose, userId }) => {
 	const [formData, setFormData] = useState({
@@ -8,6 +10,8 @@ const AddConnectionForm = ({ isOpen, onClose, userId }) => {
 		email: "",
 		username: "",
 		birthday: "",
+		school: "",
+		location: "",
 		avatar: "",
 		fun_facts: [],
 		others: [],
@@ -36,7 +40,6 @@ const AddConnectionForm = ({ isOpen, onClose, userId }) => {
 				},
 				body: JSON.stringify(formData),
 			});
-			console.log(formData);
 			if (!res.ok) {
 				throw new Error("Network response was not ok");
 			}
@@ -44,6 +47,7 @@ const AddConnectionForm = ({ isOpen, onClose, userId }) => {
 		} catch (error) {
 			console.error("Error:", error);
 		}
+		console.log(formData);
 	};
 	return (
 		<div
@@ -83,6 +87,22 @@ const AddConnectionForm = ({ isOpen, onClose, userId }) => {
 							className="bg-gray-50 border border-gray-300 text-sm rounded-sm  w-[400px] p-2.5 focus:outline-none"
 							placeholder="Birthday"
 							value={formData.birthday}
+							onChange={handleChange}
+						/>
+						<input
+							type="text"
+							name="school"
+							className="bg-gray-50 border border-gray-300 text-sm rounded-sm  w-[400px] p-2.5 focus:outline-none"
+							placeholder="school"
+							value={formData.school}
+							onChange={handleChange}
+						/>
+						<input
+							type="text"
+							name="location"
+							className="bg-gray-50 border border-gray-300 text-sm rounded-sm  w-[400px] p-2.5 focus:outline-none"
+							placeholder="location"
+							value={formData.location}
 							onChange={handleChange}
 						/>
 						<input
