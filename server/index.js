@@ -11,6 +11,7 @@ import connectionRoutes from './routes/connectionRoutes.js'
 import chatRoutes from './routes/chatRoutes.js'
 import messageRoutes from './routes/messageRoutes.js'
 import diaryRoutes from './routes/diaryRoutes.js'
+import postRoutes from './routes/postRoutes.js'
 
 dotenv.config()
 const app = express()
@@ -27,6 +28,7 @@ app.use('/connections', connectionRoutes)
 app.use('/chats', chatRoutes)
 app.use('/messages', messageRoutes)
 app.use('/diary', diaryRoutes)
+app.use('/posts', postRoutes)
 
 const PORT = process.env.PORT || 8080
 mongoose
