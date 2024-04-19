@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import bodyParser from 'body-parser'
+import { Server } from 'socket.io'
 
 import authRoutes from './routes/authRoutes.js'
 import userRoutes from './routes/userRoutes.js'
@@ -29,9 +30,77 @@ app.use('/messages', messageRoutes)
 app.use('/diary', diaryRoutes)
 
 const PORT = process.env.PORT || 8080
-mongoose
-  .connect(process.env.MONGO_URL)
-  .then(() => {
-    app.listen(PORT, () => console.log(`Successfully connect to port ${PORT}`))
-  })
-  .catch((err) => console.log(`${err}`))
+
+const connectDB = async () => {
+    try {
+        await mongoose.connect(process.env.MONGO_URL)
+        console.log(`MongoDB Connected`)
+    } catch (error) {
+        console.error(`Error: ${error.message}`)
+        process.exit(1) // Exit with a non-zero status code to indicate an error
+    }
+}
+
+// mongoose.connect(process.env.MONGO_URL)
+// .then(() => {
+//   app.listen(PORT, () => console.log(`Successfully connect to port ${PORT}`))
+// })
+// .catch((err) => console.log(`${err}`))
+
+connectDB()
+
+const server = app.listen(
+    PORT,
+    console.log(`Successfully connect to port ${PORT}`)
+)
+
+const io = new Server(server, {
+    pingTimeout: 60000, // waiting time before close off
+    cors: {
+        origin: 'http://localhost:3000',
+    },
+})
+
+io.on('connection', (socket) => {
+    console.log('Successfully connect to socket.io')
+
+    // Create a room for this user (ourself) with user information from the frontend
+    // the name of this socket is 'setup'
+    socket.on('setup', (userData) => {
+        socket.join(userData._id)
+        // console.log(userData._id)
+        socket.emit('connected')
+    })
+
+    // Create a chat room
+    // The id of each room will be the id of the Chat object
+    socket.on('join chat', (room) => {
+        socket.join(room)
+        console.log(`Successfully joined room ${room}`)
+    })
+
+    socket.on('typing', (room) => socket.in(room).emit('typing'))
+    socket.on('stop typing', (room) => socket.in(room).emit('stop typing'))
+
+    socket.on('new message', (messageReceived) => {
+        // Get the chat to which this messag belongs
+        var chat = messageReceived.chat
+
+        if (!chat) return console.log('Chat undefined')
+        if (!chat.members) return console.log('chat.members not defined')
+
+        // console.log(chat.members)
+        chat.members.forEach((member) => {
+            // If the message is sent by us, we should not received (a notification) about it
+            if (member._id == messageReceived.sender._id) return
+
+            // every other users in the room will emit the information 'I received this message'
+            socket.in(member._id).emit('message received', messageReceived)
+        })
+    })
+
+    socket.off('setup', () => {
+        console.log('USER DISCONNECTED')
+        socket.leave(userData._id)
+    })
+})

@@ -4,20 +4,43 @@ import { Textarea } from '../ui/textarea'
 import { ToastAction } from '../ui/toast'
 import { useToast } from '../ui/use-toast'
 import { Toaster } from '../ui/toaster'
+import Lottie from 'react-lottie'
+import animationData from '../../animations/typing.json'
+
+import MessageItem from './MessageItem'
 
 import { useEffect, useState } from 'react'
-import MessageItem from './MessageItem'
+import io from 'socket.io-client'
+import { Card } from '../ui/card'
+
+const ENDPOINT = 'http://localhost:3001'
+var socket, currentChatCompare
 
 const CurrentChat = () => {
     const currentChat = useSelector((state) => state.chat.currentChat)
     const token = useSelector((state) => state.auth.token)
+    const currentUser = useSelector((state) => state.auth.user)
 
     const [input, setInput] = useState('')
     const [messages, setMessages] = useState([])
     const [isLoading, setIsLoading] = useState(false)
+    const [socketConnected, setSocketConnected] = useState(false)
+    const [typing, setTyping] = useState(false)
+    const [isTyping, setIsTyping] = useState(false)
 
     const { toast } = useToast()
 
+    // set up
+    useEffect(() => {
+        socket = io(ENDPOINT)
+        // emit user information to the socket named 'setup' in backend
+        socket.emit('setup', currentUser)
+        socket.on('connected', () => setSocketConnected(true))
+        socket.on('typing', () => setIsTyping(true))
+        socket.on('stop typing', () => setIsTyping(false))
+    }, [])
+
+    // join chat room
     useEffect(() => {
         const getAllMessages = async () => {
             if (!currentChat) return
@@ -35,7 +58,6 @@ const CurrentChat = () => {
 
             if (res.ok) {
                 setMessages(json)
-                // console.log(messages[0])
             } else {
                 toast({
                     variant: 'destructive',
@@ -43,15 +65,38 @@ const CurrentChat = () => {
                 })
             }
             setIsLoading(false)
+            socket.emit('join chat', currentChat._id)
         }
 
         if (token) {
             getAllMessages()
+
+            // currentChatCompare is used to decide if we have to emit a messag (sender)
+            //  or receive a notification (receiver)
+            currentChatCompare = currentChat
         }
     }, [currentChat])
 
+    // received message
+    useEffect(() => {
+        socket.on('message received', (messageReceived) => {
+            // We will only see the new message if that message belongs to the current chat room
+            // Else, it should just go into the notification
+            if (
+                !currentChatCompare ||
+                currentChatCompare._id !== messageReceived.chat._id
+            ) {
+            } else {
+                setMessages([...messages, messageReceived])
+            }
+        })
+    })
+
+    // new message
     const sendMessage = async (e) => {
         try {
+            socket.emit('stop typing', currentChat._id)
+
             if (!input.trim()) {
                 return
             }
@@ -71,6 +116,7 @@ const CurrentChat = () => {
             )
             const json = await res.json()
             if (res.ok) {
+                socket.emit('new message', json)
                 setMessages([...messages, json])
                 setInput('')
             } else {
@@ -87,6 +133,37 @@ const CurrentChat = () => {
                 // title: 'not ok 2',
             })
         }
+    }
+
+    const handleOnChange = (e) => {
+        setInput(e.target.value)
+
+        if (!socketConnected) return
+        if (!typing) {
+            setTyping(true)
+            socket.emit('typing', currentChat._id)
+        }
+        let lastTypingTime = new Date().getTime()
+        // If user stops typing for more than 3 seconds, then typing becomes false
+        var timerLength = 3000
+        setTimeout(() => {
+            var timeNow = new Date().getTime()
+            var timeDiff = timeNow - lastTypingTime
+            if (timeDiff >= timerLength && typing) {
+                // Emit the 'stop typing' event
+                socket.emit('stop typing', currentChat._id)
+                setTyping(false)
+            }
+        }, timerLength)
+    }
+
+    const defaultOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: animationData,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice',
+        },
     }
 
     return (
@@ -114,6 +191,18 @@ const CurrentChat = () => {
                                 ))}
                             </div>
                         )}
+
+                        {isTyping && (
+                            <Card
+                                className={`w-[60px] inline-block rounded-3xl shadow-none ml-12
+                `}
+                            >
+                                <Lottie
+                                    options={defaultOptions}
+                                    className="w-full"
+                                />
+                            </Card>
+                        )}
                     </div>
 
                     <div className="h-[60px] w-[70%] flex items-center fixed bottom-0 bg-white z-10 p-4">
@@ -121,7 +210,7 @@ const CurrentChat = () => {
                             placeholder="Type a message..."
                             className="h-[40px] focus:outline-none bg-gray-100"
                             value={input}
-                            onChange={(e) => setInput(e.target.value)}
+                            onChange={handleOnChange}
                             onKeyDown={(e) => {
                                 // Send message when hit enter
                                 // Hit Shift + Enter to go to a new line
