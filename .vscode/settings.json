@@ -1,0 +1,8 @@
+{
+    "editor.rename.enablePreview": true,
+    "workbench.editor.enablePreviewFromQuickOpen": true,
+    "editor.tabFocusMode": false,
+    "workbench.editor.doubleClickTabToToggleEditorGroupSizes": "off",
+    "workbench.editor.showTabs": "multiple",
+    "workbench.editor.tabActionCloseVisibility": true
+}
