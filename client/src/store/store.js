@@ -5,10 +5,12 @@ import storage from "redux-persist/lib/storage/session";
 
 import authReducer from "./authReducer.js";
 import chatReducer from "./chatReducer.js";
+import diaryReducer from "./diaryReducer.js";
 
 const rootReducer = combineReducers({
   auth: authReducer,
   chat: chatReducer,
+  diary: diaryReducer,
 });
 
 const persistConfig = {

@@ -2,8 +2,10 @@ import Diary from "../models/DiaryModel.js";
 
 export const addDiary = async (req, res) => {
     try {
+        const { user: userId } = req.params;
         const savedDiary = await Diary.create(req.body);
-        res.status(201).json({savedDiary});
+        const diaries = await Diary.find({ admin: userId });
+        res.status(201).json(diaries);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
@@ -13,6 +15,15 @@ export const showAll = async (req, res) => {
     try {
         const { user: userId } = req.params;
         const diaries = await Diary.find({ admin: userId });
+        res.status(200).json(diaries);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+export const showAllDiary = async (req, res) => {
+    try {
+        const diaries = await Diary.find({});
         res.status(200).json(diaries);
     } catch (err) {
         res.status(500).json({ error: err.message });
