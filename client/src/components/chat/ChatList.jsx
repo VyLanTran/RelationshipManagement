@@ -16,6 +16,7 @@ import {
     TooltipTrigger,
 } from '../ui/tooltip'
 import { ScrollArea } from '../ui/scroll-area'
+import BASE_URL from '@/../../constants.js'
 
 const ChatList = () => {
     const token = useSelector((state) => state.auth.token)
@@ -35,7 +36,7 @@ const ChatList = () => {
         const handleSearch = async () => {
             try {
                 const res = await fetch(
-                    `http://localhost:3001/chats/search/?search=${search}`,
+                    `${BASE_URL}/chats/search/?search=${search}`,
                     {
                         method: 'GET',
                         headers: { Authorization: `Bearer ${token}` },

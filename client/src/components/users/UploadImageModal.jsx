@@ -1,39 +1,47 @@
-import { useRef, useState } from "react"
+import { useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { updateUser } from "../../store/authReducer"
+import { updateUser } from '../../store/authReducer'
+import BASE_URL from '@/../../constants.js'
 
 // TODO : make responsive to screen size
-const UploadImageModal = ({ user, userId, isOpen, onClose, isProfilePicture }) => {
-
+const UploadImageModal = ({
+    user,
+    userId,
+    isOpen,
+    onClose,
+    isProfilePicture,
+}) => {
     const token = useSelector((state) => state.auth.token)
     const dispatch = useDispatch()
-    const [image, setImage] = useState("")
+    const [image, setImage] = useState('')
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
             const res = await fetch(
-                (isProfilePicture ? `http://localhost:3001/users/profilePicture` : `http://localhost:3001/users/coverPhoto`),
+                isProfilePicture
+                    ? `${BASE_URL}/users/profilePicture`
+                    : `${BASE_URL}/users/coverPhoto`,
                 {
                     method: 'PATCH',
                     headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
                         profilePicture: image,
-                        coverPhoto: image
-                    })
-                })
+                        coverPhoto: image,
+                    }),
+                }
+            )
             const json = await res.json()
 
             if (!res.ok) {
                 throw new Error(json.error)
-            }
-            else {
+            } else {
                 dispatch(
                     updateUser({
-                        user: json
+                        user: json,
                     })
                 )
                 handleClose()
@@ -44,10 +52,9 @@ const UploadImageModal = ({ user, userId, isOpen, onClose, isProfilePicture }) =
     }
 
     const handleClose = () => {
-        setImage("")
+        setImage('')
         onClose()
     }
-
 
     const uploadImage = (e) => {
         const file = e.target.files[0]
@@ -66,19 +73,21 @@ const UploadImageModal = ({ user, userId, isOpen, onClose, isProfilePicture }) =
             reader.onloadend = () => {
                 setImage(reader.result)
             }
-        }
-        else {
-            setImage("")
+        } else {
+            setImage('')
         }
     }
 
     // TODO: close modal when clicking outside of its area
     return (
-        <div className={`fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center pt-[60px] ${isOpen ? "" : "hidden"}`}>
-            <div
-                className="bg-white p-8 rounded-lg shadow-xl relative py-[20px]">
+        <div
+            className={`fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center pt-[60px] ${isOpen ? '' : 'hidden'}`}
+        >
+            <div className="bg-white p-8 rounded-lg shadow-xl relative py-[20px]">
                 <span className="text-md">
-                    {isProfilePicture ? "Choose profile picture" : "Choose cover photo"}
+                    {isProfilePicture
+                        ? 'Choose profile picture'
+                        : 'Choose cover photo'}
                 </span>
                 <div
                     className="absolute top-[2%] right-[2%] cursor-pointer bg-gray-200 hover:bg-gray-300 rounded-full w-[34px] h-[34px] flex items-center justify-center text-gray-700"
@@ -94,7 +103,7 @@ const UploadImageModal = ({ user, userId, isOpen, onClose, isProfilePicture }) =
                             accept="image/"
                             onChange={uploadImage}
                             placeholder=""
-                        // required
+                            // required
                         />
                         {/* Display the selected image */}
                         <ImagePreview>
@@ -102,41 +111,38 @@ const UploadImageModal = ({ user, userId, isOpen, onClose, isProfilePicture }) =
                                 <div>
                                     <img src={image} alt="Selected image" />
                                 </div>
-                            ) :
-                                (
-                                    <span>Image Preview</span>
-                                )}
+                            ) : (
+                                <span>Image Preview</span>
+                            )}
                         </ImagePreview>
                     </div>
                     <div className="flex justify-end mt-6">
                         <button
                             type="button"
                             onClick={handleClose}
-                            className="mr-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">
+                            className="mr-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300"
+                        >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            className="px-4 py-2 text-sm font-medium bg-[#FFB302] rounded-md hover:bg-[#ffc744]">
+                            className="px-4 py-2 text-sm font-medium bg-[#FFB302] rounded-md hover:bg-[#ffc744]"
+                        >
                             Save
                         </button>
                     </div>
                 </form>
             </div>
         </div>
-    );
+    )
 }
 
-export default UploadImageModal;
+export default UploadImageModal
 
 const ImagePreview = ({ children }) => {
     return (
-        <div
-            className="mx-[2rem] p-[2rem] border border-solid border-[#b7b7b7] w-[400px] h-[400px] max-w-[400px] flex items-center justify-center">
-            <div className="w-full">
-                {children}
-            </div>
+        <div className="mx-[2rem] p-[2rem] border border-solid border-[#b7b7b7] w-[400px] h-[400px] max-w-[400px] flex items-center justify-center">
+            <div className="w-full">{children}</div>
         </div>
-
     )
 }

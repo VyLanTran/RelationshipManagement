@@ -6,6 +6,7 @@ import ConnectionCard from '../components/groups/ConnectionCard.jsx'
 import AddConnectionForm from '../components/connection/AddConnectionForm.jsx'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
+import BASE_URL from '@/../../constants.js'
 
 const Connection = () => {
     const [connections, setConnections] = useState([])
@@ -19,7 +20,7 @@ const Connection = () => {
     useEffect(() => {
         // get the current user
         const getUser = async () => {
-            const res = await fetch(`http://localhost:3001/users/${userId}`, {
+            const res = await fetch(`${BASE_URL}/users/${userId}`, {
                 method: 'GET',
                 headers: { Authorization: `Bearer ${token}` },
             })
@@ -31,7 +32,7 @@ const Connection = () => {
         // fetch the user's connection
         const fetchConnections = async () => {
             const res = await fetch(
-                `http://localhost:3001/connections/${currentUser._id}`,
+                `${BASE_URL}/connections/${currentUser._id}`,
                 {
                     method: 'GET',
                     headers: {

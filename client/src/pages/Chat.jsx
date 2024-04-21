@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setAllChats } from '../store/chatReducer.js'
 import CurrentChat from '../components/chat/CurrentChat.jsx'
 
+import BASE_URL from '@/../../constants.js'
+
 const Chat = () => {
     const dispatch = useDispatch()
 
@@ -14,7 +16,7 @@ const Chat = () => {
 
     useEffect(() => {
         const getAllMyChats = async () => {
-            const res = await fetch(`http://localhost:3001/chats/`, {
+            const res = await fetch(`${BASE_URL}/`, {
                 method: 'GET',
                 headers: { Authorization: `Bearer ${token}` },
             })

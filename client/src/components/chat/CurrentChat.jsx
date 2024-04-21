@@ -12,8 +12,9 @@ import MessageItem from './MessageItem'
 import { useEffect, useState } from 'react'
 import io from 'socket.io-client'
 import { Card } from '../ui/card'
+import BASE_URL from '@/../../constants.js'
 
-const ENDPOINT = 'http://localhost:3001'
+const ENDPOINT = `${BASE_URL}`
 var socket, currentChatCompare
 
 const CurrentChat = () => {
@@ -46,13 +47,10 @@ const CurrentChat = () => {
             if (!currentChat) return
 
             setIsLoading(true)
-            const res = await fetch(
-                `http://localhost:3001/messages/${currentChat._id}`,
-                {
-                    method: 'GET',
-                    headers: { Authorization: `Bearer ${token}` },
-                }
-            )
+            const res = await fetch(`${BASE_URL}/messages/${currentChat._id}`, {
+                method: 'GET',
+                headers: { Authorization: `Bearer ${token}` },
+            })
 
             const json = await res.json()
 
@@ -101,19 +99,16 @@ const CurrentChat = () => {
                 return
             }
 
-            const res = await fetch(
-                `http://localhost:3001/messages/${currentChat._id}`,
-                {
-                    method: 'POST',
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        content: input,
-                    }),
-                }
-            )
+            const res = await fetch(`${BASE_URL}/messages/${currentChat._id}`, {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    content: input,
+                }),
+            })
             const json = await res.json()
             if (res.ok) {
                 socket.emit('new message', json)

@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux'
 import { IoIosCamera } from 'react-icons/io'
 import UploadImageModal from '../components/users/UploadImageModal.jsx'
 import FriendList from '../components/users/FriendList.jsx'
+import BASE_URL from '@/../../constants.js'
 
 const Profile = () => {
     // this user is myself, who is authenticated to use this app
@@ -25,7 +26,7 @@ const Profile = () => {
     // fetch the data of this profile from the database once when we load this page
     useEffect(() => {
         const getUser = async () => {
-            const res = await fetch(`http://localhost:3001/users/${userId}`, {
+            const res = await fetch(`${BASE_URL}/users/${userId}`, {
                 method: 'GET',
                 headers: { Authorization: `Bearer ${token}` },
             })
@@ -38,7 +39,7 @@ const Profile = () => {
 
         const getFriends = async () => {
             const res = await fetch(
-                `http://localhost:3001/users/${currentUser._id}/friends`,
+                `${BASE_URL}/users/${currentUser._id}/friends`,
                 {
                     method: 'GET',
                     headers: { Authorization: `Bearer ${token}` },
