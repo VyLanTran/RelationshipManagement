@@ -17,35 +17,35 @@ import Diary from './pages/Diary.jsx'
 // TODO: responsive to screen size
 
 function App() {
-  return (
-    <div className="app">
-      <Router>
-        <Routes>
-          <Route
-            path="/login"
-            element={
-              <ProtectedRoute isAuthPage={true}>
-                <Login />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/signup"
-            element={
-              <ProtectedRoute isAuthPage={true}>
-                <SignUp />
-              </ProtectedRoute>
-            }
-          />
+	return (
+		<div className="app">
+			<Router>
+				<Routes>
+					<Route
+						path="/login"
+						element={
+							<ProtectedRoute isAuthPage={true}>
+								<Login />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/signup"
+						element={
+							<ProtectedRoute isAuthPage={true}>
+								<SignUp />
+							</ProtectedRoute>
+						}
+					/>
 
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            }
-          />
+					<Route
+						path="/"
+						element={
+							<ProtectedRoute>
+								<Home />
+							</ProtectedRoute>
+						}
+					/>
 
           <Route
             path="/settings"
@@ -56,7 +56,7 @@ function App() {
             }
           />
           <Route
-            path="/connection"
+            path="/connection/:userId"
             element={
               <ProtectedRoute>
                 <Connection />

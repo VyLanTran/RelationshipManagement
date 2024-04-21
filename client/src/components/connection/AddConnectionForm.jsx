@@ -53,6 +53,21 @@ const AddConnectionForm = ({ isOpen, onClose, userId }) => {
 				},
 				body: JSON.stringify(formData),
 			});
+			const data = await res.json();
+			const connectionId = data.connection._id;
+
+			// update a user's connectionIds list
+			const updateUser = await fetch(`http://localhost:3001/users/`, {
+				method: "PATCH",
+				headers: {
+					Authorization: `Bearer ${token}`,
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					$push: { connectionIds: connectionId },
+				}),
+			});
+
 			if (!res.ok) {
 				throw new Error("Network response was not ok");
 			}
