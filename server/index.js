@@ -13,9 +13,23 @@ import chatRoutes from './routes/chatRoutes.js'
 import messageRoutes from './routes/messageRoutes.js'
 import diaryRoutes from './routes/diaryRoutes.js'
 import postRoutes from './routes/postRoutes.js'
+import cookieSession from 'cookie-session'
+import passport from 'passport'
 
 dotenv.config()
 const app = express()
+
+// cookie-session simplifies session management by storing session data directly in encrypted cookie
+app.use(
+    cookieSession({
+        name: 'session',
+        keys: ['group4'], //  An array of secret keys used for encrypting and decrypting the session data stored in the cookie
+        maxAge: 24 * 60 * 60 * 100, // 1 day = 24 hours * 60 mins * 60 sec * 100 milisec
+    })
+)
+app.use(passport.initialize())
+app.use(passport.session())
+
 // app.use(express.json());
 // app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(express.json({ limit: '50mb' }))
