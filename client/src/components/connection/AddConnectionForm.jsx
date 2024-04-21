@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { Loader } from "@googlemaps/js-api-loader";
 
 const AddConnectionForm = ({ isOpen, onClose, userId }) => {
 	const [formData, setFormData] = useState({
@@ -8,6 +9,8 @@ const AddConnectionForm = ({ isOpen, onClose, userId }) => {
 		email: "",
 		username: "",
 		birthday: "",
+		school: "",
+		location: "",
 		avatar: "",
 		fun_facts: [],
 		others: [],
@@ -15,10 +18,24 @@ const AddConnectionForm = ({ isOpen, onClose, userId }) => {
 
 	const token = useSelector((state) => state.auth.token);
 
+    const autoCompleteRef = useRef(null);
+
+    const inputRef = useRef(null);
+
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setFormData({ ...formData, [name]: value });
 	};
+
+    useEffect(() => {
+        autoCompleteRef.current = new window.google.maps.places.Autocomplete(
+            inputRef.current
+        );
+		autoCompleteRef.current.addListener("place_changed", async function () {
+			const place = await autoCompleteRef.current.getPlace();
+			setFormData({ ...formData, location: place.formatted_address });
+		});
+    }, [formData]);
 
 	const handleClose = () => {
 		onClose();
@@ -98,6 +115,21 @@ const AddConnectionForm = ({ isOpen, onClose, userId }) => {
 							placeholder="Birthday"
 							value={formData.birthday}
 							onChange={handleChange}
+						/>
+						<input
+							type="text"
+							name="school"
+							className="bg-gray-50 border border-gray-300 text-sm rounded-sm  w-[400px] p-2.5 focus:outline-none"
+							placeholder="school"
+							value={formData.school}
+							onChange={handleChange}
+						/>
+						<input
+							type="text"
+							name="location"
+							className="bg-gray-50 border border-gray-300 text-sm rounded-sm  w-[400px] p-2.5 focus:outline-none"
+							placeholder="location"
+							ref = {inputRef}
 						/>
 						<input
 							type="text"

@@ -152,7 +152,7 @@ const Connection = () => {
 						</section>
 					</div>
 				</div>
-			)}
+			</div>
 		</div>
 	);
 };

@@ -84,6 +84,22 @@ const EditModal = ({ isOpen, onClose, connection, connectionId }) => {
 						/>
 						<input
 							type="text"
+							name="school"
+							className="bg-gray-50 border border-gray-300 text-sm rounded-sm  w-[400px] p-2.5 focus:outline-none"
+							placeholder="school"
+							value={connectionData.school}
+							onChange={handleChange}
+						/>
+						<input
+							type="text"
+							name="location"
+							className="bg-gray-50 border border-gray-300 text-sm rounded-sm  w-[400px] p-2.5 focus:outline-none"
+							placeholder="location"
+							value={connectionData.location}
+							onChange={handleChange}
+						/>
+						<input
+							type="text"
 							name="fun_facts"
 							className="bg-gray-50 border border-gray-300 text-sm rounded-sm  w-[400px] p-2.5 focus:outline-none"
 							placeholder="Some fun facts"
