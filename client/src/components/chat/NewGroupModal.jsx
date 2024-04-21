@@ -22,6 +22,7 @@ import { Badge } from '../ui/badge'
 import { X } from 'lucide-react'
 import { setAllChats, setCurrentChat } from '../../store/chatReducer.js'
 import { Toaster } from '../ui/toaster'
+import BASE_URL from '@/../../constants.js'
 
 export function NewGroupModal({ children }) {
     const token = useSelector((state) => state.auth.token)
@@ -37,7 +38,7 @@ export function NewGroupModal({ children }) {
     const handleSearch = async (query) => {
         try {
             const res = await fetch(
-                `http://localhost:3001/users/search/?search=${query}`,
+                `${BASE_URL}/users/search/?search=${query}`,
                 {
                     method: 'GET',
                     headers: { Authorization: `Bearer ${token}` },
@@ -67,7 +68,7 @@ export function NewGroupModal({ children }) {
         e.preventDefault()
         try {
             const selectedUserIds = selectedUsers.map((user) => user._id)
-            const res = await fetch(`http://localhost:3001/chats/group`, {
+            const res = await fetch(`${BASE_URL}/chats/group`, {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${token}`,
