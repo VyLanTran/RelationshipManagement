@@ -22,6 +22,7 @@ const ConnectionCard = ({
 	phone,
 	email,
 	last_contacted,
+	onSelect,
 }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	const token = useSelector((state) => state.auth.token)

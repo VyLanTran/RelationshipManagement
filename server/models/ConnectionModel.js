@@ -32,6 +32,12 @@ const ConnectionSchema = new mongoose.Schema({
 	birthday: {
 		type: Date,
 	},
+	school: {
+		type: String,
+	},
+	location: {
+		type: String,
+	},
 	avatar: {
 		type: String,
 	},

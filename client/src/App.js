@@ -57,7 +57,7 @@ function App() {
 						}
 					/>
 					<Route
-						path="/connection"
+						path="/connection/:userId"
 						element={
 							<ProtectedRoute>
 								<Connection />
