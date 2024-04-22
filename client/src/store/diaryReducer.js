@@ -17,10 +17,15 @@ export const diarySlice = createSlice({
       state.currentDiary = action.payload;
     },
     setGroupDiaries: (state, action) => {
-        state.groupDiaries = action.payload;
-    }
+      state.groupDiaries = action.payload;
+    },
+    setInitialData: (state, action) => {
+      state.allDiaries = action.payload.allDiaries;
+      state.currentDiary = action.payload.currentDiary;
+      state.groupDiaries = action.payload.groupDiaries;
+    },
   },
 });
 
-export const { setAllDiaries, setCurrentDiary, setGroupDiaries } = diarySlice.actions;
+export const { setAllDiaries, setCurrentDiary, setGroupDiaries, setInitialData, changeGroup } = diarySlice.actions;
 export default diarySlice.reducer;

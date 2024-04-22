@@ -10,7 +10,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../com
 import { Button } from "../components/ui/button";
 import { CirclePlus } from "lucide-react";
 import { NewDiaryModal } from "../components/diary/NewDiaryModal.jsx";
-import { setAllDiaries, setGroupDiaries, setCurrentDiary } from "../store/diaryReducer.js";
+import { setAllDiaries, setGroupDiaries, setCurrentDiary, setInitialData } from "../store/diaryReducer.js";
 
 const Diary = () => {
 
@@ -26,6 +26,7 @@ const Diary = () => {
 
     const [groups, setGroups] = useState([]);
     const [currentGroup, setCurrentGroup] = useState({});
+    const [activeDiary, setActiveDiary] = useState({});
 
     const formats = ["header", "bold", "italic", "underline", "strike","blockquote",
         "list", "bullet", "link", "color", "image", "background", "align", "size", "font"];
@@ -45,7 +46,7 @@ const Diary = () => {
     };
 
     const handleProcedureContentChange = (content, delta, source, editor) => {
-        dispatch(setCurrentDiary({...currentDiary, entry: content}));
+        setCurrentDiary({...currentDiary, entry: content});
     };
 
     useEffect(() => {
@@ -58,10 +59,12 @@ const Diary = () => {
             const res_diary = await fetch(`http://localhost:3001/diary/user/${user._id}`, authHeader);
             const data_diary = await res_diary.json();
             if (res_diary.ok){
-                dispatch(setAllDiaries(data_diary));
-                dispatch(setGroupDiaries(allDiaries.filter((diary) => diary.group === undefined)));
-                dispatch(setCurrentDiary(groupDiaries[0]));
-                console.log(currentDiary);
+                const personalDiaries = data_diary.filter(d => !d.group);
+                dispatch(setInitialData({
+                    allDiaries: data_diary,
+                    currentDiary: personalDiaries.length > 0 ? personalDiaries[0]: data_diary[0],
+                    groupDiaries: personalDiaries,
+                }))
             }
         }
         if (user){
@@ -101,8 +104,7 @@ const Diary = () => {
                     <button className="text-xl bg-[#FFB302] rounded-[10px] h-[6vh] p-[1vh] m-[1vh] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
                         onClick={() => {
                             setCurrentGroup({});
-                            dispatch(setGroupDiaries(allDiaries.filter((diary) => diary.group == null)));
-                            console.log(groupDiaries);
+                            dispatch(setGroupDiaries(allDiaries.filter((diary) => !diary.group)));
                         }}>
                         Personal
                     </button>
@@ -111,8 +113,7 @@ const Diary = () => {
                         <button className="text-xl bg-[#FFB302] rounded-[10px] h-[6vh] p-[1vh] m-[1vh] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
                             onClick={() => {
                                 setCurrentGroup(group);
-                                dispatch(setGroupDiaries(allDiaries.filter((diary) => diary.group == group._id)));
-                                console.log(groupDiaries);
+                                dispatch(setGroupDiaries(allDiaries.filter((diary) => diary.group === group._id)));
                             }}>
                             {group["name"]}
                         </button>
@@ -123,7 +124,7 @@ const Diary = () => {
                     <div className="w-[30%] h-[100%] mr-[1.5vh] bg-[#FFF] rounded-[20px] p-[2vh]">
                         <div className="flex flex-row justify-center items-center">
                             <p className="text-3xl font-bold hidden lg:block mr-[5vh]">Apr 2024</p>
-                            <TooltipProvider>``
+                            <TooltipProvider>
                                 <Tooltip>
                                     <NewDiaryModal currentGroup={currentGroup}>
                                         <TooltipTrigger asChild>
@@ -144,7 +145,7 @@ const Diary = () => {
                             {
                                 groupDiaries.map((diary) => 
                                     <button className="w-[100%] h-[70px] bg-[#FFB302] mb-[1vh] rounded-[20px] flex flex-row items-center"
-                                        onClick={() => {dispatch(setCurrentDiary(diary)); console.log(currentDiary);}}>
+                                        onClick={() => {dispatch(setCurrentDiary(diary))}}>
                                         <div className="w-[60px] h-[60px] bg-[#eee] rounded-[15px] m-[5px] justify-center hidden lg:block sm:justify-items-center">
                                             <p className="text-2xl">{dayjs(diary["createdAt"]).toString().substring(0,3)}</p>
                                             <p>{dayjs(diary["createdAt"]).format('MM/DD')}</p>
@@ -160,11 +161,11 @@ const Diary = () => {
                             className="justify-center text-xl w-[100%] rounded-[10px] px-[3vh] py-[1.5vh] mb-[1.5vh]"
                             id="name"
                             name="name"
-                            value={currentDiary ? currentDiary["name"] : ""}
-                            onChange={(e) => {dispatch(setCurrentDiary({
+                            value={!!currentDiary ? currentDiary.name : ""}
+                            onChange={(e) => {setCurrentDiary({
                                 ...currentDiary,
                                 name: e.target.value
-                            }))}}
+                            })}}
                         />
                         <ReactQuill
                             className="w-[100%] h-[70%] rounded-[15px] mb-[7vh]"
