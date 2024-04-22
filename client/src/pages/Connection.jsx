@@ -1,48 +1,48 @@
-import React, { useEffect, useState } from "react";
-import Navbar from "../components/navbar/Navbar.jsx";
-import ConnectionGroup from "../components/connection/ConnectionGroup.tsx";
-import ConnectionCard from "../components/groups/ConnectionCard.jsx";
-import AddConnectionForm from "../components/connection/AddConnectionForm.jsx";
-import axios from "axios";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react'
+import Navbar from '../components/navbar/Navbar.jsx'
+import ConnectionGroup from '../components/connection/ConnectionGroup.tsx'
+import ConnectionCard from '../components/connection/ConnectionCard.jsx'
+import AddConnectionForm from '../components/connection/AddConnectionForm.jsx'
+import axios from 'axios'
+import { useSelector } from 'react-redux'
 
 const Connection = () => {
-	const [connections, setConnections] = useState([]);
-	const [searchInput, setSearchInput] = useState("");
-	const [showAddForm, setShowAddForm] = useState(false);
-	const user = useSelector((state) => state.auth.user);
-	const token = useSelector((state) => state.auth.token);
+	const [connections, setConnections] = useState([])
+	const [searchInput, setSearchInput] = useState('')
+	const [showAddForm, setShowAddForm] = useState(false)
+	const user = useSelector((state) => state.auth.user)
+	const token = useSelector((state) => state.auth.token)
 
 	useEffect(() => {
 		const fetchConnections = async () => {
 			try {
-				const response = await axios.get("http://localhost:3001/connections", {
+				const response = await axios.get('http://localhost:3001/connections', {
 					headers: {
 						Authorization: `Bearer ${token}`,
 					},
-				});
-				setConnections(response.data.connections);
+				})
+				setConnections(response.data.connections)
 			} catch (err) {
-				console.error(err);
+				console.error(err)
 			}
-		};
-		if (user) {
-			fetchConnections();
 		}
-	}, [connections, user]);
+		if (user) {
+			fetchConnections()
+		}
+	}, [connections, user])
 
 	const searchConnection = (e) => {
-		e.preventDefault();
-		setSearchInput(e.target.value);
-	};
+		e.preventDefault()
+		setSearchInput(e.target.value)
+	}
 
 	const handleCloseForm = () => {
-		setShowAddForm(false);
-	};
+		setShowAddForm(false)
+	}
 
 	const filteredData = connections.filter((connection) =>
-		String(connection["name"]).toLowerCase().match(searchInput.toLowerCase())
-	);
+		String(connection['name']).toLowerCase().match(searchInput.toLowerCase())
+	)
 
 	return (
 		<div>
@@ -70,8 +70,8 @@ const Connection = () => {
 							<button
 								className="font-azeret bg-[#8DC363] w-[20vh] text-[large] font-bold border h-[6vh] rounded-3xl ml-[2vh] border-solid border-[rgb(84,84,84)] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
 								onClick={(e) => {
-									e.preventDefault();
-									setShowAddForm(true);
+									e.preventDefault()
+									setShowAddForm(true)
 								}}>
 								Add
 							</button>
@@ -86,12 +86,12 @@ const Connection = () => {
 								{filteredData.slice().map((connection, id) => (
 									<ConnectionCard
 										key={id}
-										_id={connection["_id"]}
-										name={connection["name"]}
-										member_of={["Viet Tech", "Team4"].join(", ")}
-										phone={connection["phone"]}
-										email={connection["email"]}
-										last_contacted={"02/04/2023"}
+										_id={connection['_id']}
+										name={connection['name']}
+										member_of={['Viet Tech', 'Team4'].join(', ')}
+										phone={connection['phone']}
+										email={connection['email']}
+										last_contacted={'02/04/2023'}
 									/>
 								))}
 							</div>
@@ -100,7 +100,7 @@ const Connection = () => {
 				</div>
 			)}
 		</div>
-	);
-};
+	)
+}
 
-export default Connection;
+export default Connection

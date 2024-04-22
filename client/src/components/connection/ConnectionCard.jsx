@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { MdEdit } from "react-icons/md";
-import { FaTrashAlt } from "react-icons/fa";
-import { IoPersonCircleSharp } from "react-icons/io5";
-import EditModal from "../connection/EditModal.jsx";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { MdEdit } from 'react-icons/md'
+import { FaTrashAlt } from 'react-icons/fa'
+import { IoPersonCircleSharp } from 'react-icons/io5'
+import EditModal from './EditModal.jsx'
+import { useSelector } from 'react-redux'
 
 // interface ConnectionCardProps {
 // 	_id: object;
@@ -23,43 +23,43 @@ const ConnectionCard = ({
 	email,
 	last_contacted,
 }) => {
-	const [isModalOpen, setIsModalOpen] = useState(false);
-	const token = useSelector((state) => state.auth.token);
-	const [connection, setConnection] = useState("");
+	const [isModalOpen, setIsModalOpen] = useState(false)
+	const token = useSelector((state) => state.auth.token)
+	const [connection, setConnection] = useState('')
 
-	const currentConnection = useSelector((state) => state.auth.user);
+	const currentConnection = useSelector((state) => state.auth.user)
 
 	const handleClick = async (e) => {
-		e.preventDefault();
+		e.preventDefault()
 
-		const res = await fetch("http://localhost:3001/connections/" + _id, {
-			method: "DELETE",
-			headers: { "Content-Type": "application/json" },
-		});
-	};
+		const res = await fetch('http://localhost:3001/connections/' + _id, {
+			method: 'DELETE',
+			headers: { 'Content-Type': 'application/json' },
+		})
+	}
 
 	useEffect(() => {
 		const getConnection = async () => {
 			const res = await fetch(`http://localhost:3001/connections/${_id}`, {
-				method: "GET",
+				method: 'GET',
 				headers: { Authorization: `Bearer ${token}` },
-			});
-			const data = await res.json();
+			})
+			const data = await res.json()
 
 			if (res.ok) {
-				setConnection(data);
+				setConnection(data)
 			}
-		};
-		getConnection();
-	}, [connection]);
+		}
+		getConnection()
+	}, [connection])
 
 	const handleEditClick = () => {
-		setIsModalOpen(true);
-	};
+		setIsModalOpen(true)
+	}
 
 	const handleCloseModal = () => {
-		setIsModalOpen(false);
-	};
+		setIsModalOpen(false)
+	}
 
 	return (
 		<div className="h-[21vh] w-[67vh] bg-white rounded-[20px] flex mb-[4vh]">
@@ -100,7 +100,7 @@ const ConnectionCard = ({
 				</button>
 			</div>
 		</div>
-	);
-};
+	)
+}
 
-export default ConnectionCard;
+export default ConnectionCard

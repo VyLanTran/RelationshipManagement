@@ -13,6 +13,16 @@ const ConnectionSchema = new mongoose.Schema({
 	phone: {
 		type: String,
 	},
+	relationship: {
+		type: String,
+	},
+	hobbies: {
+		type: [],
+		default: null,
+	},
+	meet_how: {
+		type: String,
+	},
 	email: {
 		type: String,
 	},

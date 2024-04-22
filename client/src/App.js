@@ -13,116 +13,117 @@ import Settings from './pages/Settings.jsx'
 import GroupProfile from './pages/GroupProfile.jsx'
 import Chat from './pages/Chat.jsx'
 import Diary from './pages/Diary.jsx'
+import ConnectionDetail from './components/connection/ConnectionDetailCard.jsx'
 
 // TODO: responsive to screen size
 
 function App() {
-  return (
-    <div className="app">
-      <Router>
-        <Routes>
-          <Route
-            path="/login"
-            element={
-              <ProtectedRoute isAuthPage={true}>
-                <Login />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/signup"
-            element={
-              <ProtectedRoute isAuthPage={true}>
-                <SignUp />
-              </ProtectedRoute>
-            }
-          />
+	return (
+		<div className="app">
+			<Router>
+				<Routes>
+					<Route
+						path="/login"
+						element={
+							<ProtectedRoute isAuthPage={true}>
+								<Login />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/signup"
+						element={
+							<ProtectedRoute isAuthPage={true}>
+								<SignUp />
+							</ProtectedRoute>
+						}
+					/>
 
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            }
-          />
+					<Route
+						path="/"
+						element={
+							<ProtectedRoute>
+								<Home />
+							</ProtectedRoute>
+						}
+					/>
 
-          <Route
-            path="/settings"
-            element={
-              <ProtectedRoute>
-                <Settings />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/connection"
-            element={
-              <ProtectedRoute>
-                <Connection />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/notification"
-            element={
-              <ProtectedRoute>
-                <Notification />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/:userId"
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/map"
-            element={
-              <ProtectedRoute>
-                <Map />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/groups"
-            element={
-              <ProtectedRoute>
-                <Groups />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/groups/:groupId"
-            element={
-              <ProtectedRoute>
-                <GroupProfile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/chats"
-            element={
-              <ProtectedRoute>
-                <Chat />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/diary"
-            element={
-              <ProtectedRoute>
-                <Diary />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </Router>
-    </div>
-  )
+					<Route
+						path="/settings"
+						element={
+							<ProtectedRoute>
+								<Settings />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/connection"
+						element={
+							<ProtectedRoute>
+								<Connection />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/notification"
+						element={
+							<ProtectedRoute>
+								<Notification />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/:userId"
+						element={
+							<ProtectedRoute>
+								<Profile />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/map"
+						element={
+							<ProtectedRoute>
+								<Map />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/groups"
+						element={
+							<ProtectedRoute>
+								<Groups />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/groups/:groupId"
+						element={
+							<ProtectedRoute>
+								<GroupProfile />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/chats"
+						element={
+							<ProtectedRoute>
+								<Chat />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/diary"
+						element={
+							<ProtectedRoute>
+								<Diary />
+							</ProtectedRoute>
+						}
+					/>
+				</Routes>
+			</Router>
+		</div>
+	)
 }
 
 export default App
