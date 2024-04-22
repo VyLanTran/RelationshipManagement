@@ -13,6 +13,7 @@ import chatRoutes from './routes/chatRoutes.js'
 import messageRoutes from './routes/messageRoutes.js'
 import diaryRoutes from './routes/diaryRoutes.js'
 import postRoutes from './routes/postRoutes.js'
+import eventRoutes from './routes/eventRoutes.js'
 import cookieSession from 'cookie-session'
 import passport from 'passport'
 
@@ -44,6 +45,7 @@ app.use('/chats', chatRoutes)
 app.use('/messages', messageRoutes)
 app.use('/diary', diaryRoutes)
 app.use('/posts', postRoutes)
+app.use('/events', eventRoutes)
 
 const PORT = process.env.PORT || 8080
 
