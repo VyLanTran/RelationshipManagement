@@ -63,7 +63,9 @@ const ConnectionCard = ({
 	}
 
 	return (
-		<div className="h-[21vh] w-[67vh] bg-white rounded-[20px] flex mb-[4vh]">
+		<div
+			className="h-[21vh] w-[67vh] bg-white rounded-[20px] flex mb-[4vh]"
+			onClick={() => onSelect(connection)}>
 			<IoPersonCircleSharp className="ml-[2vh] mt-[2.5vh] w-[16vh] h-[16vh]" />
 			<div className="mt-[1vh] w-[43vh]">
 				<h2 className="font-bold text-left text-[3.5vh] ml-[2vh]">{name}</h2>

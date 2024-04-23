@@ -2,16 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Navbar from '../components/navbar/Navbar.jsx'
 import ConnectionGroup from '../components/connection/ConnectionGroup.tsx'
-import ConnectionCard from '../components/groups/ConnectionCard.jsx'
+import ConnectionCard from '../components/connection/ConnectionCard.jsx'
 import AddConnectionForm from '../components/connection/AddConnectionForm.jsx'
+import ConnectionDetail from '../components/connection/ConnectionDetailCard.jsx'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
-import BASE_URL from '@/../../constants.js'
+import BASE_URL from '../constants.js'
 
 const Connection = () => {
 	const [connections, setConnections] = useState([])
 	const [searchInput, setSearchInput] = useState('')
 	const [showAddForm, setShowAddForm] = useState(false)
+	const [showConnectionDetails, setShowConnectionDetails] = useState(false)
 	const [selectedConnection, setSelectedConnection] = useState(null)
 	const [user, setUser] = useState(null)
 	const { userId } = useParams()
@@ -51,12 +53,17 @@ const Connection = () => {
 	}, [user, userId])
 
 	const handleSelectConnection = (connection) => {
+		setShowConnectionDetails(true)
 		setSelectedConnection(connection)
 	}
 
 	const searchConnection = (e) => {
 		e.preventDefault()
 		setSearchInput(e.target.value)
+	}
+
+	const handleCloseDetail = () => {
+		setShowConnectionDetails(false)
 	}
 
 	const handleCloseForm = () => {
@@ -154,6 +161,11 @@ const Connection = () => {
 								))}
 							</div>
 						</section>
+						<ConnectionDetail
+							isOpen={showConnectionDetails}
+							onClose={handleCloseDetail}
+							connection={selectedConnection}
+						/>
 					</div>
 				</div>
 			)}

@@ -1,6 +1,6 @@
 import { useState, React } from 'react'
 import { IoPersonCircleSharp } from 'react-icons/io5'
-import { MdEdit } from 'react-icons/md'
+import { MdEdit, MdClose } from 'react-icons/md'
 import {
 	Card,
 	CardDescription,
@@ -10,31 +10,25 @@ import {
 	CardFooter,
 } from '../ui/card'
 
-const ConnectionDetail = () => {
-	const [userData, setUserData] = useState({
-		nickname: '',
-		name: '',
-		relationship: '',
-		hobbies: [],
-		meet_how: '',
-		birthday: null,
-		avatar: '',
-		fun_facts: [],
-	})
+const ConnectionDetail = ({ isOpen, onClose, connection }) => {
+	const [userData, setUserData] = useState(connection)
+	const handleClose = () => {
+		onClose()
+	}
 	return (
-		<div className="flex justify-center items-center h-screen ml-[2vh] mr-[2vh]">
+		<div
+			className={`fixed top-7 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center ${
+				isOpen ? '' : 'hidden'
+			}`}>
 			<div className=" text-white p-4 m-1 sm:w-2/3 h-[90%]">
 				<Card className="h-[100%] rounded-[7%] text-left">
 					<CardHeader className="flex-row justify-between">
 						<CardTitle className="text-[7vh]">About</CardTitle>
-						<MdEdit className="text-[6vh]" />
+						<MdEdit className="text-[6vh] cursor-pointer" />
 					</CardHeader>
 					<CardContent className="h-[59%] overflow-auto mt-[-3vh]">
 						<p>
-							Nickname: <b>[Test]</b>
-						</p>
-						<p>
-							Real name: <b>[Test]</b>
+							Nickname: <b></b>
 						</p>
 						<p>
 							Birthday: <b>[Test]</b>
@@ -69,7 +63,11 @@ const ConnectionDetail = () => {
 			</div>
 
 			<div className=" text-white p-4 m-1.5 sm:w-1/3 h-[90%]">
-				<Card className="h-[100%] bg-[#74B840] rounded-[7%]">
+				<Card className="h-[100%] bg-[#74B840] rounded-[7%] relative">
+					<MdClose
+						className="text-[6vh] absolute top-1 right-2 cursor-pointer"
+						onClick={handleClose}
+					/>
 					<CardHeader>
 						<CardTitle className="flex flex-col justify-center items-center">
 							<IoPersonCircleSharp className="mt-[-4vh] w-[57%] h-[57%]" />
