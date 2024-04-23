@@ -1,11 +1,12 @@
-import { useState } from 'react'
-import React from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import BASE_URL from '@/../../constants.js'
 
 const EditModal = ({ isOpen, onClose, connection, connectionId }) => {
     const token = useSelector((state) => state.auth.token)
     const [connectionData, setConnectionData] = useState(connection)
+	const autoCompleteRef = useRef(null)
+	const inputRef = useRef(null)
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -14,6 +15,16 @@ const EditModal = ({ isOpen, onClose, connection, connectionId }) => {
             [name]: value,
         })
     }
+
+	useEffect(() => {
+        autoCompleteRef.current = new window.google.maps.places.Autocomplete(
+            inputRef.current
+        )
+        autoCompleteRef.current.addListener('place_changed', async function () {
+            const place = await autoCompleteRef.current.getPlace()
+            setConnectionData({ ...connectionData, location: place.formatted_address })
+        })
+    }, [connectionData])
 
     const handleClose = () => {
         setConnectionData(connection)
@@ -67,11 +78,10 @@ const EditModal = ({ isOpen, onClose, connection, connectionId }) => {
                         />
                         <input
                             type="text"
-                            name="email"
+                            name="location"
                             className="bg-gray-50 border border-gray-300 text-sm rounded-sm  w-[400px] p-2.5 focus:outline-none"
-                            placeholder="Email"
-                            value={connectionData.email}
-                            onChange={handleChange}
+                            placeholder="location"
+                            ref={inputRef}
                         />
                         <input
                             type="text"
@@ -94,8 +104,7 @@ const EditModal = ({ isOpen, onClose, connection, connectionId }) => {
                             name="location"
                             className="bg-gray-50 border border-gray-300 text-sm rounded-sm  w-[400px] p-2.5 focus:outline-none"
                             placeholder="location"
-                            value={connectionData.location}
-                            onChange={handleChange}
+                            ref={inputRef}
                         />
                         <input
                             type="text"
