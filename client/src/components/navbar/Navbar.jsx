@@ -3,6 +3,7 @@ import NavbarButton from './NavbarButton.tsx'
 import { FaGear } from 'react-icons/fa6'
 import { RiBookletFill } from 'react-icons/ri'
 import { FaBell } from 'react-icons/fa'
+import { FaCalendarAlt } from "react-icons/fa";
 import { useLogout } from '../../hooks/useLogout.js'
 import { Link, useNavigate } from 'react-router-dom'
 import { IoIosContacts } from 'react-icons/io'
@@ -51,6 +52,11 @@ const Navbar = () => {
                     icon={<FaMap size={18} />}
                     name="Map"
                     url="/map"
+                />
+                <NavbarButton
+                    icon={<FaCalendarAlt size={18} />}
+                    name="Event"
+                    url="/events"
                 />
                 <NavbarButton
                     icon={<IoIosContacts size={20} />}
