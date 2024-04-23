@@ -101,12 +101,12 @@ const GroupProfile = () => {
 
     const addMember = async (event) => {
         event.preventDefault()
-        setMembers([...members, { firstName: ' ', lastName: ' ', _id: null }])
+        setMembers([...members, { name: ' ', _id: null }])
     }
 
-    const option = users.map(({ firstName, lastName, _id }) => ({
+    const option = users.map(({ name, _id }) => ({
         value: _id,
-        label: firstName + ' ' + lastName,
+        label: name,
     }))
 
     return (
@@ -119,11 +119,7 @@ const GroupProfile = () => {
                             <p className="text-3xl m-[2vh]">{group['name']}</p>
                             <div className="text-left pl-[5vh]">
                                 {members.map((member) => (
-                                    <p className="text-xl">
-                                        {member['firstName'] +
-                                            ' ' +
-                                            member['lastName']}
-                                    </p>
+                                    <p className="text-xl">{member['name']}</p>
                                 ))}
                             </div>
                         </div>
@@ -164,11 +160,7 @@ const GroupProfile = () => {
                                                 <li className="flex justify-between px-[3vh] py-[1vh]">
                                                     <Select
                                                         placeholder={
-                                                            member[
-                                                                'firstName'
-                                                            ] +
-                                                            ' ' +
-                                                            member['lastName']
+                                                            member['name']
                                                         }
                                                         className="text-left w-[45vh]"
                                                         options={option}

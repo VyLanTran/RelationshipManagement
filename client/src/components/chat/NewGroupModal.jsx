@@ -152,8 +152,7 @@ export function NewGroupModal({ children }) {
                                     className="bg-[#fde09c] p-2 gap-2 hover:bg-[#fde09c] inline-flex mr-1"
                                 >
                                     <span className="whitespace-no-wrap">
-                                        {selectedUser.firstName}{' '}
-                                        {selectedUser.lastName}
+                                        {selectedUser.name}
                                     </span>
                                     <div
                                         className="rounded-full hover:bg-[#FFB302] p-0.5"
