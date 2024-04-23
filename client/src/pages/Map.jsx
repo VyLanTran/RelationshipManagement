@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom'
 import { Loader } from "@googlemaps/js-api-loader";
-import MapCard from "../components/map/MapCard.tsx";
+import MapCard from "../components/map/MapCard.jsx";
 import Navbar from "../components/navbar/Navbar.jsx";
 import usePlaceAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete";
 import axios from "axios";
@@ -19,17 +19,6 @@ const MapGroup = () => {
     const token = useSelector((state) => state.auth.token)
 
     useEffect(() => {
-        // get the current user
-        const getUser = async () => {
-            const res = await fetch(`${BASE_URL}/users/${userId}`, {
-                method: 'GET',
-                headers: { Authorization: `Bearer ${token}` },
-            })
-            const data = await res.json()
-            if (res.ok) {
-                setUser(data)
-            }
-        }
         // fetch the user's connection
         const fetchConnections = async () => {
             const res = await fetch(
@@ -48,7 +37,6 @@ const MapGroup = () => {
             }
         }
         if (currentUser) {
-            getUser()
             fetchConnections()
         }
     }, [user, userId])
