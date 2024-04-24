@@ -6,14 +6,17 @@ import { Loader } from "@googlemaps/js-api-loader";
 import MapCard from "../components/map/MapCard.jsx";
 import Navbar from "../components/navbar/Navbar.jsx";
 import usePlaceAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete";
+import { MarkerClusterer } from "@googlemaps/markerclusterer";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import BASE_URL from '@/../../constants.js'
 
 const MapGroup = () => {
     const mapRef = React.useRef(null);
+
     const [ connections, setConnections ] = useState([]);
-    const [user, setUser] = useState(null)
+    const [ currentGroup, setCurrentGroup] = useState(null);
+
     const { userId } = useParams()
     const currentUser = useSelector((state) => state.auth.user)
     const token = useSelector((state) => state.auth.token)
@@ -39,7 +42,7 @@ const MapGroup = () => {
         if (currentUser) {
             fetchConnections()
         }
-    }, [user, userId])
+    }, [currentUser, userId])
 
     console.log(connections)
 
@@ -52,9 +55,9 @@ const MapGroup = () => {
                 version: "weekly",
             })
 
-            const { Map } = await loader.importLibrary('maps');
+            const { Map, InfoWindow } = await loader.importLibrary('maps');
 
-            const { AdvancedMarkerElement } = await loader.importLibrary('marker');
+            const { AdvancedMarkerElement, PinElement } = await loader.importLibrary('marker');
               
             const position = { lat: 53.54, lng: 10 };
 
@@ -68,25 +71,48 @@ const MapGroup = () => {
             // setup map
             const map = new Map(mapRef.current, mapOptions);
 
-            console.log(connections)
+            const infoWindow = new InfoWindow();
 
-            connections.slice().map(async (connection) => {
+            const markers = [];
+
+            await Promise.all(connections.slice().map(async (connection) => {
                 if (connection["location"]) {
                     try {
+                        const pin = new PinElement({
+                            glyph: connection.location
+                        });
+
                         // Perform geocoding to get latitude and longitude
                         const results = await getGeocode({ 'address': connection.location });
                         const { lat, lng } = await getLatLng(results[0]);
-                        new AdvancedMarkerElement({
+
+                        const marker = new AdvancedMarkerElement({
                             map,
-                            position: { lat, lng }
-                        })
+                            position: { lat, lng },
+                        });
+
+                        markers.push(marker)
+
+                        // Add a click listener for each marker, and set up the info window.
+                        marker.addListener('click', ({ domEvent, latLng }) => {
+                            const { target } = domEvent;
+                            infoWindow.close();
+                            const html = "<b>" + connection.name + "</b><br/>" + connection.location
+                            infoWindow.setContent(html);
+                            infoWindow.open(marker.map, marker, html);
+                        });
+
                     } catch (error) {
                         console.error(error)
-                    }                        
+                    }                
                 } else {
                     console.log("No location")
                 }
-            })
+            }));
+
+            console.log(markers);
+            const cluster = new MarkerClusterer({ map: map, markers: markers });
+            console.log(cluster);
         }
 
         initMap();
