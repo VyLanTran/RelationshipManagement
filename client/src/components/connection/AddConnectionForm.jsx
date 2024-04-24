@@ -55,6 +55,7 @@ const AddConnectionForm = ({ isOpen, onClose, userId }) => {
 				body: JSON.stringify(formData),
 			})
 			const data = await res.json()
+			console.log(data)
 			const connectionId = data.connection._id
 
 			// update a user's connectionIds list

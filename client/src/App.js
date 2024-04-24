@@ -13,6 +13,7 @@ import Settings from './pages/Settings.jsx'
 import GroupProfile from './pages/GroupProfile.jsx'
 import Chat from './pages/Chat.jsx'
 import Diary from './pages/Diary.jsx'
+import Event from './pages/Event.jsx'
 import ConnectionDetail from './components/connection/ConnectionDetailCard.jsx'
 
 // TODO: responsive to screen size
@@ -117,6 +118,14 @@ function App() {
 						element={
 							<ProtectedRoute>
 								<Diary />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/events"
+						element={
+							<ProtectedRoute>
+								<Event />
 							</ProtectedRoute>
 						}
 					/>

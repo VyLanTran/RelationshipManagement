@@ -1,14 +1,9 @@
-import { Card } from "../ui/card";
-import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage,
-} from "../ui/avatar"
-import { useDispatch, useSelector } from "react-redux";
-import { setCurrentChat } from "../../store/chatReducer";
+import { Card } from '../ui/card'
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
+import { useDispatch, useSelector } from 'react-redux'
+import { setCurrentChat } from '../../store/chatReducer'
 
 const UserItem = ({ user, addMember }) => {
-
     // const dispatch = useDispatch()
     // const currentChat = useSelector((state) => state.chat.currentChat)
 
@@ -26,20 +21,21 @@ const UserItem = ({ user, addMember }) => {
             onClick={addMember}
         >
             <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                <AvatarImage
+                    src="https://github.com/shadcn.png"
+                    alt="@shadcn"
+                />
                 <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <div className="flex flex-col items-start">
                 {/* TODO: trim if name is too long */}
-                <span className="font-semibold text-[14px]">
-                    {user.firstName} {" "} {user.lastName}
-                </span>
+                <span className="font-semibold text-[14px]">{user.name}</span>
                 <span className="text-[12px] text-gray-500">
                     {user.username}
                 </span>
             </div>
-        </Card >
-    );
+        </Card>
+    )
 }
 
-export default UserItem;
+export default UserItem

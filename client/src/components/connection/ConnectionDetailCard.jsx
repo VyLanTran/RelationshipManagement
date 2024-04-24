@@ -24,14 +24,14 @@ const ConnectionDetail = ({ isOpen, onClose, connection }) => {
 				<Card className="h-[100%] rounded-[7%] text-left">
 					<CardHeader className="flex-row justify-between">
 						<CardTitle className="text-[7vh]">About</CardTitle>
-						<MdEdit className="text-[6vh] cursor-pointer" />
+						<MdEdit className="text-[6vh] cursor-pointer aria-label" />
 					</CardHeader>
 					<CardContent className="h-[59%] overflow-auto mt-[-3vh]">
 						<p>
-							Nickname: <b></b>
+							Nickname: <b>{userData.username}</b>
 						</p>
 						<p>
-							Birthday: <b>[Test]</b>
+							Birthday: <b>{userData.birthday}</b>
 						</p>
 						<p>
 							How we met: <b>[Test]</b>

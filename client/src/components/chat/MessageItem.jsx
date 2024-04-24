@@ -68,8 +68,7 @@ const MessageItem = ({ index, user, message, messages }) => {
                     {!isMyMessage(user) &&
                         isFirstMessageInSeries(index, message, messages) && (
                             <span className="text-[11px] text-gray-500 mr-auto px-4">
-                                {message.sender.firstName}{' '}
-                                {message.sender.lastName}
+                                {message.sender.name}
                             </span>
                         )}
                     <Card

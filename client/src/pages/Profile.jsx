@@ -111,9 +111,7 @@ const Profile = () => {
 								</div>
 
 								<div className="flex items-center flex-row justify-center mt-[75px]">
-									<span className="text-[26px] ">
-										{user.firstName} {user.lastName}
-									</span>
+									<span className="text-[26px] ">{user.name}</span>
 								</div>
 								<div className="mt-[75px] flex items-center ml-auto text-[14px] pr-2 gap-2">
 									{currentUser._id !== userId && isFriend && (

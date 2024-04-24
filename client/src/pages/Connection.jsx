@@ -51,9 +51,13 @@ const Connection = () => {
 			fetchConnections()
 		}
 	}, [user, userId])
+	useEffect(() => {
+		if (selectedConnection !== null) {
+			setShowConnectionDetails(true)
+		}
+	}, [selectedConnection])
 
 	const handleSelectConnection = (connection) => {
-		setShowConnectionDetails(true)
 		setSelectedConnection(connection)
 	}
 
@@ -64,6 +68,7 @@ const Connection = () => {
 
 	const handleCloseDetail = () => {
 		setShowConnectionDetails(false)
+		setSelectedConnection(null)
 	}
 
 	const handleCloseForm = () => {
@@ -161,11 +166,13 @@ const Connection = () => {
 								))}
 							</div>
 						</section>
-						<ConnectionDetail
-							isOpen={showConnectionDetails}
-							onClose={handleCloseDetail}
-							connection={selectedConnection}
-						/>
+						{showConnectionDetails && selectedConnection && (
+							<ConnectionDetail
+								isOpen={showConnectionDetails}
+								onClose={handleCloseDetail}
+								connection={selectedConnection}
+							/>
+						)}
 					</div>
 				</div>
 			)}

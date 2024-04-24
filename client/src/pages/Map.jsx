@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { Loader } from '@googlemaps/js-api-loader'
 import MapCard from '../components/map/MapCard.tsx'
 import Navbar from '../components/navbar/Navbar.jsx'
@@ -10,32 +11,49 @@ import usePlaceAutocomplete, {
 } from 'use-places-autocomplete'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
-import { createDropdownMenuScope } from '@radix-ui/react-dropdown-menu'
 import BASE_URL from '../constants.js'
 
 const MapGroup = () => {
 	const mapRef = React.useRef(null)
 	const [connections, setConnections] = useState([])
-	const user = useSelector((state) => state.auth.user)
+	const [user, setUser] = useState(null)
+	const { userId } = useParams()
+	const currentUser = useSelector((state) => state.auth.user)
+	const token = useSelector((state) => state.auth.token)
 
-	//Grabing the connections to display positions on the map
 	useEffect(() => {
-		const fetchConnections = async () => {
-			try {
-				const response = await axios.get(`${BASE_URL}/connections`, {
-					headers: {
-						Authorization: `Bearer ${user.token}`,
-					},
-				})
-				setConnections(response.data.connections)
-			} catch (err) {
-				console.error(err)
+		// get the current user
+		const getUser = async () => {
+			const res = await fetch(`${BASE_URL}/users/${userId}`, {
+				method: 'GET',
+				headers: { Authorization: `Bearer ${token}` },
+			})
+			const data = await res.json()
+			if (res.ok) {
+				setUser(data)
 			}
 		}
-		if (user) {
+		// fetch the user's connection
+		const fetchConnections = async () => {
+			const res = await fetch(`${BASE_URL}/connections/${currentUser._id}`, {
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			const data = await res.json()
+
+			if (res.ok) {
+				setConnections(data.connections)
+			}
+		}
+		if (currentUser) {
+			getUser()
 			fetchConnections()
 		}
-	}, [user])
+	}, [user, userId])
+
+	console.log(connections)
 
 	// Load the map in + general map configuration
 	useEffect(() => {
@@ -67,9 +85,7 @@ const MapGroup = () => {
 				if (connection['location']) {
 					try {
 						// Perform geocoding to get latitude and longitude
-						const results = await getGeocode({
-							address: connection.location,
-						})
+						const results = await getGeocode({ address: connection.location })
 						const { lat, lng } = await getLatLng(results[0])
 						new AdvancedMarkerElement({
 							map,

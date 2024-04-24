@@ -8,14 +8,7 @@ export const useSignup = () => {
 	const [isLoading, setIsLoading] = useState(false)
 	const dispatch = useDispatch()
 
-	const signup = async (
-		firstName,
-		lastName,
-		email,
-		username,
-		password,
-		confirmPassword
-	) => {
+	const signup = async (name, email, username, password, confirmPassword) => {
 		setIsLoading(true)
 		setError(null)
 
@@ -23,8 +16,7 @@ export const useSignup = () => {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' }, // indicate the body of request is json
 			body: JSON.stringify({
-				firstName,
-				lastName,
+				name,
 				email,
 				username,
 				password,

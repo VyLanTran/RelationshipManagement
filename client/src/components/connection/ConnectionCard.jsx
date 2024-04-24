@@ -41,12 +41,14 @@ const ConnectionCard = ({
 
 	useEffect(() => {
 		const getConnection = async () => {
-			const res = await fetch(`http://localhost:3001/connections/${_id}`, {
-				method: 'GET',
-				headers: { Authorization: `Bearer ${token}` },
-			})
+			const res = await fetch(
+				`http://localhost:3001/connections/connection/${_id}`,
+				{
+					method: 'GET',
+					headers: { Authorization: `Bearer ${token}` },
+				}
+			)
 			const data = await res.json()
-
 			if (res.ok) {
 				setConnection(data)
 			}
