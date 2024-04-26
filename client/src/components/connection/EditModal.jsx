@@ -29,23 +29,30 @@ const EditModal = ({ isOpen, onClose, connection, connectionId }) => {
 		})
 	}, [connectionData])
 
-	const handleClose = () => {
+	const handleClose = (e) => {
 		setConnectionData(connection)
 		onClose()
 	}
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
+		e.stopPropagation()
 		try {
+			let updatedConnectionData = {
+				...connectionData,
+			}
+			if (typeof updatedConnectionData.fun_facts === String) {
+				updatedConnectionData.fun_facts =
+					updatedConnectionData.fun_facts.split(',')
+			}
 			const res = await fetch(`${BASE_URL}/connections/${connectionId}`, {
 				method: 'PUT',
 				headers: {
 					Authorization: `Bearer ${token}`,
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify(connectionData),
+				body: JSON.stringify(updatedConnectionData),
 			})
-
 			if (!res.ok) {
 				throw new Error('Network response was not ok')
 			}
@@ -58,8 +65,16 @@ const EditModal = ({ isOpen, onClose, connection, connectionId }) => {
 		<div
 			className={`fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center ${
 				isOpen ? '' : 'hidden'
-			}`}>
-			<div className="bg-white p-8 rounded shadow-md">
+			}`}
+			onClick={(e) => {
+				e.stopPropagation()
+				onClose()
+			}}>
+			<div
+				className="bg-white p-8 rounded shadow-md"
+				onClick={(e) => {
+					e.stopPropagation()
+				}}>
 				<form onSubmit={handleSubmit}>
 					<div className="grid grid-cols-1 md:grid-cols-2 text-[14px] gap-2">
 						<input

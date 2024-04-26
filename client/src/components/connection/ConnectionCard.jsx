@@ -32,7 +32,7 @@ const ConnectionCard = ({
 
 	const handleClick = async (e) => {
 		e.preventDefault()
-
+		e.stopPropagation()
 		const res = await fetch('http://localhost:3001/connections/' + _id, {
 			method: 'DELETE',
 			headers: { 'Content-Type': 'application/json' },
@@ -56,7 +56,8 @@ const ConnectionCard = ({
 		getConnection()
 	}, [connection])
 
-	const handleEditClick = () => {
+	const handleEditClick = (e) => {
+		e.stopPropagation()
 		setIsModalOpen(true)
 	}
 
