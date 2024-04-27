@@ -5,9 +5,8 @@ import { useParams } from 'react-router-dom'
 import { Loader } from "@googlemaps/js-api-loader";
 import MapCard from "../components/map/MapCard.jsx";
 import Navbar from "../components/navbar/Navbar.jsx";
-import usePlaceAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete";
+import { getGeocode, getLatLng } from "use-places-autocomplete";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
-import axios from "axios";
 import { useSelector } from "react-redux";
 import BASE_URL from '@/../../constants.js'
 
@@ -78,10 +77,6 @@ const MapGroup = () => {
             await Promise.all(connections.slice().map(async (connection) => {
                 if (connection["location"]) {
                     try {
-                        const pin = new PinElement({
-                            glyph: connection.location
-                        });
-
                         // Perform geocoding to get latitude and longitude
                         const results = await getGeocode({ 'address': connection.location });
                         const { lat, lng } = await getLatLng(results[0]);
