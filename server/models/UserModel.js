@@ -55,7 +55,6 @@ const UserSchema = new mongoose.Schema(
             type: Array,
             default: [],
         },
-        // social media links
         facebookId: {
             type: String,
             default: null,

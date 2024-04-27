@@ -7,6 +7,8 @@ import { useLogin } from '../hooks/useLogin'
 import OAuth2Login from 'react-simple-oauth2-login'
 import { useDispatch } from 'react-redux'
 import { setLogin } from '../store/authReducer'
+import { GoogleAuthProvider, signInWithPopup, getAuth } from 'firebase/auth'
+import { app } from '../firebase'
 
 import { FaFacebook } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
@@ -17,9 +19,10 @@ const Login = () => {
     const [showPassword, setShowPassword] = useState(false)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const { login, isLoading, error } = useLogin()
+    const { login, loginOrSignupWithGoogle, isLoading, error } = useLogin()
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const auth = getAuth(app)
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword)
@@ -30,6 +33,22 @@ const Login = () => {
         e.preventDefault()
         try {
             await login(email, password)
+            navigate('/')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleLoginWithGoogle = async () => {
+        const provider = new GoogleAuthProvider()
+        provider.setCustomParameters({ prompt: 'select_account' })
+        try {
+            const resGoogle = await signInWithPopup(auth, provider)
+            const name = resGoogle.user.displayName
+            const email = resGoogle.user.email
+            const profilePicture = resGoogle.user.photoURL
+
+            await loginOrSignupWithGoogle(name, email, profilePicture)
             navigate('/')
         } catch (error) {
             console.log(error)
@@ -138,10 +157,12 @@ const Login = () => {
                         </Link>
                     </div>
 
-                    <div class="relative flex py-5 items-center w-[70%] text-[11px]">
-                        <div class="flex-grow border-t border-gray-300"></div>
-                        <span class="flex-shrink mx-4 text-gray-400">OR</span>
-                        <div class="flex-grow border-t border-gray-300"></div>
+                    <div className="relative flex py-5 items-center w-[70%] text-[11px]">
+                        <div className="flex-grow border-t border-gray-300"></div>
+                        <span className="flex-shrink mx-4 text-gray-400">
+                            OR
+                        </span>
+                        <div className="flex-grow border-t border-gray-300"></div>
                     </div>
 
                     <button
@@ -166,7 +187,7 @@ const Login = () => {
                         type="submit"
                         className="font-azeret bg-white hover:bg-gray-200 text-gray-500 w-[70%] text-[12px] font-semibold  h-[6vh]  mb-[-2vh] border border-gray-300 border-1 rounded-[5px] hover:cursor-pointer flex flex-row justify-center items-center gap-4"
                         disabled={isLoading}
-                        onClick={handleSubmit}
+                        onClick={handleLoginWithGoogle}
                     >
                         <FcGoogle size={16} />
                         Log in with Google
