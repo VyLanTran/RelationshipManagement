@@ -7,7 +7,12 @@ import { useLogin } from '../hooks/useLogin'
 import OAuth2Login from 'react-simple-oauth2-login'
 import { useDispatch } from 'react-redux'
 import { setLogin } from '../store/authReducer'
-import { GoogleAuthProvider, signInWithPopup, getAuth } from 'firebase/auth'
+import {
+    GoogleAuthProvider,
+    signInWithPopup,
+    getAuth,
+    FacebookAuthProvider,
+} from 'firebase/auth'
 import { app } from '../firebase'
 
 import { FaFacebook } from 'react-icons/fa'
@@ -47,6 +52,21 @@ const Login = () => {
             const name = resGoogle.user.displayName
             const email = resGoogle.user.email
             const profilePicture = resGoogle.user.photoURL
+            await loginOrSignupWithGoogle(name, email, profilePicture)
+            navigate('/')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleLoginWithFacebook = async () => {
+        const provider = new FacebookAuthProvider()
+
+        try {
+            const resFacebook = await signInWithPopup(auth, provider)
+            const name = resFacebook.user.displayName
+            const email = resFacebook.user.email
+            const profilePicture = resFacebook.user.photoURL
 
             await loginOrSignupWithGoogle(name, email, profilePicture)
             navigate('/')
@@ -55,53 +75,51 @@ const Login = () => {
         }
     }
 
-    const onSuccess = async (res) => {
-        try {
-            const accessToken = await res.access_token
-            const fbRes = await fetch(
-                `https://graph.facebook.com/me?fields=id,name,picture.type(large)&access_token=${accessToken}`
-            )
-            const profile = await fbRes.json()
+    // const onSuccess = async (res) => {
+    //     try {
+    //         const accessToken = await res.access_token
+    //         const fbRes = await fetch(
+    //             `https://graph.facebook.com/me?fields=id,name,picture.type(large)&access_token=${accessToken}`
+    //         )
+    //         const profile = await fbRes.json()
 
-            console.log('my profile: ', profile)
+    //         const result = await fetch(`http://localhost:3001/auth/facebook`, {
+    //             method: 'POST',
+    //             headers: { 'Content-Type': 'application/json' }, // indicate the body of request is json
+    //             body: JSON.stringify({
+    //                 facebookId: profile.id,
+    //                 name: profile.name,
+    //                 email: 'email@gmail.com',
+    //                 username: 'username',
+    //                 password: 'password',
+    //                 //     // handle avatar
+    //                 //     // profilePicture: profile.picture.data.url
+    //             }),
+    //         })
 
-            const result = await fetch(`http://localhost:3001/auth/facebook`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' }, // indicate the body of request is json
-                body: JSON.stringify({
-                    facebookId: profile.id,
-                    name: profile.name,
-                    email: 'email@gmail.com',
-                    username: 'username',
-                    password: 'password',
-                    //     // handle avatar
-                    //     // profilePicture: profile.picture.data.url
-                }),
-            })
+    //         const json = await result.json()
 
-            const json = await result.json()
+    //         if (!result.ok) {
+    //             // throw Error(json.error)
+    //             console.log('not ok')
+    //         } else {
+    //             dispatch(
+    //                 setLogin({
+    //                     user: json.user,
+    //                     token: json.token,
+    //                 })
+    //             )
+    //         }
 
-            if (!result.ok) {
-                // throw Error(json.error)
-                console.log('not ok')
-            } else {
-                dispatch(
-                    setLogin({
-                        user: json.user,
-                        token: json.token,
-                    })
-                )
-            }
+    //         navigate('/')
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
-            navigate('/')
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    const onFailure = (res) => {
-        console.log(res)
-    }
+    // const onFailure = (res) => {
+    //     console.log(res)
+    // }
 
     return (
         <header>
@@ -169,9 +187,10 @@ const Login = () => {
                         type="submit"
                         className="font-azeret bg-[#3b5998] hover:bg-[#4162a8] text-white w-[70%] text-[12px] font-bold  h-[6vh] shadow-sm rounded-[5px] hover:cursor-pointer flex flex-row justify-center items-center gap-4"
                         disabled={isLoading}
+                        onClick={handleLoginWithFacebook}
                     >
                         <FaFacebook size={16} />
-                        <OAuth2Login
+                        {/* <OAuth2Login
                             buttonText="Log in with Facebook"
                             authorizationUrl="https://www.facebook.com/dialog/oauth"
                             responseType="token"
@@ -180,7 +199,8 @@ const Login = () => {
                             scope="public_profile"
                             onSuccess={onSuccess}
                             onFailure={onFailure}
-                        />
+                        /> */}
+                        Log in with Facebook
                     </button>
 
                     <button

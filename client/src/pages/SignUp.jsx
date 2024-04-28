@@ -11,6 +11,9 @@ import OAuth2Login from 'react-simple-oauth2-login'
 import { FaFacebook } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
 import { useDispatch } from 'react-redux'
+import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth'
+import { app } from '../firebase'
+import { useLogin } from '../hooks/useLogin'
 
 const SignUp = () => {
     const navigate = useNavigate()
@@ -21,10 +24,13 @@ const SignUp = () => {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const { signup, isLoading, error } = useSignup()
+    const { loginOrSignupWithGoogle, isLoading2, error2 } = useLogin()
+
     // Show/hide Password
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
     const dispatch = useDispatch()
+    const auth = getAuth(app)
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword)
@@ -38,6 +44,22 @@ const SignUp = () => {
 
         try {
             await signup(name, email, username, password, confirmPassword)
+            navigate('/')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleLoginWithGoogle = async () => {
+        const provider = new GoogleAuthProvider()
+        provider.setCustomParameters({ prompt: 'select_account' })
+        try {
+            const resGoogle = await signInWithPopup(auth, provider)
+            const name = resGoogle.user.displayName
+            const email = resGoogle.user.email
+            const profilePicture = resGoogle.user.photoURL
+
+            await loginOrSignupWithGoogle(name, email, profilePicture)
             navigate('/')
         } catch (error) {
             console.log(error)
@@ -172,7 +194,7 @@ const SignUp = () => {
                     <button
                         type="submit"
                         className="font-azeret bg-[#FFB302] hover:bg-[#ffc235] w-[70%] text-[12px] font-bold  h-[6vh] shadow-sm mt-4 rounded-[5px] hover:cursor-pointer"
-                        disabled={isLoading}
+                        disabled={isLoading || isLoading2}
                         onClick={handleSubmit}
                     >
                         Sign up
@@ -194,7 +216,7 @@ const SignUp = () => {
                     <button
                         type="submit"
                         className="font-azeret bg-[#3b5998] hover:bg-[#4162a8] text-white w-[70%] text-[12px] font-bold  h-[6vh] shadow-sm rounded-[5px] hover:cursor-pointer flex flex-row justify-center items-center gap-4"
-                        disabled={isLoading}
+                        disabled={isLoading || isLoading2}
                     >
                         <FaFacebook size={16} />
                         <OAuth2Login
@@ -212,8 +234,8 @@ const SignUp = () => {
                     <button
                         type="submit"
                         className="font-azeret bg-white hover:bg-gray-200 text-gray-500 w-[70%] text-[12px] font-semibold  h-[6vh]  mb-[-2vh] border border-gray-300 border-1 rounded-[5px] hover:cursor-pointer flex flex-row justify-center items-center gap-4"
-                        disabled={isLoading}
-                        onClick={handleSubmit}
+                        disabled={isLoading || isLoading2}
+                        onClick={handleLoginWithGoogle}
                     >
                         <FcGoogle size={16} />
                         Sign up with Google
