@@ -15,27 +15,24 @@ import diaryRoutes from './routes/diaryRoutes.js'
 import postRoutes from './routes/postRoutes.js'
 import eventRoutes from './routes/eventRoutes.js'
 import cookieSession from 'cookie-session'
-import passport from 'passport'
 
 dotenv.config()
 const app = express()
-
-// cookie-session simplifies session management by storing session data directly in encrypted cookie
-app.use(
-    cookieSession({
-        name: 'session',
-        keys: ['group4'], //  An array of secret keys used for encrypting and decrypting the session data stored in the cookie
-        maxAge: 24 * 60 * 60 * 100, // 1 day = 24 hours * 60 mins * 60 sec * 100 milisec
-    })
-)
-app.use(passport.initialize())
-app.use(passport.session())
 
 // app.use(express.json());
 // app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(express.json({ limit: '50mb' }))
 app.use(express.urlencoded({ extended: true, limit: '50mb' }))
-app.use(cors())
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
+
+// cookie-session simplifies session management by storing session data directly in encrypted cookie
+app.use(
+    cookieSession({
+        name: 'session',
+        keys: [process.env.COOKIE_KEY], //  An array of secret keys used for encrypting and decrypting the session data stored in the cookie
+        maxAge: 24 * 60 * 60 * 1000, // 1 day = 24 hours * 60 mins * 60 sec * 1000 milisec
+    })
+)
 
 app.use('/auth', authRoutes)
 app.use('/users', userRoutes)
