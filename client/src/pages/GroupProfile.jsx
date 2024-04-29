@@ -60,6 +60,7 @@ const GroupProfile = () => {
             const data = await res.json()
             if (res.ok) {
                 setGroup(data)
+                setNewGroupName(data.name)
             }
             const res_2 = await fetch(
                 `${BASE_URL}/groups/${groupId}/members`,
@@ -116,7 +117,7 @@ const GroupProfile = () => {
                 <div className="pt-[60px] flex flex-row h-screen p-[3vh]">
                     <div className="w-[25%]  my-[3vh] mr-[1.5vh]">
                         <div className="h-[90%] bg-[#FFB302] rounded-[20px] mb-[1.5vh] p-[2vh]">
-                            <p className="text-3xl m-[2vh]">{group['name']}</p>
+                            <p className="text-3xl m-[2vh]">{newGroupName}</p>
                             <div className="text-left pl-[5vh]">
                                 {members.map((member) => (
                                     <p className="text-xl">{member['name']}</p>
