@@ -23,6 +23,7 @@ function App() {
 			<Router>
 				<Routes>
 					<Route
+						exact
 						path="/login"
 						element={
 							<ProtectedRoute isAuthPage={true}>
@@ -31,6 +32,7 @@ function App() {
 						}
 					/>
 					<Route
+						exact
 						path="/signup"
 						element={
 							<ProtectedRoute isAuthPage={true}>
@@ -40,6 +42,7 @@ function App() {
 					/>
 
 					<Route
+						exact
 						path="/"
 						element={
 							<ProtectedRoute>
@@ -49,6 +52,7 @@ function App() {
 					/>
 
 					<Route
+						exact
 						path="/settings"
 						element={
 							<ProtectedRoute>
@@ -57,6 +61,7 @@ function App() {
 						}
 					/>
 					<Route
+						exact
 						path="/connection/:userId"
 						element={
 							<ProtectedRoute>
@@ -65,6 +70,7 @@ function App() {
 						}
 					/>
 					<Route
+						exact
 						path="/notification"
 						element={
 							<ProtectedRoute>
@@ -73,6 +79,7 @@ function App() {
 						}
 					/>
 					<Route
+						exact
 						path="/:userId"
 						element={
 							<ProtectedRoute>
@@ -81,6 +88,7 @@ function App() {
 						}
 					/>
 					<Route
+						exact
 						path="/map"
 						element={
 							<ProtectedRoute>
@@ -89,6 +97,7 @@ function App() {
 						}
 					/>
 					<Route
+						exact
 						path="/groups"
 						element={
 							<ProtectedRoute>
@@ -97,6 +106,7 @@ function App() {
 						}
 					/>
 					<Route
+						exact
 						path="/groups/:groupId"
 						element={
 							<ProtectedRoute>
@@ -105,6 +115,7 @@ function App() {
 						}
 					/>
 					<Route
+						exact
 						path="/chats"
 						element={
 							<ProtectedRoute>
@@ -113,6 +124,7 @@ function App() {
 						}
 					/>
 					<Route
+						exact
 						path="/diary"
 						element={
 							<ProtectedRoute>
@@ -121,6 +133,7 @@ function App() {
 						}
 					/>
 					<Route
+						exact
 						path="/events"
 						element={
 							<ProtectedRoute>

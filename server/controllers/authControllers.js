@@ -80,18 +80,16 @@ export const login = async (req, res) => {
     }
 }
 
-export const loginWithFacebook = async (req, res) => {
+export const authWithGoogle = async (req, res) => {
     try {
-        const { facebookId, name, email, username, password } = req.body
-        const existedUser = await UserModel.findOne({ facebookId: facebookId })
+        const { name, email, username, password, profilePicture } = req.body
 
-        // If user already existed, only login
+        const existedUser = await UserModel.findOne({ email })
         if (existedUser) {
             const token = createToken(existedUser._id)
             res.status(201).json({ user: existedUser, token })
         } else {
-            // Create a random password and allow them to change later
-            // TODO: reset/forget password
+            // Create a new user
             const salt = await bcrypt.genSalt()
             const hashedPassword = await bcrypt.hash(password, salt)
 
@@ -100,7 +98,7 @@ export const loginWithFacebook = async (req, res) => {
                 email,
                 username,
                 password: hashedPassword,
-                facebookId: facebookId,
+                // profilePicture,
             })
             const token = createToken(user._id)
             res.status(201).json({ user, token })
@@ -110,6 +108,36 @@ export const loginWithFacebook = async (req, res) => {
     }
 }
 
-const createToken = (_id) => {
+// export const loginWithFacebook = async (req, res) => {
+//     try {
+//         const { facebookId, name, email, username, password } = req.body
+//         const existedUser = await UserModel.findOne({ facebookId: facebookId })
+
+//         // If user already existed, only login
+//         if (existedUser) {
+//             const token = createToken(existedUser._id)
+//             res.status(201).json({ user: existedUser, token })
+//         } else {
+//             // Create a random password and allow them to change later
+//             // TODO: reset/forget password
+//             const salt = await bcrypt.genSalt()
+//             const hashedPassword = await bcrypt.hash(password, salt)
+
+//             const user = await UserModel.create({
+//                 name,
+//                 email,
+//                 username,
+//                 password: hashedPassword,
+//                 facebookId: facebookId,
+//             })
+//             const token = createToken(user._id)
+//             res.status(201).json({ user, token })
+//         }
+//     } catch (err) {
+//         res.status(500).json({ error: err.message })
+//     }
+// }
+
+export const createToken = (_id) => {
     return jwt.sign({ _id }, process.env.JWT_SECRET, { expiresIn: '3d' })
 }
