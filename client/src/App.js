@@ -18,120 +18,133 @@ import Event from './pages/Event.jsx'
 // TODO: responsive to screen size
 
 function App() {
-	return (
-		<div className="app">
-			<Router>
-				<Routes>
-					<Route
-						path="/login"
-						element={
-							<ProtectedRoute isAuthPage={true}>
-								<Login />
-							</ProtectedRoute>
-						}
-					/>
-					<Route
-						path="/signup"
-						element={
-							<ProtectedRoute isAuthPage={true}>
-								<SignUp />
-							</ProtectedRoute>
-						}
-					/>
+    return (
+        <div className="app">
+            <Router>
+                <Routes>
+                    <Route
+                        exact
+                        path="/login"
+                        element={
+                            <ProtectedRoute isAuthPage={true}>
+                                <Login />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        exact
+                        path="/signup"
+                        element={
+                            <ProtectedRoute isAuthPage={true}>
+                                <SignUp />
+                            </ProtectedRoute>
+                        }
+                    />
 
-					<Route
-						path="/"
-						element={
-							<ProtectedRoute>
-								<Home />
-							</ProtectedRoute>
-						}
-					/>
+                    <Route
+                        exact
+                        path="/"
+                        element={
+                            <ProtectedRoute>
+                                <Home />
+                            </ProtectedRoute>
+                        }
+                    />
 
-          <Route
-            path="/settings"
-            element={
-              <ProtectedRoute>
-                <Settings />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/connection/:userId"
-            element={
-              <ProtectedRoute>
-                <Connection />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/notification"
-            element={
-              <ProtectedRoute>
-                <Notification />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/:userId"
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/map"
-            element={
-              <ProtectedRoute>
-                <Map />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/groups"
-            element={
-              <ProtectedRoute>
-                <Groups />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/groups/:groupId"
-            element={
-              <ProtectedRoute>
-                <GroupProfile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/chats"
-            element={
-              <ProtectedRoute>
-                <Chat />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/diary"
-            element={
-              <ProtectedRoute>
-                <Diary />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/events"
-            element={
-              <ProtectedRoute>
-                <Event />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </Router>
-    </div>
-  )
+                    <Route
+                        exact
+                        path="/settings"
+                        element={
+                            <ProtectedRoute>
+                                <Settings />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        exact
+                        path="/connection/:userId"
+                        element={
+                            <ProtectedRoute>
+                                <Connection />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        exact
+                        path="/notification"
+                        element={
+                            <ProtectedRoute>
+                                <Notification />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        exact
+                        path="/:userId"
+                        element={
+                            <ProtectedRoute>
+                                <Profile />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        exact
+                        path="/map"
+                        element={
+                            <ProtectedRoute>
+                                <Map />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        exact
+                        path="/groups"
+                        element={
+                            <ProtectedRoute>
+                                <Groups />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        exact
+                        path="/groups/:groupId"
+                        element={
+                            <ProtectedRoute>
+                                <GroupProfile />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        exact
+                        path="/chats"
+                        element={
+                            <ProtectedRoute>
+                                <Chat />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        exact
+                        path="/diary"
+                        element={
+                            <ProtectedRoute>
+                                <Diary />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        exact
+                        path="/events"
+                        element={
+                            <ProtectedRoute>
+                                <Event />
+                            </ProtectedRoute>
+                        }
+                    />
+                </Routes>
+            </Router>
+        </div>
+    )
 }
 
 export default App
