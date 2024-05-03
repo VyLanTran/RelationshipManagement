@@ -1,21 +1,58 @@
-import React from "react";
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from "react";
+import { useParams } from 'react-router-dom'
 import Select from 'react-select'
+import { useSelector } from 'react-redux'
+import BASE_URL from '@/../../constants.js'
 import { RiBookletFill } from "react-icons/ri";
 import { IoPersonSharp } from "react-icons/io5";
 import { IoChatboxEllipses } from "react-icons/io5";
 import { IoDocumentText } from "react-icons/io5";
 
+const ConnectionGroup = () => {
 
-const options: { value: string, label: string }[] = [
-    { value: "Viet Tech", label: "Viet Tech" },
-    { value: "Team 4", label: "Team 4" },
-    { value: "12CA1", label: "12CA1" },
-    { value: "Everyone", label: "Everyone" }
-];
+    const [ connections, setConnections ] = useState([]);
+    const [ groups, setGroups ] = useState([])
+    const user = useSelector((state) => state.auth.user)
+    const token = useSelector((state) => state.auth.token)
+    const authHeader = { headers: { Authorization: `Bearer ${token}`} }
 
-const ConnectionGroup: React.FC = () => {
-   
+    useEffect(() => {
+        // fetch groups
+        const fetchGroups = async () => {
+            const res_groups = await fetch(
+                `${BASE_URL}/groups/user/${user._id}`,
+                authHeader
+            )
+            const data_groups = await res_groups.json()
+            if (res_groups.ok) {
+                setGroups(data_groups)
+            }
+
+            const res = await fetch(
+                `${BASE_URL}/connections/${user._id}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
+            const data = await res.json()
+
+            if (res.ok) {
+                setConnections(data.connections)
+            }
+        }
+
+        if (user) {
+            fetchGroups()
+        }
+    }, [user])
+
+    const options = [{ value: "Everyone", label: "Everyone" }, ...groups.map(group => ({ value: group.name, label: group.name }))];
+
+    console.log(groups)
+
     return (
         <div className="bg-[#FFB302] rounded-[20px] w-[50vh] h-[84vh] p-[2.5vh] m-[2vh]">
             <Select placeholder="Select group:" className="text-left" options={ options } />
