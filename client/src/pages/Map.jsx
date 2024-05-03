@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom'
 import { Loader } from "@googlemaps/js-api-loader";
-import MapCard from "../components/map/MapCard.tsx";
+import MapCard from "../components/map/MapCard.jsx";
 import Navbar from "../components/navbar/Navbar.jsx";
 import usePlaceAutocomplete, { getGeocode, getLatLng } from "use-places-autocomplete";
 import axios from "axios";

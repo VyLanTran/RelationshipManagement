@@ -7,14 +7,14 @@ import { IoChatboxEllipses } from "react-icons/io5";
 import { IoDocumentText } from "react-icons/io5";
 
 
-const options: { value: string, label: string }[] = [
+const options = [
     { value: "Viet Tech", label: "Viet Tech" },
     { value: "Team 4", label: "Team 4" },
     { value: "12CA1", label: "12CA1" },
     { value: "Everyone", label: "Everyone" }
 ];
 
-const ConnectionGroup: React.FC = () => {
+const ConnectionGroup = () => {
    
     return (
         <div className="bg-[#FFB302] rounded-[20px] w-[50vh] h-[84vh] p-[2.5vh] m-[2vh]">
