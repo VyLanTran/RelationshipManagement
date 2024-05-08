@@ -64,7 +64,7 @@ const MapGroup = () => {
             const mapOptions = {
                 center: position,
                 zoom: 3,
-                mapId: "416e6fbb21cbb74a"
+                mapId: '7edf854779b8d237'
             }
 
             // setup map
@@ -75,8 +75,9 @@ const MapGroup = () => {
             const markers = [];
 
             await Promise.all(connections.slice().map(async (connection) => {
-                if (connection["location"]) {
+                if (connection && "location" in connection) {
                     try {
+                        console.log(connection["location"])
                         // Perform geocoding to get latitude and longitude
                         const results = await getGeocode({ 'address': connection.location });
                         const { lat, lng } = await getLatLng(results[0]);
