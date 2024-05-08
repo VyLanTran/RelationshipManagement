@@ -42,22 +42,13 @@ const MessageItem = ({ index, user, message, messages }) => {
                     className={`ml-4 mt-auto
                 ${!isLastMessageInSeries(index, message, messages) && ' opacity-0'}`}
                 >
-                    {!isMyMessage(user) &&
-                        (user.profilePicture ? (
-                            <img
-                                src={user.profilePicture.url}
-                                alt="profilePicture"
-                                className="object-cover w-[30px] h-[30px] rounded-full"
-                            />
-                        ) : (
-                            <div className="w-[30px] h-[30px] rounded-full bg-gray-200 p-1.5">
-                                <img
-                                    src="../../../assets/default-user.png"
-                                    alt="profilePicture"
-                                    className="object-cover rounded-full "
-                                />
-                            </div>
-                        ))}
+                    {!isMyMessage(user) && (
+                        <img
+                            src={user.profilePicture.url}
+                            alt="profilePicture"
+                            className="object-cover w-[30px] h-[30px] rounded-full"
+                        />
+                    )}
                 </div>
 
                 <div
