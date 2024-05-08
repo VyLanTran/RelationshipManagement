@@ -44,7 +44,7 @@ const MessageItem = ({ index, user, message, messages }) => {
                 >
                     {!isMyMessage(user) && (
                         <img
-                            src={user.profilePicture.url}
+                            src={user.profilePicture?.url}
                             alt="profilePicture"
                             className="object-cover w-[30px] h-[30px] rounded-full"
                         />

@@ -98,7 +98,7 @@ const Profile = () => {
                                     }
                                 >
                                     <img
-                                        src={user.profilePicture.url}
+                                        src={user.profilePicture?.url}
                                         alt="profilePicture"
                                         className="object-cover  w-[150px]  h-[150px] rounded-full "
                                     />

@@ -74,8 +74,6 @@ const SignUp = () => {
             )
             const profile = await fbRes.json()
 
-            console.log('my profile: ', profile)
-
             const result = await fetch(`http://localhost:3001/auth/facebook`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' }, // indicate the body of request is json
