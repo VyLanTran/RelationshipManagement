@@ -92,24 +92,16 @@ const Profile = () => {
 
                             <div className="flex gap-10 h-[150px] mt-[-75px]">
                                 <div
-                                    className="w-[150px] ml-[20px] bg-gray-100 rounded-full flex items-center justify-center relative cursor-pointer"
+                                    className="w-[150px] ml-[20px] bg-white rounded-full flex items-center justify-center relative cursor-pointer"
                                     onClick={() =>
                                         setIsProfilePictureOpen(true)
                                     }
                                 >
-                                    {user.profilePicture ? (
-                                        <img
-                                            src={user.profilePicture.url}
-                                            alt="profilePicture"
-                                            className="object-cover w-[140px] h-[140px] rounded-full"
-                                        />
-                                    ) : (
-                                        <img
-                                            src="../../../assets/default-user.png"
-                                            alt="profilePicture"
-                                            className="object-cover w-[100px] h-[100px] rounded-full"
-                                        />
-                                    )}
+                                    <img
+                                        src={user.profilePicture.url}
+                                        alt="profilePicture"
+                                        className="object-cover  w-[150px]  h-[150px] rounded-full "
+                                    />
                                     {currentUser._id === userId && (
                                         <div className="absolute bottom-0 right-0 transform translate-x-1/4 -translate-y-1/4 bg-gray-200 hover:bg-gray-300 rounded-full p-1.5 flex items-center justify-center">
                                             <IoIosCamera size={28} />
