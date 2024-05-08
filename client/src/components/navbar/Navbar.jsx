@@ -86,7 +86,7 @@ function DropdownMenuDemo({ user, handleLogout }) {
             <DropdownMenuTrigger asChild>
                 <div className=" w-[24px] h-[24px] rounded-full">
                     <img
-                        src={user.profilePicture.url}
+                        src={user.profilePicture?.url}
                         alt="profilePicture"
                         className="object-cover w-[24px] h-[24px] rounded-full"
                     />
