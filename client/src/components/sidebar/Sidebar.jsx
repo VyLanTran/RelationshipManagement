@@ -18,6 +18,7 @@ import {
 } from '@heroicons/react/24/solid'
 import { ChevronRightIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
 import { UsersRound } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 const Sidebar = () => {
     const [open, setOpen] = React.useState(0)
@@ -48,7 +49,7 @@ const Sidebar = () => {
                             </ListItemPrefix>
                             <Typography
                                 color="blue-gray"
-                                className="mr-auto font-normal"
+                                className="mr-auto font-normal text-[16px]"
                             >
                                 Dashboard
                             </Typography>
@@ -95,7 +96,7 @@ const Sidebar = () => {
                             </ListItemPrefix>
                             <Typography
                                 color="blue-gray"
-                                className="mr-auto font-normal"
+                                className="mr-auto font-normal text-[16px]"
                             >
                                 Friends
                             </Typography>
@@ -109,12 +110,14 @@ const Sidebar = () => {
                                 </ListItemPrefix>
                                 Friend Requests
                             </ListItem>
-                            <ListItem>
-                                <ListItemPrefix>
-                                    <div className="h-3 w-5"></div>
-                                </ListItemPrefix>
-                                Suggestions
-                            </ListItem>
+                            <Link to="/friendSuggestions">
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <div className="h-3 w-5"></div>
+                                    </ListItemPrefix>
+                                    Suggestions
+                                </ListItem>
+                            </Link>
                             <ListItem>
                                 <ListItemPrefix>
                                     <div className="h-3 w-5"></div>

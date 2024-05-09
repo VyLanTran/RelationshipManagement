@@ -14,6 +14,8 @@ import messageRoutes from './routes/messageRoutes.js'
 import diaryRoutes from './routes/diaryRoutes.js'
 import postRoutes from './routes/postRoutes.js'
 import eventRoutes from './routes/eventRoutes.js'
+import friendRequestRoutes from './routes/friendRequestRoutes.js'
+
 import cookieSession from 'cookie-session'
 
 dotenv.config()
@@ -43,6 +45,7 @@ app.use('/messages', messageRoutes)
 app.use('/diary', diaryRoutes)
 app.use('/posts', postRoutes)
 app.use('/events', eventRoutes)
+app.use('/requests', friendRequestRoutes)
 
 const PORT = process.env.PORT || 8080
 
