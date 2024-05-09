@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Navbar from '../components/navbar/Navbar.jsx'
 import About from '../components/users/About.jsx'
 import { useSelector } from 'react-redux'
@@ -7,6 +7,8 @@ import { IoIosCamera } from 'react-icons/io'
 import UploadImageModal from '../components/users/UploadImageModal.jsx'
 import FriendList from '../components/users/FriendList.jsx'
 import BASE_URL from '@/../../constants.js'
+import Sidebar, { SidebarItem } from '../components/sidebar/Sidebar.jsx'
+import { BarChart3, UserCircle } from 'lucide-react'
 
 const Profile = () => {
     // this user is myself, who is authenticated to use this app
@@ -64,9 +66,10 @@ const Profile = () => {
             <Navbar />
             {user ? (
                 <div className="flex flex-row w-screen pt-[60px] ">
-                    {/* Left sidebar */}
-                    <div className="w-[20%] bg-yellow-400">left sidebar</div>
-                    {/* Main */}
+                    <div className="w-[20%]">
+                        <Sidebar />
+                    </div>
+
                     <div className="w-[60%] px-4 flex flex-col gap-4">
                         <div className="h-[450px] relative shadow-md bg-[#fffdf0]">
                             <div
@@ -120,7 +123,6 @@ const Profile = () => {
                                             Message
                                         </button>
                                     )}
-                                    {/* TODO: pending friend request */}
                                     {currentUser._id !== userId && (
                                         <div>
                                             {isFriend ? (
@@ -164,7 +166,6 @@ const Profile = () => {
                         />
                     </div>
 
-                    {/* Right sidebar */}
                     <div className="w-[20%] p-4">
                         <FriendList friends={friends} />
                     </div>
