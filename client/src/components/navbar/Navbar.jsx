@@ -112,6 +112,23 @@ function DropdownMenuDemo({ user, handleLogout }) {
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
 
+                <DropdownMenuGroup>
+                    <Link to="/requests">
+                        <DropdownMenuItem>
+                            <User className="mr-2 h-4 w-4" />
+                            <span>Requests</span>
+                        </DropdownMenuItem>
+                    </Link>
+
+                    <Link to="/friendSuggestions">
+                        <DropdownMenuItem>
+                            <Settings className="mr-2 h-4 w-4" />
+                            <span>Suggestions</span>
+                        </DropdownMenuItem>
+                    </Link>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+
                 <div onClick={handleLogout}>
                     <DropdownMenuItem>
                         <LogOut className="mr-2 h-4 w-4" />

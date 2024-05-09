@@ -17,10 +17,12 @@ import {
 
 import authReducer from './authReducer.js'
 import chatReducer from './chatReducer.js'
+import friendReducer from './friendReducer.js'
 
 const rootReducer = combineReducers({
     auth: authReducer,
     chat: chatReducer,
+    friend: friendReducer,
 })
 
 const persistConfig = {

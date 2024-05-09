@@ -116,9 +116,9 @@ const SignUp = () => {
         <header>
             <div
                 // className="w-full h-[100vh] flex justify-center items-center overflow-hidden"
-                className="w-full h-screen flex justify-center items-center"
+                className="w-full h-full flex justify-center items-center py-10"
             >
-                <div className="bg-slate-50 flex flex-col items-center gap-2 rounded-[20px] justify-center py-2 pb-8 w-4/5 sm:w-2/5">
+                <div className="bg-slate-50 flex flex-col items-center gap-2 rounded-sm justify-center w-4/5 sm:w-2/5 my-10 py-16">
                     <h3 className="font-azeret text-[40px] mb-6">Sign Up</h3>
                     <input
                         className="textStyles outline-none  "

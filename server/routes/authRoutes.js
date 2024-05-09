@@ -4,7 +4,7 @@ import {
     login,
     // loginWithFacebook,
     authWithGoogle,
-} from '../controllers/authControllers.js'
+} from '../controllers/authController.js'
 
 const router = express.Router()
 

@@ -7,8 +7,8 @@ import { IoIosCamera } from 'react-icons/io'
 import UploadImageModal from '../components/users/UploadImageModal.jsx'
 import FriendList from '../components/users/FriendList.jsx'
 import BASE_URL from '@/../../constants.js'
-import Sidebar, { SidebarItem } from '../components/sidebar/Sidebar.jsx'
-import { BarChart3, UserCircle } from 'lucide-react'
+import { FaUserCheck } from 'react-icons/fa6'
+import { FaUserPlus } from 'react-icons/fa6'
 
 const Profile = () => {
     // this user is myself, who is authenticated to use this app
@@ -66,9 +66,7 @@ const Profile = () => {
             <Navbar />
             {user ? (
                 <div className="flex flex-row w-screen pt-[60px] ">
-                    <div className="w-[20%]">
-                        <Sidebar />
-                    </div>
+                    <div className="w-[20%]">{/* <Sidebar /> */}</div>
 
                     <div className="w-[60%] px-4 flex flex-col gap-4">
                         <div className="h-[450px] relative shadow-md bg-[#fffdf0]">
@@ -118,23 +116,25 @@ const Profile = () => {
                                     </span>
                                 </div>
                                 <div className="mt-[75px] flex items-center ml-auto text-[14px] pr-2 gap-2">
-                                    {currentUser._id !== userId && isFriend && (
-                                        <button className=" bg-[#FFB302]  py-1 px-4 rounded-md">
-                                            Message
-                                        </button>
-                                    )}
                                     {currentUser._id !== userId && (
                                         <div>
                                             {isFriend ? (
-                                                <button className=" bg-gray-300 py-1 px-4 rounded-md">
-                                                    Friends
-                                                </button>
+                                                <div className="flex flex-row bg-[#FFB302] py-1 px-4 rounded-md items-center gap-2">
+                                                    <FaUserCheck />
+                                                    <button>Friends</button>
+                                                </div>
                                             ) : (
-                                                <button className=" bg-gray-300 py-1 px-4 rounded-md">
-                                                    Add friend
-                                                </button>
+                                                <div className="bg-[#FFB302] py-1 px-4 rounded-md flex flex-row gap-2 items-center">
+                                                    <FaUserPlus />
+                                                    <button>Add friend</button>
+                                                </div>
                                             )}
                                         </div>
+                                    )}
+                                    {currentUser._id !== userId && isFriend && (
+                                        <button className="bg-gray-300  py-1 px-4 rounded-md">
+                                            Message
+                                        </button>
                                     )}
                                 </div>
                             </div>
