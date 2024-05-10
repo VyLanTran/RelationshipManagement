@@ -11,6 +11,8 @@ import { FaMap } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import NotificationBadge from 'react-notification-badge'
 import { CgMenuGridO } from 'react-icons/cg'
+import { FiUserPlus } from 'react-icons/fi'
+import { RiUserReceived2Line } from 'react-icons/ri'
 
 import { Effect } from 'react-notification-badge'
 
@@ -85,12 +87,6 @@ const Navbar = () => {
                         </div>
                     </div>
                 </NavLink>
-
-                {/* <NavbarButton
-                    icon={<FaBell size={21} />}
-                    name="Notifications"
-                    url="/notification"
-                /> */}
                 <Notification />
                 <DropdownSetting user={user} handleLogout={handleLogout} />
             </div>
@@ -174,7 +170,7 @@ function Notification() {
     )
 }
 
-function Menu({ user, handleLogout }) {
+function Menu() {
     return (
         <div className="cursor-pointer">
             <DropdownMenu>
@@ -184,48 +180,32 @@ function Menu({ user, handleLogout }) {
                     </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56">
-                    <DropdownMenuLabel>Menu</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuGroup>
-                        <Link to="">
-                            <DropdownMenuItem>
-                                <User className="mr-2 h-4 w-4" />
-                                <span>Profile</span>
-                            </DropdownMenuItem>
-                        </Link>
-
-                        <Link to="/settings">
-                            <DropdownMenuItem>
-                                <Settings className="mr-2 h-4 w-4" />
-                                <span>Settings</span>
-                            </DropdownMenuItem>
-                        </Link>
-                    </DropdownMenuGroup>
+                    <DropdownMenuLabel className="p-2">
+                        <span className="text-[20px] font-bold">Menu</span>
+                    </DropdownMenuLabel>
                     <DropdownMenuSeparator />
 
                     <DropdownMenuGroup>
+                        <div className="flex p-2">
+                            <span className="mr-auto text-[16px] font-semibold">
+                                Friends
+                            </span>
+                        </div>
                         <Link to="/requests">
                             <DropdownMenuItem>
-                                <User className="mr-2 h-4 w-4" />
+                                <RiUserReceived2Line className="mr-2 h-4 w-4" />
                                 <span>Requests</span>
                             </DropdownMenuItem>
                         </Link>
 
                         <Link to="/friendSuggestions">
                             <DropdownMenuItem>
-                                <Settings className="mr-2 h-4 w-4" />
+                                <FiUserPlus className="mr-2 h-4 w-4" />
                                 <span>Suggestions</span>
                             </DropdownMenuItem>
                         </Link>
                     </DropdownMenuGroup>
                     <DropdownMenuSeparator />
-
-                    <div onClick={handleLogout}>
-                        <DropdownMenuItem>
-                            <LogOut className="mr-2 h-4 w-4" />
-                            <span>Log out</span>
-                        </DropdownMenuItem>
-                    </div>
                 </DropdownMenuContent>
             </DropdownMenu>
         </div>
