@@ -10,6 +10,8 @@ import { IoChatbubbleEllipses } from 'react-icons/io5'
 import { FaMap } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import NotificationBadge from 'react-notification-badge'
+import { CgMenuGridO } from 'react-icons/cg'
+
 import { Effect } from 'react-notification-badge'
 
 import { LogOut, Settings, User } from 'lucide-react'
@@ -45,6 +47,7 @@ const Navbar = () => {
             </div>
             <div className="flex flex-row gap-4 items-center">
                 {/* TODO: use tooltips for these buttons */}
+                <Menu />
                 <NavbarButton
                     icon={<RiBookletFill size={21} />}
                     name="My space"
@@ -89,13 +92,13 @@ const Navbar = () => {
                     url="/notification"
                 /> */}
                 <Notification />
-                <DropdownMenuDemo user={user} handleLogout={handleLogout} />
+                <DropdownSetting user={user} handleLogout={handleLogout} />
             </div>
         </div>
     )
 }
 
-function DropdownMenuDemo({ user, handleLogout }) {
+function DropdownSetting({ user, handleLogout }) {
     return (
         <div className="cursor-pointer">
             <DropdownMenu>
@@ -182,6 +185,64 @@ function Notification() {
                             )
                         })}
                     </DropdownMenuGroup>
+                </DropdownMenuContent>
+            </DropdownMenu>
+        </div>
+    )
+}
+
+function Menu({ user, handleLogout }) {
+    return (
+        <div className="cursor-pointer">
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <div>
+                        <CgMenuGridO size={26} />
+                    </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56">
+                    <DropdownMenuLabel>Menu</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
+                        <Link to="">
+                            <DropdownMenuItem>
+                                <User className="mr-2 h-4 w-4" />
+                                <span>Profile</span>
+                            </DropdownMenuItem>
+                        </Link>
+
+                        <Link to="/settings">
+                            <DropdownMenuItem>
+                                <Settings className="mr-2 h-4 w-4" />
+                                <span>Settings</span>
+                            </DropdownMenuItem>
+                        </Link>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
+
+                    <DropdownMenuGroup>
+                        <Link to="/requests">
+                            <DropdownMenuItem>
+                                <User className="mr-2 h-4 w-4" />
+                                <span>Requests</span>
+                            </DropdownMenuItem>
+                        </Link>
+
+                        <Link to="/friendSuggestions">
+                            <DropdownMenuItem>
+                                <Settings className="mr-2 h-4 w-4" />
+                                <span>Suggestions</span>
+                            </DropdownMenuItem>
+                        </Link>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
+
+                    <div onClick={handleLogout}>
+                        <DropdownMenuItem>
+                            <LogOut className="mr-2 h-4 w-4" />
+                            <span>Log out</span>
+                        </DropdownMenuItem>
+                    </div>
                 </DropdownMenuContent>
             </DropdownMenu>
         </div>
