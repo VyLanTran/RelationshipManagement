@@ -176,7 +176,7 @@ function Notification() {
                             return (
                                 <Link to="">
                                     <DropdownMenuItem>
-                                        <span>{unreadChats.length}</span>
+                                        <span>notification 1</span>
                                     </DropdownMenuItem>
                                 </Link>
                             )
