@@ -90,6 +90,8 @@ io.on('connection', (socket) => {
         socket.emit('connected')
     })
 
+    // -------------- MESSAGING ----------------- //
+
     // Create a chat room
     // The id of each room will be the id of the Chat object
     socket.on('join chat', (room) => {
@@ -116,6 +118,8 @@ io.on('connection', (socket) => {
             socket.in(member._id).emit('message received', messageReceived)
         })
     })
+
+    // -------------- FRIEND REQUESTS ----------------- //
 
     socket.off('setup', () => {
         console.log('USER DISCONNECTED')
