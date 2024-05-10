@@ -19,9 +19,14 @@ export const friendSlice = createSlice({
         setProfileViewing: (state, action) => {
             state.profileViewing = action.payload
         },
+        friendReset: (state) => {
+            state.friends = []
+            state.friendRequests = []
+            state.profileViewing = null
+        },
     },
 })
 
-export const { setFriends, setFriendRequests, setProfileViewing } =
+export const { setFriends, setFriendRequests, setProfileViewing, friendReset } =
     friendSlice.actions
 export default friendSlice.reducer
