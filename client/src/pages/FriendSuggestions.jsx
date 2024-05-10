@@ -97,10 +97,12 @@ const SuggestionItem = ({ user }) => {
 const ProfileViewing = () => {
     const user = useSelector((state) => state.friend.profileViewing)
 
-    return (
+    return user ? (
         <div>
             <span>{user.name}</span>
         </div>
+    ) : (
+        <div>Choose a profile to view</div>
     )
 }
 
