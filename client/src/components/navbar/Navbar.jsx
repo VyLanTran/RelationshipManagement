@@ -13,6 +13,7 @@ import NotificationBadge from 'react-notification-badge'
 import { CgMenuGridO } from 'react-icons/cg'
 import { FiUserPlus } from 'react-icons/fi'
 import { RiUserReceived2Line } from 'react-icons/ri'
+import logo from './logo.png'
 
 import { Effect } from 'react-notification-badge'
 
@@ -45,7 +46,7 @@ const Navbar = () => {
                 onClick={() => navigate('/')}
                 className="cursor-pointer font-bold"
             >
-                Logo
+                <img className="ml-[10vh] h-[5vh]" src={logo} />
             </div>
             <div className="flex flex-row gap-4 items-center">
                 {/* TODO: use tooltips for these buttons */}
@@ -54,6 +55,7 @@ const Navbar = () => {
                     icon={<RiBookletFill size={21} />}
                     name="My space"
                     url="/diary"
+                    className="no-underline hover:underline"
                 />
 
                 <NavbarButton
