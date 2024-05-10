@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import Navbar from '../components/navbar/Navbar'
-import Sidebar from '../components/sidebar/Sidebar'
 import BASE_URL from '@/../../constants.js'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaUserPlus } from 'react-icons/fa'

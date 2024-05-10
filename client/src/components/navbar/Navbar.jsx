@@ -67,16 +67,6 @@ const Navbar = () => {
                     url={`/connection/${user._id}`}
                 />
 
-                {/* <NavbarButton
-                    icon={<IoChatbubbleEllipses size={24} />}
-                    name="Chats"
-                    url="/chats"
-                ></NavbarButton> */}
-
-                {/* <NavLink to="/chats" title="Chats">
-                    <IoChatbubbleEllipses size={24} />
-                </NavLink> */}
-
                 <NavLink
                     to="/chats"
                     title="Chats"
@@ -178,7 +168,7 @@ function Notification() {
                         <FaBell size={21} />
                     </div>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56">
+                <DropdownMenuContent className="w-[320px]">
                     <DropdownMenuLabel>Notifications</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuGroup>
@@ -191,11 +181,6 @@ function Notification() {
                                 </Link>
                             )
                         })}
-                        {/* <Link to="">
-                            <DropdownMenuItem>
-                                <span>{unreadChats.length}</span>
-                            </DropdownMenuItem>
-                        </Link> */}
                     </DropdownMenuGroup>
                 </DropdownMenuContent>
             </DropdownMenu>
