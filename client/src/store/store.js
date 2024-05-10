@@ -15,12 +15,14 @@ import {
     REGISTER,
 } from 'redux-persist'
 
-import authReducer from './authReducer.js'
-import chatReducer from './chatReducer.js'
+import authReducer, { setLogout } from './authReducer.js'
+import chatReducer, { chatReset } from './chatReducer.js'
+import friendReducer, { friendReset } from './friendReducer.js'
 
 const rootReducer = combineReducers({
     auth: authReducer,
     chat: chatReducer,
+    friend: friendReducer,
 })
 
 const persistConfig = {
@@ -47,6 +49,12 @@ export const store = configureStore({
             },
         }),
 })
+
+export const resetAllSlices = () => {
+    store.dispatch(setLogout())
+    store.dispatch(chatReset())
+    store.dispatch(friendReset())
+}
 
 // export const store = configureStore({
 //     reducer: persistedReducer,

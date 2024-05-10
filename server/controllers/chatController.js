@@ -138,7 +138,6 @@ export const getOrCreatePrivateChat = async (req, res) => {
     }
 }
 
-// TODO: In frontend, make sure that the dropdown doesnt allow adding ourself or duplicated users
 export const createGroupChat = async (req, res) => {
     try {
         const { chatName, memberIds } = req.body
