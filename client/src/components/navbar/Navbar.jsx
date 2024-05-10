@@ -1,5 +1,6 @@
 import React from 'react'
 import NavbarButton from './NavbarButton.tsx'
+import logo from './logo.png'
 import { RiBookletFill } from 'react-icons/ri'
 import { FaBell } from 'react-icons/fa'
 import { FaCalendarAlt } from 'react-icons/fa'
@@ -34,44 +35,49 @@ const Navbar = () => {
 
     return (
         // TODO: use shadcn menu
-        <div className="fixed h-[60px] z-10 w-full bg-[#FFB302] flex flex-row justify-between items-center px-10">
+        <div className="fixed h-[56px] z-10 w-full bg-[#FFB302] flex flex-row justify-between items-center px-10">
             <div
                 onClick={() => navigate('/')}
                 className="cursor-pointer font-bold"
             >
-                Logo
+                <img className="ml-[10vh] h-[5vh]" src={logo}/>
             </div>
             <div className="flex flex-row gap-4 items-center">
                 {/* TODO: use tooltips for these buttons */}
                 <NavbarButton
-                    icon={<RiBookletFill size={18} />}
+                    icon={<RiBookletFill size={23} />}
                     name="My space"
                     url="/diary"
+                    className="no-underline hover:underline"
                 />
                 <NavbarButton
-                    icon={<FaBell size={18} />}
+                    icon={<FaBell size={23} />}
                     name="Notifications"
                     url="/notification"
+                    className="no-underline hover:underline"
                 />
                 <NavbarButton
-                    icon={<FaMap size={18} />}
+                    icon={<FaMap size={23} />}
                     name="Map"
                     url="/map"
+                    className="no-underline hover:underline"
                 />
                 <NavbarButton
-                    icon={<FaCalendarAlt size={18} />}
+                    icon={<FaCalendarAlt size={23} />}
                     name="Event"
                     url="/events"
                 />
                 <NavbarButton
-                    icon={<IoIosContacts size={20} />}
+                    icon={<IoIosContacts size={28} />}
                     name="Connection"
                     url={`/connection/${user._id}`}
+                    className="no-underline hover:underline"
                 />
                 <NavbarButton
-                    icon={<IoChatbubbleEllipses size={20} />}
+                    icon={<IoChatbubbleEllipses size={23} />}
                     name="Chats"
                     url="/chats"
+                    className="no-underline hover:underline"
                 />
 
                 <DropdownMenuDemo user={user} handleLogout={handleLogout} />
