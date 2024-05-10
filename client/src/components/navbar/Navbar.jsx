@@ -46,7 +46,7 @@ const Navbar = () => {
                 onClick={() => navigate('/')}
                 className="cursor-pointer font-bold"
             >
-                <img className="ml-[10vh] h-[5vh]" src={logo} />
+                <img className="h-[5vh]" src={logo} />
             </div>
             <div className="flex flex-row gap-4 items-center">
                 {/* TODO: use tooltips for these buttons */}
