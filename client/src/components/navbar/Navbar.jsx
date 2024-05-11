@@ -1,5 +1,6 @@
 import React from 'react'
 import NavbarButton from './NavbarButton.tsx'
+import { HiUserGroup } from "react-icons/hi";
 import { RiBookletFill } from 'react-icons/ri'
 import { FaBell } from 'react-icons/fa'
 import { FaCalendarAlt } from 'react-icons/fa'
@@ -55,7 +56,12 @@ const Navbar = () => {
                     icon={<RiBookletFill size={21} />}
                     name="My space"
                     url="/diary"
-                    className="no-underline hover:underline"
+                />
+
+                <NavbarButton
+                    icon={<HiUserGroup size={21} />}
+                    name="Groups"
+                    url="/groups"
                 />
 
                 <NavbarButton
