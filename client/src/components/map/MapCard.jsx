@@ -10,7 +10,6 @@ import { IoDocumentText } from "react-icons/io5";
 
 const ConnectionGroup = () => {
 
-    const [ connections, setConnections ] = useState([]);
     const [ groups, setGroups ] = useState([])
     const user = useSelector((state) => state.auth.user)
     const token = useSelector((state) => state.auth.token)
@@ -27,27 +26,12 @@ const ConnectionGroup = () => {
             if (res_groups.ok) {
                 setGroups(data_groups)
             }
-
-            const res = await fetch(
-                `${BASE_URL}/connections/${user._id}`,
-                {
-                    method: 'GET',
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            )
-            const data = await res.json()
-
-            if (res.ok) {
-                setConnections(data.connections)
-            }
         }
 
         if (user) {
             fetchGroups()
         }
-    }, [user])
+    }, [])
 
     const options = [{ value: "Everyone", label: "Everyone" }, ...groups.map(group => ({ value: group.name, label: group.name }))];
 
