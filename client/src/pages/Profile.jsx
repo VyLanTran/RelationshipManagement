@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Navbar from '../components/navbar/Navbar.jsx'
 import About from '../components/users/About.jsx'
 import { useSelector } from 'react-redux'
@@ -7,6 +7,8 @@ import { IoIosCamera } from 'react-icons/io'
 import UploadImageModal from '../components/users/UploadImageModal.jsx'
 import FriendList from '../components/users/FriendList.jsx'
 import BASE_URL from '@/../../constants.js'
+import { FaUserCheck } from 'react-icons/fa6'
+import { FaUserPlus } from 'react-icons/fa6'
 
 const Profile = () => {
     // this user is myself, who is authenticated to use this app
@@ -64,9 +66,8 @@ const Profile = () => {
             <Navbar />
             {user ? (
                 <div className="flex flex-row w-screen pt-[60px] ">
-                    {/* Left sidebar */}
-                    <div className="w-[20%] bg-yellow-400">left sidebar</div>
-                    {/* Main */}
+                    <div className="w-[20%]">{/* <Sidebar /> */}</div>
+
                     <div className="w-[60%] px-4 flex flex-col gap-4">
                         <div className="h-[450px] relative shadow-md bg-[#fffdf0]">
                             <div
@@ -92,24 +93,16 @@ const Profile = () => {
 
                             <div className="flex gap-10 h-[150px] mt-[-75px]">
                                 <div
-                                    className="w-[150px] ml-[20px] bg-gray-100 rounded-full flex items-center justify-center relative cursor-pointer"
+                                    className="w-[150px] ml-[20px] bg-white rounded-full flex items-center justify-center relative cursor-pointer"
                                     onClick={() =>
                                         setIsProfilePictureOpen(true)
                                     }
                                 >
-                                    {user.profilePicture ? (
-                                        <img
-                                            src={user.profilePicture.url}
-                                            alt="profilePicture"
-                                            className="object-cover w-[140px] h-[140px] rounded-full"
-                                        />
-                                    ) : (
-                                        <img
-                                            src="../../../assets/default-user.png"
-                                            alt="profilePicture"
-                                            className="object-cover w-[100px] h-[100px] rounded-full"
-                                        />
-                                    )}
+                                    <img
+                                        src={user.profilePicture?.url}
+                                        alt="profilePicture"
+                                        className="object-cover  w-[150px]  h-[150px] rounded-full "
+                                    />
                                     {currentUser._id === userId && (
                                         <div className="absolute bottom-0 right-0 transform translate-x-1/4 -translate-y-1/4 bg-gray-200 hover:bg-gray-300 rounded-full p-1.5 flex items-center justify-center">
                                             <IoIosCamera size={28} />
@@ -123,24 +116,25 @@ const Profile = () => {
                                     </span>
                                 </div>
                                 <div className="mt-[75px] flex items-center ml-auto text-[14px] pr-2 gap-2">
-                                    {currentUser._id !== userId && isFriend && (
-                                        <button className=" bg-[#FFB302]  py-1 px-4 rounded-md">
-                                            Message
-                                        </button>
-                                    )}
-                                    {/* TODO: pending friend request */}
                                     {currentUser._id !== userId && (
                                         <div>
                                             {isFriend ? (
-                                                <button className=" bg-gray-300 py-1 px-4 rounded-md">
-                                                    Friends
-                                                </button>
+                                                <div className="flex flex-row bg-[#FFB302] py-1 px-4 rounded-md items-center gap-2">
+                                                    <FaUserCheck />
+                                                    <button>Friends</button>
+                                                </div>
                                             ) : (
-                                                <button className=" bg-gray-300 py-1 px-4 rounded-md">
-                                                    Add friend
-                                                </button>
+                                                <div className="bg-[#FFB302] py-1 px-4 rounded-md flex flex-row gap-2 items-center">
+                                                    <FaUserPlus />
+                                                    <button>Add friend</button>
+                                                </div>
                                             )}
                                         </div>
+                                    )}
+                                    {currentUser._id !== userId && isFriend && (
+                                        <button className="bg-gray-300  py-1 px-4 rounded-md">
+                                            Message
+                                        </button>
                                     )}
                                 </div>
                             </div>
@@ -172,7 +166,6 @@ const Profile = () => {
                         />
                     </div>
 
-                    {/* Right sidebar */}
                     <div className="w-[20%] p-4">
                         <FriendList friends={friends} />
                     </div>
