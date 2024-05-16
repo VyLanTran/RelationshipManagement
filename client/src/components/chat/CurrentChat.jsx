@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Spinner } from '../ui/spinner'
 import { Textarea } from '../ui/textarea'
 import { ToastAction } from '../ui/toast'
@@ -12,13 +12,17 @@ import MessageItem from './MessageItem'
 import { useEffect, useState } from 'react'
 import io from 'socket.io-client'
 import { Card } from '../ui/card'
-import BASE_URL from '../../constants.js'
+import BASE_URL from '@/../../constants.js'
+import { setUnreadChats } from '../../store/chatReducer.js'
 
 const ENDPOINT = `${BASE_URL}`
 var socket, currentChatCompare
 
 const CurrentChat = () => {
+	const dispatch = useDispatch()
+
 	const currentChat = useSelector((state) => state.chat.currentChat)
+	const unreadChats = useSelector((state) => state.chat.unreadChats)
 	const token = useSelector((state) => state.auth.token)
 	const currentUser = useSelector((state) => state.auth.user)
 
@@ -75,20 +79,33 @@ const CurrentChat = () => {
 		}
 	}, [currentChat])
 
+	// TODO: WAITING MESSAGE IS HAVING A PROBLEM, ONLY SHOW WAITING STATE IN THE CORRECT CHAT
 	// received message
 	useEffect(() => {
 		socket.on('message received', (messageReceived) => {
 			// We will only see the new message if that message belongs to the current chat room
 			// Else, it should just go into the notification
+
 			if (
 				!currentChatCompare ||
 				currentChatCompare._id !== messageReceived.chat._id
 			) {
+				// only add the chats to the unread notification once (even if multiple messages from that chat are unread)
+				if (
+					unreadChats &&
+					!unreadChats.some((chat) => chat._id === messageReceived.chat._id)
+				) {
+					const updatedUnreadChats = [...unreadChats, messageReceived.chat]
+					dispatch(setUnreadChats(updatedUnreadChats))
+
+					// TODO: fetch again to update latest message, which is displayed in the chat list
+					// TODO: we should only receive notification if we are not opening that chat
+				}
 			} else {
 				setMessages([...messages, messageReceived])
 			}
 		})
-	})
+	}, [messages])
 
 	// new message
 	const sendMessage = async (e) => {

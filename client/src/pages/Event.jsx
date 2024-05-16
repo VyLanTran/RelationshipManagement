@@ -7,8 +7,9 @@ import { Button } from '../components/ui/button'
 import { Calendar } from '../components/ui/calendar'
 import { MdAdd } from 'react-icons/md'
 import axios from 'axios'
-import EventCard from '../components/event/EventCard.jsx'
-import EventCardSmall from '../components/event/EventCardSmall.jsx'
+import FullCalendar from '@fullcalendar/react'
+import DayGridPlugin from '@fullcalendar/daygrid'
+import EventDetail from '../components/event/EventDetail.jsx'
 
 const Event = () => {
 	const currentUser = useSelector((state) => state.auth.user)
@@ -35,11 +36,23 @@ const Event = () => {
 		fetchEvents()
 	}, [])
 
+	const calendarEvent = events.map(({ name, startDate, endDate }) => ({
+		title: name,
+		start: startDate,
+		end: endDate,
+		color: '#FFB302',
+	}))
+
+	const eventClick = (info) => {
+		alert(info.event.title)
+		;<EventDetail event={info.event} />
+	}
+
 	return (
 		<div>
 			<Navbar />
 			<div className="pt-[60px] flex flex-row">
-				<div className="flex flex-col place-items-center w-[20%]">
+				<div className="flex flex-col place-items-center w-[20%] hidden lg:block">
 					<Button
 						variant="outline"
 						className="mx-[2vh] mt-[3vh] h-[10vh]">
@@ -57,11 +70,14 @@ const Event = () => {
 					/>
 					<UpcomingEvent events={events} />
 				</div>
-				<div className="bg-[#FFF] my-[2vh] h-[87vh] w-[78%] rounded-md">
-					<p>Calendar side by side</p>
-					{events.map((event) => (
-						<EventCardSmall event={event} />
-					))}
+				<div className="bg-[#FFF] my-[2vh] h-[87vh] w-[78%] rounded-md p-[2vh]">
+					<FullCalendar
+						plugins={[DayGridPlugin]}
+						initialView="dayGridMonth"
+						events={calendarEvent}
+						height={580}
+						eventClick={eventClick}
+					/>
 				</div>
 			</div>
 		</div>

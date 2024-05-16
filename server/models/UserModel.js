@@ -39,9 +39,18 @@ const UserSchema = new mongoose.Schema(
             type: String,
             default: '',
         },
+        // profilePicture: {
+        //     type: Object,
+        //     default: null,
+        // },
         profilePicture: {
             type: Object,
-            default: null,
+            default: function () {
+                return {
+                    // url: 'https://smccsydney.syd.catholic.edu.au/wp-content/uploads/sites/111/2019/05/Person-icon.jpg',
+                    url: 'https://as2.ftcdn.net/v2/jpg/05/89/93/27/1000_F_589932782_vQAEAZhHnq1QCGu5ikwrYaQD0Mmurm0N.jpg',
+                }
+            },
         },
         coverPhoto: {
             type: Object,

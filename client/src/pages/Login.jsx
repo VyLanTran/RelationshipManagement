@@ -124,7 +124,7 @@ const Login = () => {
     return (
         <header>
             <div className="w-full h-screen flex justify-center items-center">
-                <div className="bg-slate-50 flex flex-col items-center gap-3 rounded-[20px] justify-center py-10 pb-16 w-4/5 sm:w-2/5">
+                <div className="bg-slate-50 flex flex-col items-center gap-3 rounded-sm justify-center py-10 pb-16 w-4/5 sm:w-2/5">
                     <h3 className="font-azeret text-[40px] mb-6">Log In</h3>
                     <input
                         className="textStyles outline-none"

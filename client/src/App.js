@@ -14,6 +14,7 @@ import GroupProfile from './pages/GroupProfile.jsx'
 import Chat from './pages/Chat.jsx'
 import Diary from './pages/Diary.jsx'
 import Event from './pages/Event.jsx'
+import FriendSuggestions from './pages/FriendSuggestions.jsx'
 
 // TODO: responsive to screen size
 
@@ -138,6 +139,15 @@ function App() {
 						element={
 							<ProtectedRoute>
 								<Event />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						exact
+						path="/friendSuggestions"
+						element={
+							<ProtectedRoute>
+								<FriendSuggestions />
 							</ProtectedRoute>
 						}
 					/>
