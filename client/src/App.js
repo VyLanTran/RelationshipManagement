@@ -17,7 +17,7 @@ import Event from './pages/Event.jsx'
 import FriendSuggestions from './pages/FriendSuggestions.jsx'
 
 // TODO: responsive to screen size
-
+// test
 function App() {
     return (
         <div className="app">
