@@ -1,13 +1,19 @@
 import React from "react";
 import Navbar from "../components/navbar/Navbar.jsx";
+import PostPlaceholder from "../components/posts/PostPlaceholder.jsx";
 
 const Posts = () => {
 
     return (
-        <div className="">
+        <>
             <Navbar />
-            <div className="pt-[60px]">This is the Post page</div>
-        </div>
+            <div className="flex flex-col items-center justify-center pt-[10vh]">
+                <PostPlaceholder />
+                <PostPlaceholder />
+                <PostPlaceholder />
+                <PostPlaceholder />
+            </div>
+        </>
     )
 }
 
