@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Navbar from '../components/navbar/Navbar.jsx'
-import ConnectionGroup from '../components/connection/ConnectionGroup.tsx'
+import ConnectionGroup from '../components/connection/ConnectionGroup.jsx'
 import ConnectionCard from '../components/groups/ConnectionCard.jsx'
 import AddConnectionForm from '../components/connection/AddConnectionForm.jsx'
 import axios from 'axios'
@@ -110,7 +110,7 @@ const Connection = () => {
                 </div>
             ) : (
                 <div className="flex justify-center pt-[10vh]">
-                    <ConnectionGroup />
+                    <ConnectionGroup total={connections.length}/>
                     <div className="w-[145vh] rounded-[20px] h-[84vh] p-[1vh] m-[2vh]">
                         <form className="flex justify-between">
                             <div className="flex">

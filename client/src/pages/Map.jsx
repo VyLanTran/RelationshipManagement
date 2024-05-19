@@ -118,7 +118,7 @@ const MapGroup = () => {
         <div>
             <Navbar />
             <div className="flex justify-center flex-row pt-[10vh]">
-                <MapCard/>
+                <MapCard total={connections.length}/>
             <div className="w-[150vh] bg-[#FCAF3D] rounded-[20px] h-[84vh] p-[2.5vh] m-[2vh]">
                 <div className="w-[145vh] rounded-[20px] h-[80vh] mt-[-0.5vh]" ref={mapRef} />
             </div>
