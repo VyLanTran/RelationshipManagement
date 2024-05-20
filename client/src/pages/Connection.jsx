@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import Navbar from '../components/navbar/Navbar.jsx'
 import ConnectionGroup from '../components/connection/ConnectionGroup.jsx'
 import ConnectionCard from '../components/groups/ConnectionCard.jsx'
+
 import AddConnectionForm from '../components/connection/AddConnectionForm.jsx'
 import axios from 'axios'
 import { useSelector } from 'react-redux'

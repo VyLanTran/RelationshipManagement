@@ -14,9 +14,7 @@ const MapGroup = () => {
     const mapRef = React.useRef(null);
 
     const [ connections, setConnections ] = useState([]);
-    const [ currentGroup, setCurrentGroup] = useState(null);
-
-    const { userId } = useParams()
+    
     const currentUser = useSelector((state) => state.auth.user)
     const token = useSelector((state) => state.auth.token)
 
@@ -41,10 +39,8 @@ const MapGroup = () => {
         if (currentUser) {
             fetchConnections()
         }
-    }, [currentUser, userId])
-
-    console.log(connections)
-
+    }, [currentUser])
+    
     // Load the map in + general map configuration
     useEffect(() => {
 
@@ -77,7 +73,6 @@ const MapGroup = () => {
             await Promise.all(connections.slice().map(async (connection) => {
                 if (connection && "location" in connection) {
                     try {
-                        console.log(connection["location"])
                         // Perform geocoding to get latitude and longitude
                         const results = await getGeocode({ 'address': connection.location });
                         const { lat, lng } = await getLatLng(results[0]);
@@ -106,9 +101,7 @@ const MapGroup = () => {
                 }
             }));
 
-            console.log(markers);
             const cluster = new MarkerClusterer({ map: map, markers: markers });
-            console.log(cluster);
         }
 
         initMap();
