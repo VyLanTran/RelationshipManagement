@@ -1,160 +1,206 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../components/navbar/Navbar.jsx'
-import Modal from 'react-modal'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
 import dayjs from 'dayjs'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-import BASE_URL from '../constants.js'
+import BASE_URL from '@/../../constants.js'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../components/ui/tooltip";
+import { Button } from "../components/ui/button";
+import { CirclePlus, Trash2, Save} from "lucide-react";
+import { NewDiaryModal } from "../components/diary/NewDiaryModal.jsx";
+import { Input } from "../components/ui/input"
 
 const Diary = () => {
-	const user = useSelector((state) => state.auth.user)
-	const token = useSelector((state) => state.auth.token)
+    const user = useSelector((state) => state.auth.user)
+    const token = useSelector((state) => state.auth.token)
 
-	const authHeader = { headers: { Authorization: `Bearer ${token}` } }
+    const authHeader = { headers: { Authorization: `Bearer ${token}` } }
 
-	const [groups, setGroups] = useState([])
-	const [currentGroup, setCurrentGroup] = useState('')
-	const [diaries, setDiaries] = useState([])
-	const [newDiaryName, setNewDiaryName] = useState('Untitled')
-	const [isOpen, setIsOpen] = useState(false)
-	const [message, setMessage] = useState('')
+    const [groups, setGroups] = useState([])
+    const [currentGroup, setCurrentGroup] = useState({})
+    const [currentDiary, setCurrentDiary] = useState({})
+    const [diaries, setDiaries] = useState([])
 
-	useEffect(() => {
-		const getFetch = async () => {
-			const response = await fetch(
-				`${BASE_URL}/groups/user/${user._id}`,
-				authHeader
-			)
-			const data = await response.json()
-			if (response.ok) {
-				setGroups(data)
-			}
-			const res_diary = await fetch(
-				`${BASE_URL}/diary/user/${user._id}`,
-				authHeader
-			)
-			const data_diary = await res_diary.json()
-			if (res_diary.ok) {
-				setDiaries(data_diary)
-			}
+    const formats = ["header", "bold", "italic", "underline", "strike","blockquote",
+        "list", "bullet", "link", "color", "image", "background", "align", "size", "font"];
 
-			// const quill = new Quill('#editor', {
-			//     theme: 'snow'
-			// });
-		}
-		if (user) {
-			getFetch()
-		}
-	}, [])
+    const modules = {
+        toolbar: [
+            [{ header: [1, 2, 3, 4, 5, 6, false] }],
+            ["bold", "italic", "underline", "strike", "blockquote"],
+            [{ size: [] }],
+            [{ font: [] }],
+            [{ align: ["right", "center", "justify"] }],
+            [{ list: "ordered" }, { list: "bullet" }],
+            ["link", "image"],
+            [{ color: ["red", "#785412"] }],
+            [{ background: ["red", "#785412"] }]
+        ]
+    };
 
-	const toggleModal = () => {
-		setIsOpen(!isOpen)
-	}
+    const handleProcedureContentChange = (content) => {
+        // setCurrentDiary({...currentDiary, entry: content});
+        console.log(content);
+    };
 
-	const createDiary = async (event) => {
-		event.preventDefault()
-		setMessage('')
-		try {
-			const res = await axios.post(
-				`_URL}/diary/`,
-				{
-					name: newDiaryName,
-					admin: user._id,
-				},
-				authHeader
-			)
-			setMessage('New entry added successfully')
-			setNewDiaryName('Untitled')
-			toggleModal()
-		} catch (error) {
-			setMessage(error.response.data['message'])
-		}
-	}
+    const handleNameChange = (content) => {
+        setCurrentDiary({...currentDiary, name: content});
+    };
 
-	return (
-		<div className="h-screen">
-			<Navbar />
-			<div className="pt-[70px] h-[90%]">
-				<div class="overflow-x-auto h-[8vh] block">
-					<button className="text-xl bg-[#FFB302] rounded-[10px] h-[6vh] p-[1vh] m-[1vh] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]">
-						Personal
-					</button>
-					{groups.map((group) => (
-						<button className="text-xl bg-[#FFB302] rounded-[10px] h-[6vh] p-[1vh] m-[1vh] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]">
-							{group['name']}
-						</button>
-					))}
-				</div>
-				<div className="flex flex-row py-[1vh] px-[3vh] h-[100%]">
-					<div className="w-[30%] h-[100%] mr-[1.5vh] bg-[#FFF] rounded-[20px] p-[2vh]">
-						<div className="flex flex-row justify-center items-center">
-							<p className="text-3xl font-bold hidden lg:block mr-[5vh]">
-								Apr 2024
-							</p>
-							<button
-								className="text-xl bg-[#FFB302] rounded-[10px] h-[6vh] py-[1vh] px-[3vh] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
-								onClick={toggleModal}>
-								New Entry
-							</button>
-							<Modal
-								className="flex justify-center items-center"
-								isOpen={isOpen}
-								onRequestClose={toggleModal}
-								shouldCloseOnOverlayClick={true}>
-								<div className="bg-[#fff] border-2 border-[#FFB302] rounded-[20px] w-[100vh] h-[30vh] p-[2.5vh] mt-[30vh] content-center">
-									<p className="text-3xl m-[3vh]">Create new entry</p>
-									<input
-										className="content-center text-xl mr-[3vh] w-[60vh] rounded-[10px] px-[3vh] py-[2vh]"
-										placeholder="Untitled"
-										id="name"
-										name="name"
-										value={newDiaryName}
-										onChange={(e) => setNewDiaryName(e.target.value)}
-									/>
-									<button
-										className="ml-[1vh] rounded-[10px] bg-[#FFB302] px-[3vh] text-l h-[6vh] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
-										onClick={createDiary}>
-										Create
-									</button>
-									<p className="text-red-500">{message}</p>
-								</div>
-							</Modal>
-						</div>
-						<div className="py-[3vh]">
-							{diaries.map((diary) => (
-								<button className="w-[100%] h-[70px] bg-[#FFB302] mb-[1vh] rounded-[20px] flex flex-row items-center">
-									<div className="w-[60px] h-[60px] bg-[#eee] rounded-[15px] m-[5px] justify-center hidden lg:block sm:justify-items-center">
-										<p className="text-2xl">
-											{dayjs(diary['createdAt']).toString().substring(0, 3)}
-										</p>
-										<p>{dayjs(diary['createdAt']).format('MM/DD')}</p>
-									</div>
-									<p className="text-xl ml-[2vh]">{diary['name']}</p>
-								</button>
-							))}
-						</div>
-					</div>
-					<div className="w-[75%] h-[100%] bg-[#FFF] ml-[1.5vh] rounded-[20px] p-[2vh]">
-						<ReactQuill
-							className="w-[100%] h-[80%] rounded-[15px] mb-[7vh]"
-							value={'hello'}
-							theme="snow"
-						/>
-						<div className="flex flex-row justify-around">
-							<button className="text-xl bg-[#FFB302] rounded-[10px] h-[6vh] p-[1vh] m-[1vh] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]">
-								Delete Entry
-							</button>
-							<button className="text-xl bg-[#FFB302] rounded-[10px] h-[6vh] p-[1vh] m-[1vh] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]">
-								Save Entry
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	)
+    useEffect(() => {
+        const getFetch = async () => {
+            const response = await fetch(
+                `${BASE_URL}/groups/user/${user._id}`,
+                authHeader
+            )
+            const data = await response.json()
+            if (response.ok) {
+                setGroups(data)
+            }
+            const res_diary = await fetch(
+                `${BASE_URL}/diary/user/${user._id}`,
+                authHeader
+            )
+            const data_diary = await res_diary.json()
+            if (res_diary.ok) {
+                setDiaries(data_diary)
+            }
+        }
+        if (user) {
+            getFetch()
+        }
+    }, [])
+
+    const deleteDiary = async (event, diary) => {
+        event.preventDefault();
+        try {
+            const res = await axios.delete(`http://localhost:3001/diary/${diary._id}`, authHeader);
+            setDiaries(diaries.filter((d) => d._id !== diary._id));
+            setCurrentDiary(diaries[0]);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const saveDiary = async (event) => {
+        event.preventDefault()
+        if (currentDiary){
+            try {
+                const res = await axios.put(
+                    `${BASE_URL}/diary/${currentDiary._id}`, {currentDiary}, authHeader
+                )
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        
+    }
+
+    return (
+        <div className="h-screen">
+            <Navbar />
+            <div className="pt-[65px] flex flex-row">
+                <div className="w-1/4 mx-[5px] hidden lg:block">
+                    <div className="h-[88vh] bg-[#FFF] rounded-[10px] p-[15px] my-[5px]">
+                        <div className="flex flex-row justify-between items-center px-[10px]">
+                            <p className="text-3xl font-bold hidden lg:block">
+                                {dayjs().format('MMMM YYYY').toString()}
+                            </p>
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <NewDiaryModal currentGroup={currentGroup}>
+                                        <TooltipTrigger asChild>
+                                            <Button
+                                                className="rounded-full border-none shadow-none p-1"
+                                                variant="outline" size="icon">
+                                                <CirclePlus size={36} strokeWidth={1.5} absoluteStrokeWidth />
+                                            </Button>
+                                        </TooltipTrigger>
+                                    </NewDiaryModal>
+                                    <TooltipContent className="bg-gray-100">
+                                        <p>New Entry</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                        </div>
+                        <div className="mt-[10px] h-[77vh] overflow-x-auto">
+                            {diaries.map((diary) => (
+                                <button className="group/item w-full h-[70px] bg-[#EEE] mb-[5px] rounded-[10px] flex flex-row items-center justify-between hover:bg-[#ffdc8b] focus:bg-[#FFB302]"
+                                    onClick={() => {
+                                        setCurrentDiary(diary);
+                                    }}>
+                                    <div className="w-[60px] h-[60px] bg-[#FFF] rounded-[5px] m-[5px] p-[3px] leading-4 justify-center hidden lg:block sm:justify-items-center">
+                                        <p className="text-2xl">
+                                            {dayjs(diary['createdAt'])
+                                                .toString()
+                                                .substring(0, 3)}
+                                        </p>
+                                        <p>
+                                            {dayjs(diary['createdAt']).format(
+                                                'MM/DD'
+                                            )}
+                                        </p>
+                                    </div>
+                                    <p className="text-xl mx-[10px] w-[200px] text-left truncate">
+                                        {diary['name']}
+                                    </p>
+                                    <div className="text-white group/edit invisible hover:text-red-500 group-hover/item:visible">
+                                        <button className="group-hover/edit:text-gray mr-[10px] pt-[5px]"
+                                            onClick={(event) => deleteDiary(event, diary)}>
+                                            <Trash2 size={24} strokeWidth={1.5} absoluteStrokeWidth/>
+                                        </button>
+                                    </div>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+                <div className="w-full lg:w-3/4 mx-[5px] h-[88vh]">
+                    <div class="overflow-x-auto flex justify-center items-center h-[55px] block bg-[#FFF] rounded-[10px] my-[5px]">
+                        <button className="text-xl bg-[#EEE] rounded-[5px] h-[45px] p-[8px] m-[2px] hover:cursor-pointer hover:bg-[#ffdc8b] focus:bg-[#FFB302] flex-none"
+                            onClick={() => setCurrentGroup({})}>
+                            Personal
+                        </button>
+                        {groups.map((group) => (
+                            <button className="text-xl bg-[#EEE] rounded-[5px] h-[45px] p-[8px] m-[3px] hover:cursor-pointer hover:bg-[#ffdc8b] focus:bg-[#FFB302] flex-none"
+                                onClick={() => setCurrentGroup(group)}>
+                                {group['name']}
+                            </button>
+                        ))}
+                    </div>
+                    {
+                        currentDiary ?
+                            <div className="bg-[#FFF] rounded-[10px] p-[10px] h-[79.6vh]">
+                                <div className="flex flex-row items-center">
+                                    <Input 
+                                        id="chatName"
+                                        placeholder="How do you feel today?"
+                                        className="mb-[5px] mr-[10px] h-[55px] text-xl"
+                                        // onChange={(content) => handleNameChange(content)}
+                                        value={currentDiary ? currentDiary["name"]: ""}/>
+                                    <button className="text-slate-400 hover:text-black mb-[5px]"
+                                        onClick={(event) => saveDiary(event)}>
+                                        <Save size={36} strokeWidth={1.5} absoluteStrokeWidth/>
+                                    </button>
+                                </div>
+                                <ReactQuill
+                                    className="h-[60vh]"
+                                    value={currentDiary ? currentDiary["entry"] : ""}
+                                    onChange={(content) => handleProcedureContentChange(content)}
+                                    formats={formats}
+                                    modules={modules}
+                                    theme="snow"
+                                />
+                            </div>
+                        :
+                            <p>Something!</p>
+                    }
+                </div>
+            </div>
+        </div>
+    )
 }
 
 export default Diary
