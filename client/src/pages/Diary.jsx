@@ -22,6 +22,9 @@ const Diary = () => {
     const [currentGroup, setCurrentGroup] = useState({})
     const [currentDiary, setCurrentDiary] = useState({})
     const [diaries, setDiaries] = useState([])
+    const [groupDiaries, setGroupDiaries] = useState([])
+    const [currentTitle, setCurrentTitle] = useState("")
+    const [currentEntry, setCurrentEntry] = useState("")
 
     const formats = ["header", "bold", "italic", "underline", "strike","blockquote",
         "list", "bullet", "link", "color", "image", "background", "align", "size", "font"];
@@ -35,18 +38,17 @@ const Diary = () => {
             [{ align: ["right", "center", "justify"] }],
             [{ list: "ordered" }, { list: "bullet" }],
             ["link", "image"],
-            [{ color: ["red", "#785412"] }],
-            [{ background: ["red", "#785412"] }]
+            [{ color: ["red", "blue", "yellow", "green", "#34568B", "#FF6F61", "#6B5B95", "#F7CAC9", "#92A8D1", "#785412"] }],
+            [{ background: ["red", "blue", "yellow", "green", "#34568B", "#FF6F61", "#6B5B95", "#F7CAC9", "#92A8D1", "#785412"] }]
         ]
     };
 
     const handleProcedureContentChange = (content) => {
-        // setCurrentDiary({...currentDiary, entry: content});
-        console.log(content);
+        setCurrentEntry(content)
     };
 
-    const handleNameChange = (content) => {
-        setCurrentDiary({...currentDiary, name: content});
+    const handleNameChange = (e) => {
+        setCurrentTitle(e.target.value)
     };
 
     useEffect(() => {
@@ -66,6 +68,7 @@ const Diary = () => {
             const data_diary = await res_diary.json()
             if (res_diary.ok) {
                 setDiaries(data_diary)
+                setGroupDiaries(data_diary.filter((diary) => diary['group'] == null))
             }
         }
         if (user) {
@@ -78,7 +81,10 @@ const Diary = () => {
         try {
             const res = await axios.delete(`http://localhost:3001/diary/${diary._id}`, authHeader);
             setDiaries(diaries.filter((d) => d._id !== diary._id));
+            setGroupDiaries(groupDiaries.filter((d) => d._id !== diary._id))
             setCurrentDiary(diaries[0]);
+            setCurrentEntry(diaries[0]['entry']);
+            setCurrentTitle(diaries[0]['name']);
         } catch (error) {
             console.log(error);
         }
@@ -89,8 +95,14 @@ const Diary = () => {
         if (currentDiary){
             try {
                 const res = await axios.put(
-                    `${BASE_URL}/diary/${currentDiary._id}`, {currentDiary}, authHeader
+                    `${BASE_URL}/diary/${currentDiary._id}`, {
+                        name: currentTitle,
+                        entry: currentEntry
+                    }, authHeader
                 )
+                if (res.ok){
+                    setCurrentDiary(res.data)
+                }
             } catch (error) {
                 console.log(error);
             }
@@ -126,10 +138,12 @@ const Diary = () => {
                             </TooltipProvider>
                         </div>
                         <div className="mt-[10px] h-[77vh] overflow-x-auto">
-                            {diaries.map((diary) => (
+                            {groupDiaries.map((diary) => (
                                 <button className="group/item w-full h-[70px] bg-[#EEE] mb-[5px] rounded-[10px] flex flex-row items-center justify-between hover:bg-[#ffdc8b] focus:bg-[#FFB302]"
                                     onClick={() => {
                                         setCurrentDiary(diary);
+                                        setCurrentEntry(diary['entry']);
+                                        setCurrentTitle(diary['name']);
                                     }}>
                                     <div className="w-[60px] h-[60px] bg-[#FFF] rounded-[5px] m-[5px] p-[3px] leading-4 justify-center hidden lg:block sm:justify-items-center">
                                         <p className="text-2xl">
@@ -160,12 +174,18 @@ const Diary = () => {
                 <div className="w-full lg:w-3/4 mx-[5px] h-[88vh]">
                     <div class="overflow-x-auto flex justify-center items-center h-[55px] block bg-[#FFF] rounded-[10px] my-[5px]">
                         <button className="text-xl bg-[#EEE] rounded-[5px] h-[45px] p-[8px] m-[2px] hover:cursor-pointer hover:bg-[#ffdc8b] focus:bg-[#FFB302] flex-none"
-                            onClick={() => setCurrentGroup({})}>
+                            onClick={() => {
+                                setCurrentGroup({});
+                                setGroupDiaries(diaries.filter((diary) => diary['group'] == null))
+                            }}>
                             Personal
                         </button>
                         {groups.map((group) => (
                             <button className="text-xl bg-[#EEE] rounded-[5px] h-[45px] p-[8px] m-[3px] hover:cursor-pointer hover:bg-[#ffdc8b] focus:bg-[#FFB302] flex-none"
-                                onClick={() => setCurrentGroup(group)}>
+                                onClick={() => {
+                                    setCurrentGroup(group);
+                                    setGroupDiaries(diaries.filter((diary) => diary['group'] == group['_id']));
+                                }}>
                                 {group['name']}
                             </button>
                         ))}
@@ -178,8 +198,8 @@ const Diary = () => {
                                         id="chatName"
                                         placeholder="How do you feel today?"
                                         className="mb-[5px] mr-[10px] h-[55px] text-xl"
-                                        // onChange={(content) => handleNameChange(content)}
-                                        value={currentDiary ? currentDiary["name"]: ""}/>
+                                        onChange={(e) => handleNameChange(e)}
+                                        value={currentDiary ? currentTitle : ""}/>
                                     <button className="text-slate-400 hover:text-black mb-[5px]"
                                         onClick={(event) => saveDiary(event)}>
                                         <Save size={36} strokeWidth={1.5} absoluteStrokeWidth/>
@@ -187,7 +207,7 @@ const Diary = () => {
                                 </div>
                                 <ReactQuill
                                     className="h-[60vh]"
-                                    value={currentDiary ? currentDiary["entry"] : ""}
+                                    value={currentDiary ? currentEntry : ""}
                                     onChange={(content) => handleProcedureContentChange(content)}
                                     formats={formats}
                                     modules={modules}
