@@ -22,6 +22,7 @@ const Diary = () => {
     const [currentGroup, setCurrentGroup] = useState({})
     const [currentDiary, setCurrentDiary] = useState({})
     const [diaries, setDiaries] = useState([])
+    const [groupDiaries, setGroupDiaries] = useState([])
     const [currentTitle, setCurrentTitle] = useState("")
     const [currentEntry, setCurrentEntry] = useState("")
 
@@ -136,7 +137,7 @@ const Diary = () => {
                             </TooltipProvider>
                         </div>
                         <div className="mt-[10px] h-[77vh] overflow-x-auto">
-                            {diaries.map((diary) => (
+                            {groupDiaries.map((diary) => (
                                 <button className="group/item w-full h-[70px] bg-[#EEE] mb-[5px] rounded-[10px] flex flex-row items-center justify-between hover:bg-[#ffdc8b] focus:bg-[#FFB302]"
                                     onClick={() => {
                                         setCurrentDiary(diary);
@@ -172,12 +173,18 @@ const Diary = () => {
                 <div className="w-full lg:w-3/4 mx-[5px] h-[88vh]">
                     <div class="overflow-x-auto flex justify-center items-center h-[55px] block bg-[#FFF] rounded-[10px] my-[5px]">
                         <button className="text-xl bg-[#EEE] rounded-[5px] h-[45px] p-[8px] m-[2px] hover:cursor-pointer hover:bg-[#ffdc8b] focus:bg-[#FFB302] flex-none"
-                            onClick={() => setCurrentGroup({})}>
+                            onClick={() => {
+                                setCurrentGroup({});
+                                setGroupDiaries(diaries.filter((diary) => diary['group'] == null))
+                            }}>
                             Personal
                         </button>
                         {groups.map((group) => (
                             <button className="text-xl bg-[#EEE] rounded-[5px] h-[45px] p-[8px] m-[3px] hover:cursor-pointer hover:bg-[#ffdc8b] focus:bg-[#FFB302] flex-none"
-                                onClick={() => setCurrentGroup(group)}>
+                                onClick={() => {
+                                    setCurrentGroup(group);
+                                    setGroupDiaries(diaries.filter((diary) => diary['group'] == group['_id']));
+                                }}>
                                 {group['name']}
                             </button>
                         ))}
