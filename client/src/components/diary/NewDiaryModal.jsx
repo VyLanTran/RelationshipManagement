@@ -11,7 +11,7 @@ import {
 } from "../ui/dialog"
 import { Input } from "../ui/input"
 import { useDispatch, useSelector } from "react-redux"
-// import { setAllDiaries, setGroupDiaries } from "../../store/diaryReducer.js"
+import BASE_URL from '@/../../constants.js'
 
 import axios from "axios";
 
@@ -29,28 +29,16 @@ export function NewDiaryModal({ children, currentGroup }) {
 
     const createDiary = async (event) => {
         event.preventDefault();
-        console.log(currentGroup.members);
-        console.log(currentGroup.members.length);
         try {
-            const res = await axios.post(`http://localhost:3001/diary`,
+            console.log(currentGroup)
+            const res = await axios.post(`${BASE_URL}/diary`,
                 {
                     name: entryName,
-                    admin: (currentGroup.members.length > 0) ? currentGroup.members : user._id,
+                    admin: (currentGroup === undefined) ? currentGroup.members : user._id,
                     group: (currentGroup) ? currentGroup._id : null,
                     entry: ""
                 }, authHeader);
-            setEntryName("Untitled");
-            const data = await res.json;
-            console.log(currentGroup.members);
-            // if (res.ok){
-            //         // dispatch(setAllDiaries(data));
-            //     if (currentGroup){
-            //         dispatch(setGroupDiaries(allDiaries.filter((diary) => diary.group == currentGroup._id)));
-            //     } else {
-            //         console.log(allDiaries);
-            //         dispatch(setGroupDiaries(allDiaries.filter((diary) => diary.group == null)));
-            //     }
-            // }      
+            setEntryName("Untitled");   
         } catch (error) {
             console.log(error);
         }

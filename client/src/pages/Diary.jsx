@@ -68,6 +68,7 @@ const Diary = () => {
             const data_diary = await res_diary.json()
             if (res_diary.ok) {
                 setDiaries(data_diary)
+                setGroupDiaries(data_diary.filter((diary) => diary['group'] == null))
             }
         }
         if (user) {
@@ -80,6 +81,7 @@ const Diary = () => {
         try {
             const res = await axios.delete(`http://localhost:3001/diary/${diary._id}`, authHeader);
             setDiaries(diaries.filter((d) => d._id !== diary._id));
+            setGroupDiaries(groupDiaries.filter((d) => d._id !== diary._id))
             setCurrentDiary(diaries[0]);
             setCurrentEntry(diaries[0]['entry']);
             setCurrentTitle(diaries[0]['name']);
@@ -98,9 +100,8 @@ const Diary = () => {
                         entry: currentEntry
                     }, authHeader
                 )
-                const data = await res.json()
                 if (res.ok){
-                    setCurrentDiary(data)
+                    setCurrentDiary(res.data)
                 }
             } catch (error) {
                 console.log(error);
