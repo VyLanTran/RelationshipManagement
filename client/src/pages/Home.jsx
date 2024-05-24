@@ -3,7 +3,6 @@ import Modal from 'react-modal'
 import { useNavigate } from 'react-router-dom'
 import GroupCard from '../components/groups/GroupCard.tsx'
 import axios from 'axios'
-import Navbar from '../components/navbar/Navbar.jsx'
 import { useSelector } from 'react-redux'
 import BASE_URL from '@/../../constants.js'
 
@@ -71,8 +70,7 @@ const Home = () => {
 
     return (
         <div>
-            <Navbar />
-            <div className="pt-[90px]">
+            <div className="pt-[30px]">
                 {groups?.length === 0 ? (
                     <div className="text-center space-y-3">
                         <h1 className="text-6xl">Oh no!</h1>

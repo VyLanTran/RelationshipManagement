@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import ChatList from '../components/chat/ChatList.jsx'
 import SearchLoading from '../components/chat/SearchLoading.jsx'
-import Navbar from '../components/navbar/Navbar.jsx'
 import { useDispatch, useSelector } from 'react-redux'
 import { setAllChats } from '../store/chatReducer.js'
 import CurrentChat from '../components/chat/CurrentChat.jsx'
@@ -37,8 +36,7 @@ const Chat = () => {
 
     return (
         <div>
-            <Navbar />
-            <div className="flex flex-row w-full pt-[60px] h-screen">
+            <div className="flex flex-row w-full h-screen">
                 <div className="w-[30%] bg-white border-r overflow-y-auto">
                     <ChatList />
                 </div>
