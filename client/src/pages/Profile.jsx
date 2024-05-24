@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import Navbar from '../components/navbar/Navbar.jsx'
 import About from '../components/users/About.jsx'
 import { useSelector } from 'react-redux'
 import { IoIosCamera } from 'react-icons/io'
@@ -63,9 +62,8 @@ const Profile = () => {
     // TODO: degree of connection, can only see those within 3 for privacy
     return (
         <div>
-            <Navbar />
             {user ? (
-                <div className="flex flex-row w-screen pt-[60px] ">
+                <div className="flex flex-row w-screen">
                     <div className="w-[20%]">{/* <Sidebar /> */}</div>
 
                     <div className="w-[60%] px-4 flex flex-col gap-4">
