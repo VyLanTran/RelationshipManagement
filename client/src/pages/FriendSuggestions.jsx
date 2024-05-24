@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import Navbar from '../components/navbar/Navbar'
 import BASE_URL from '@/../../constants.js'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaUserPlus } from 'react-icons/fa'
@@ -31,8 +30,7 @@ const FriendSuggestions = () => {
 
     return (
         <div>
-            <Navbar />
-            <div className=" w-full pt-[60px] h-full flex flex-row">
+            <div className=" w-full h-full flex flex-row">
                 <div className="w-[40%] bg-white border-r border-gray-300">
                     <div className=" px-4 border-b flex h-[60px] items-center">
                         <span className="text-[16px] font-semibold mr-auto">
