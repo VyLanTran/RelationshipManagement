@@ -18,6 +18,8 @@ import FriendSuggestions from './pages/FriendSuggestions.jsx'
 import Layout from './components/layout/Layout.jsx'
 
 // TODO: responsive to screen size
+// A comment for testing
+// Another comment for testing branch
 
 function App() {
     return (
