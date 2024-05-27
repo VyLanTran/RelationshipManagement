@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux'
-import { setLogout } from '../store/authReducer'
-import { clearPersistedState, resetAllSlices } from '../store/store.js'
+import { setLogout } from '../state/authReducer'
+import { clearPersistedState, resetAllSlices } from '../state/store.js'
 
 export const useLogout = () => {
     const dispatch = useDispatch()
