@@ -19,6 +19,7 @@ import Layout from './components/layout/Layout.jsx'
 import Dashboard from './pages/dashboard/Dashboard.jsx'
 import DashboardLayout from './components/dashboard/DashboardLayout.jsx'
 import FriendsData from './pages/dashboard/FriendsData.jsx'
+import ProfileLayout from './components/profile/ProfileLayout.jsx'
 
 // TODO: responsive to screen size
 
@@ -60,7 +61,13 @@ function App() {
                             path="/connection/:userId"
                             element={<Connection />}
                         />
-                        <Route exact path="/:userId" element={<Profile />} />
+                        <Route element={<ProfileLayout />}>
+                            <Route
+                                exact
+                                path="/:userId"
+                                element={<Profile />}
+                            />
+                        </Route>
                         <Route exact path="/map" element={<Map />} />
                         <Route exact path="/groups" element={<Groups />} />
                         <Route
