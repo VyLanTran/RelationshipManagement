@@ -53,7 +53,7 @@ export const FriendCard = ({ friendId, name, profilePictureUrl }) => {
     return (
         <div
             className="flex flex-row text-[13px] cursor-pointer items-center gap-3 p-3 rounded-sm hover:bg-[#eaead4] hover:bg-opacity-50"
-            onClick={() => navigate(`/${friendId}`)}
+            onClick={() => navigate(`users/${friendId}`)}
         >
             {profilePictureUrl ? (
                 <img

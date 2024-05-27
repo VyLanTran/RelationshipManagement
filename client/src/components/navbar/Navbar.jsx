@@ -120,7 +120,7 @@ function DropdownSetting({ user, handleLogout }) {
                     <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuGroup>
-                        <Link to={`/${user._id}`}>
+                        <Link to={`users/${user._id}`}>
                             <DropdownMenuItem>
                                 <User className="mr-2 h-4 w-4" />
                                 <span>Profile</span>
