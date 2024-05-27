@@ -3,7 +3,7 @@ import BASE_URL from '@/../../constants.js'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaUserPlus } from 'react-icons/fa'
 import { Separator } from '../components/ui/separator.jsx'
-import { setProfileViewing } from '../store/friendReducer'
+import { setProfileViewing } from '../state/friendReducer.js'
 
 const FriendSuggestions = () => {
     const token = useSelector((state) => state.auth.token)

@@ -1,7 +1,7 @@
 import { Card } from '../ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { useDispatch, useSelector } from 'react-redux'
-import { setCurrentChat, setUnreadChats } from '../../store/chatReducer'
+import { setCurrentChat, setUnreadChats } from '../../state/chatReducer'
 import { GoDotFill } from 'react-icons/go'
 
 const ChatItem = ({ chat }) => {

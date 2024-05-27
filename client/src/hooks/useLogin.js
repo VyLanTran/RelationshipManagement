@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { setLogin } from '../store/authReducer'
+import { setLogin } from '../state/authReducer'
 import BASE_URL from '@/../../constants.js'
 
 export const useLogin = () => {

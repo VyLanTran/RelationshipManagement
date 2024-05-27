@@ -5,7 +5,7 @@ import { SocialIcon } from 'react-social-icons'
 import { eyeOff } from 'react-icons-kit/feather/eyeOff'
 import { eye } from 'react-icons-kit/feather/eye'
 import { useSignup } from '../hooks/useSignup'
-import { setLogin } from '../store/authReducer'
+import { setLogin } from '../state/authReducer'
 import OAuth2Login from 'react-simple-oauth2-login'
 
 import { FaFacebook } from 'react-icons/fa'

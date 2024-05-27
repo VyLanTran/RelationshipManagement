@@ -1,7 +1,7 @@
 import { Card } from '../ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { useDispatch, useSelector } from 'react-redux'
-import { setCurrentChat } from '../../store/chatReducer'
+import { setCurrentChat } from '../../state/chatReducer'
 
 const UserItem = ({ user, addMember }) => {
     // const dispatch = useDispatch()
