@@ -64,7 +64,7 @@ function App() {
                         <Route element={<ProfileLayout />}>
                             <Route
                                 exact
-                                path="/:userId"
+                                path="users/:userId"
                                 element={<Profile />}
                             />
                         </Route>
