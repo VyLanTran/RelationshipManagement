@@ -30,7 +30,7 @@ export const getSentRequests = async (req, res) => {
 export const createFriendRequest = async (req, res) => {
     try {
         const { receiverId } = req.params
-        const receiver = await User.findById(receiverId)
+        const receiver = await UserModel.findById(receiverId)
         if (!receiver) {
             res.status(404).json({ error: 'No such receiver exists' })
         }
@@ -39,6 +39,26 @@ export const createFriendRequest = async (req, res) => {
             receiver: receiverId,
         })
 
+        res.status(201).json(request)
+    } catch (err) {
+        res.status(404).json({ error: err.message })
+    }
+}
+
+export const deleteFriendRequest = async (req, res) => {
+    try {
+        const { receiverId } = req.params
+
+        const request = await FriendRequestModel.findOneAndDelete({
+            sender: req.user._id,
+            receiver: receiverId,
+        })
+
+        if (!request) {
+            return res
+                .status(404)
+                .json({ error: 'No such friend request exists' })
+        }
         res.status(201).json(request)
     } catch (err) {
         res.status(404).json({ error: err.message })
