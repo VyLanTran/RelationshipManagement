@@ -6,7 +6,7 @@ import { eye } from 'react-icons-kit/feather/eye'
 import { useLogin } from '../hooks/useLogin'
 import OAuth2Login from 'react-simple-oauth2-login'
 import { useDispatch } from 'react-redux'
-import { setLogin } from '../store/authReducer'
+import { setLogin } from '../state/authReducer'
 import {
     GoogleAuthProvider,
     signInWithPopup,

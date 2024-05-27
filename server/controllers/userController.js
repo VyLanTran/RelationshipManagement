@@ -26,7 +26,11 @@ export const getAllFriends = async (req, res) => {
         const { userId } = req.params
         const user = await UserModel.findById(userId)
         const friends = await Promise.all(
-            user.friendIds.map((friendId) => UserModel.findById(friendId))
+            user.friendIds.map((friendId) =>
+                UserModel.findById(friendId).select(
+                    'name email phone company school currentCity'
+                )
+            )
         )
         res.status(200).json(friends)
     } catch (err) {

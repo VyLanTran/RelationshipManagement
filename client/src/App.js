@@ -16,6 +16,9 @@ import Diary from './pages/Diary.jsx'
 import Event from './pages/Event.jsx'
 import FriendSuggestions from './pages/FriendSuggestions.jsx'
 import Layout from './components/layout/Layout.jsx'
+import Dashboard from './pages/dashboard/Dashboard.jsx'
+import DashboardLayout from './components/dashboard/DashboardLayout.jsx'
+import FriendsData from './pages/dashboard/FriendsData.jsx'
 
 // TODO: responsive to screen size
 
@@ -74,6 +77,18 @@ function App() {
                             element={<FriendSuggestions />}
                         />
                         <Route exact path="/posts" element={<Posts />} />
+                        <Route element={<DashboardLayout />}>
+                            <Route
+                                exact
+                                path="/dashboard/friends"
+                                element={<FriendsData />}
+                            />
+                            <Route
+                                exact
+                                path="/dashboard"
+                                element={<Dashboard />}
+                            />
+                        </Route>
                     </Route>
                 </Routes>
             </Router>
