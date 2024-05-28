@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Loader } from '@googlemaps/js-api-loader'
-import BASE_URL from '../../constants.js'
+import BASE_URL from '@/../../constants.js'
 
 const AddConnectionForm = ({ isOpen, onClose, userId }) => {
 	const [formData, setFormData] = useState({

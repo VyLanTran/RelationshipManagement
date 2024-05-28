@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import BASE_URL from '../../constants.js'
+import BASE_URL from '@/../../constants.js'
 
 const EditModal = ({ isOpen, onClose, connection, connectionId }) => {
 	const token = useSelector((state) => state.auth.token)
