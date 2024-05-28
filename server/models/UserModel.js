@@ -68,6 +68,10 @@ const UserSchema = new mongoose.Schema(
             type: String,
             default: null,
         },
+        posts: {
+            type: Array,
+            default: []
+        }
     },
     { timestamps: true }
 )

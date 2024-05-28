@@ -88,14 +88,14 @@ const Navbar = () => {
                     <div>
                         <IoChatbubbleEllipses size={24} />
                         <div className="absolute top-0 right-0 -mt-1.5 -mr-1.5">
-                            <NotificationBadge
+                            {unreadChats ? <NotificationBadge
                                 count={unreadChats.length}
                                 effect={Effect.SCALE}
-                            />
+                            /> : <div>Unavailable</div>}
                         </div>
                     </div>
                 </NavLink>
-                <Notification />
+                <Notification />    
                 <DropdownSetting user={user} handleLogout={handleLogout} />
             </div>
         </div>
@@ -162,7 +162,7 @@ function Notification() {
                     <DropdownMenuLabel>Notifications</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuGroup>
-                        {unreadChats.map((chat) => {
+                        {unreadChats ? unreadChats.map((chat) => {
                             return (
                                 <Link to="">
                                     <DropdownMenuItem>
@@ -170,7 +170,7 @@ function Notification() {
                                     </DropdownMenuItem>
                                 </Link>
                             )
-                        })}
+                        }) : <div>Unavailable</div>}
                     </DropdownMenuGroup>
                 </DropdownMenuContent>
             </DropdownMenu>
