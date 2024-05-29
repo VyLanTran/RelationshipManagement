@@ -1,16 +1,26 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose'
 
 const ConnectionSchema = new mongoose.Schema({
 	author: {
 		type: mongoose.Schema.Types.ObjectId,
 		required: true,
-		ref: "User",
+		ref: 'User',
 	},
 	name: {
 		type: String,
 		required: true,
 	},
 	phone: {
+		type: String,
+	},
+	relationship: {
+		type: String,
+	},
+	hobbies: {
+		type: [],
+		default: null,
+	},
+	meet_how: {
 		type: String,
 	},
 	email: {
@@ -39,6 +49,6 @@ const ConnectionSchema = new mongoose.Schema({
 		type: Array,
 		default: [],
 	},
-});
-const ConnectionModel = mongoose.model("Connection", ConnectionSchema);
-export default ConnectionModel;
+})
+const ConnectionModel = mongoose.model('Connection', ConnectionSchema)
+export default ConnectionModel

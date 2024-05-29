@@ -21,14 +21,37 @@ export const getUser = async (req, res) => {
     }
 }
 
+// Get friend list of a certain user
 export const getAllFriends = async (req, res) => {
     try {
         const { userId } = req.params
         const user = await UserModel.findById(userId)
         const friends = await Promise.all(
-            user.friendIds.map((friendId) => UserModel.findById(friendId))
+            user.friendIds.map((friendId) =>
+                UserModel.findById(friendId).select(
+                    'name email phone company school currentCity profilePicture'
+                )
+            )
         )
         res.status(200).json(friends)
+    } catch (err) {
+        res.status(404).json({ error: err.message })
+    }
+}
+
+// Get all non-friends of us
+export const getAllNonFriends = async (req, res) => {
+    try {
+        const myself = req.user
+        if (!myself) {
+            return res.status(404).json({ error: 'Authentication required' })
+        }
+
+        const nonFriends = await UserModel.find({
+            _id: { $nin: [...myself.friendIds, myself._id] }, // don't include myself
+        }).select('-password')
+
+        res.status(200).json(nonFriends)
     } catch (err) {
         res.status(404).json({ error: err.message })
     }

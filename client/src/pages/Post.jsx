@@ -1,13 +1,10 @@
-import React from "react";
-import Navbar from "../components/navbar/Navbar.jsx";
-import PostPlaceholder from "../components/posts/PostPlaceholder.jsx";
+import React from 'react'
+import PostPlaceholder from '../components/posts/PostPlaceholder.jsx'
 
 const Posts = () => {
-
     return (
         <>
-            <Navbar />
-            <div className="flex flex-col items-center justify-center pt-[10vh]">
+            <div className="flex flex-col items-center justify-center">
                 <PostPlaceholder />
                 <PostPlaceholder />
                 <PostPlaceholder />
@@ -17,4 +14,4 @@ const Posts = () => {
     )
 }
 
-export default Posts;
+export default Posts

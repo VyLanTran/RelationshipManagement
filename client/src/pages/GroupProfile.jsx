@@ -58,8 +58,7 @@ const GroupProfile = () => {
     }, [])
 
     return (
-        <div className="">
-            <Navbar />
+        <div>
             {group ? (
                 <div className="pt-[60px] flex flex-row h-screen p-[1vh]">
                     <div className="w-[25%] my-[1.5vh] mr-[1.5vh]">
@@ -82,6 +81,7 @@ const GroupProfile = () => {
                                         </TooltipContent>
                                     </Tooltip>
                                 </TooltipProvider>
+
                             </div>
                             <div className='mt-[2vh]'>
                                 {members.map((member) => (
@@ -89,6 +89,7 @@ const GroupProfile = () => {
                                         <div className='flex flex-row items-center justify-left'>
                                             <CircleUserRound strokeWidth={1.5} className="w-[30px] h-[30px] mx-[2vh]" />
                                             <p className="text-xl">{member['name']}</p>
+
                                         </div>
                                     </div>
                                 ))}
@@ -124,6 +125,7 @@ const GroupProfile = () => {
                                 : 
                                     <p>{view}</p>
                             }
+
                         </div>
                     </div>
                 </div>

@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    friends: [],
-    friendRequests: [],
+    friendIds: [],
+    sentRequests: [],
+    receivedRequests: [],
     profileViewing: null,
 }
 
@@ -10,23 +11,23 @@ export const friendSlice = createSlice({
     name: 'friend',
     initialState,
     reducers: {
-        setFriends: (state, action) => {
-            state.friends = action.payload
+        setFriendIds: (state, action) => {
+            state.friendIds = action.payload
         },
-        setFriendRequests: (state, action) => {
-            state.friendRequests = action.payload
+        setSentRequest: (state, action) => {
+            state.sentRequests = action.payload
         },
         setProfileViewing: (state, action) => {
             state.profileViewing = action.payload
         },
         friendReset: (state) => {
-            state.friends = []
+            state.friendIds = []
             state.friendRequests = []
             state.profileViewing = null
         },
     },
 })
 
-export const { setFriends, setFriendRequests, setProfileViewing, friendReset } =
+export const { setFriendIds, setSentRequest, setProfileViewing, friendReset } =
     friendSlice.actions
 export default friendSlice.reducer

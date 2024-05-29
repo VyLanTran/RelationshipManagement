@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import Navbar from '../components/navbar/Navbar.jsx'
 import About from '../components/users/About.jsx'
 import { useSelector } from 'react-redux'
 import { IoIosCamera } from 'react-icons/io'
 import UploadImageModal from '../components/users/UploadImageModal.jsx'
-import FriendList from '../components/users/FriendList.jsx'
 import BASE_URL from '@/../../constants.js'
 import { FaUserCheck } from 'react-icons/fa6'
 import { FaUserPlus } from 'react-icons/fa6'
@@ -19,8 +17,7 @@ const Profile = () => {
     // this is the user that owns this profile page
     const [user, setUser] = useState(null)
     const { userId } = useParams()
-    const [friends, setFriends] = useState([])
-    const isFriend = friendIds.includes(userId)
+    const [isFriend, setIsFriend] = useState(false)
 
     const [isProfilePictureOpen, setIsProfilePictureOpen] = useState(false)
     const [isCoverPhotoOpen, setIsCoverPhotoOpen] = useState(false)
@@ -39,36 +36,19 @@ const Profile = () => {
             }
         }
 
-        const getFriends = async () => {
-            const res = await fetch(
-                `${BASE_URL}/users/${currentUser._id}/friends`,
-                {
-                    method: 'GET',
-                    headers: { Authorization: `Bearer ${token}` },
-                }
-            )
-            const data = await res.json()
-
-            if (res.ok) {
-                setFriends(data)
-            }
-        }
-
         // only allow currentUser to read this profile if they are authenticated
         if (currentUser) {
             getUser()
-            getFriends()
+            setIsFriend(friendIds.includes(userId))
         }
     }, [user, userId])
+
     // TODO: degree of connection, can only see those within 3 for privacy
     return (
-        <div>
-            <Navbar />
+        <div className="w-full">
             {user ? (
-                <div className="flex flex-row w-screen pt-[60px] ">
-                    <div className="w-[20%]">{/* <Sidebar /> */}</div>
-
-                    <div className="w-[60%] px-4 flex flex-col gap-4">
+                <div className="flex flex-row w-full">
+                    <div className="w-full flex flex-col gap-4">
                         <div className="h-[450px] relative shadow-md bg-[#fffdf0]">
                             <div
                                 className="h-[300px] relative"
@@ -119,12 +99,12 @@ const Profile = () => {
                                     {currentUser._id !== userId && (
                                         <div>
                                             {isFriend ? (
-                                                <div className="flex flex-row bg-[#FFB302] py-1 px-4 rounded-md items-center gap-2">
+                                                <div className="flex flex-row bg-[#FFB302] py-1 px-3 rounded-md items-center gap-2">
                                                     <FaUserCheck />
                                                     <button>Friends</button>
                                                 </div>
                                             ) : (
-                                                <div className="bg-[#FFB302] py-1 px-4 rounded-md flex flex-row gap-2 items-center">
+                                                <div className="bg-[#FFB302] py-1 px-3 rounded-md flex flex-row gap-2 items-center">
                                                     <FaUserPlus />
                                                     <button>Add friend</button>
                                                 </div>
@@ -165,13 +145,9 @@ const Profile = () => {
                             isProfilePicture={false}
                         />
                     </div>
-
-                    <div className="w-[20%] p-4">
-                        <FriendList friends={friends} />
-                    </div>
                 </div>
             ) : (
-                <div className="pt-[60px]">User Not Found</div>
+                <div>User Not Found</div>
             )}
         </div>
     )

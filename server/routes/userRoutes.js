@@ -8,6 +8,7 @@ import {
     createCoverPhoto,
     getAllFriends,
     searchUsers,
+    getAllNonFriends,
 } from '../controllers/userController.js'
 
 import { verifyAuth } from '../middleware/auth.js'
@@ -18,6 +19,7 @@ const router = express.Router()
 router.use(verifyAuth)
 
 router.get('/search', searchUsers)
+router.get('/nonFriends', getAllNonFriends)
 router.get('/:userId', getUser)
 router.get('/:userId/friends', getAllFriends)
 router.get('/', getAllUsers)

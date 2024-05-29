@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Modal from 'react-modal'
-import Navbar from '../components/navbar/Navbar.jsx'
 import GroupCard from '../components/groups/GroupCard.tsx'
 import GroupCardSmall from '../components/groups/GroupCardSmall.tsx'
 import axios from 'axios'
@@ -78,9 +77,8 @@ const Groups = () => {
 
     return (
         <div>
-            <Navbar />
             <div>
-                <div className="flex justify-center flex-row pt-[90px] items-center px-[5vh]">
+                <div className="flex justify-center flex-row px-[5vh] pt-[30px] items-center">
                     <input
                         className="text-xl mr-[3vh] w-[100vh] rounded-[5px] px-[3vh] py-[2vh]"
                         placeholder="Search groups"

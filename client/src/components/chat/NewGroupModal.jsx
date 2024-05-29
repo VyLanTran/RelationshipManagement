@@ -20,7 +20,7 @@ import { ToastAction } from '../ui/toast'
 import { HiddenInput } from '../ui/hidden-input'
 import { Badge } from '../ui/badge'
 import { X } from 'lucide-react'
-import { setAllChats, setCurrentChat } from '../../store/chatReducer.js'
+import { setAllChats, setCurrentChat } from '../../state/chatReducer.js'
 import { Toaster } from '../ui/toaster'
 import BASE_URL from '@/../../constants.js'
 
