@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react'
 import io from 'socket.io-client'
 import { Card } from '../ui/card'
 import BASE_URL from '@/../../constants.js'
-import { setUnreadChats } from '../../store/chatReducer.js'
+import { setUnreadChats } from '../../state/chatReducer.js'
 
 const ENDPOINT = `${BASE_URL}`
 var socket, currentChatCompare

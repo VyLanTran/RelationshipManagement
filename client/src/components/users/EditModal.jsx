@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { updateUser } from '../../store/authReducer'
+import { updateUser } from '../../state/authReducer'
 import BASE_URL from '@/../../constants.js'
 
 const EditModal = ({ isOpen, onClose, user, userId }) => {

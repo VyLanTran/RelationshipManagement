@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import Navbar from '../components/navbar/Navbar.jsx'
-import ConnectionGroup from '../components/connection/ConnectionGroup.tsx'
-import ConnectionCard from '../components/groups/ConnectionCard.jsx'
+import ConnectionGroup from '../components/connection/ConnectionGroup.jsx'
+// import ConnectionCard from '../components/groups/ConnectionCard.jsx'
+import ConnectionCard from '../components/connection/ConnectionCard.jsx'
+
 import AddConnectionForm from '../components/connection/AddConnectionForm.jsx'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
@@ -74,9 +75,8 @@ const Connection = () => {
 
     return (
         <div>
-            <Navbar />
             {connections?.length == 0 ? (
-                <div className="flex justify-center pt-[10vh]">
+                <div className="flex justify-center">
                     <ConnectionGroup />
                     <div className="w-[145vh] rounded-[20px] h-[84vh] p-[1vh] m-[2vh]">
                         <form className="flex justify-between">
@@ -110,7 +110,7 @@ const Connection = () => {
                 </div>
             ) : (
                 <div className="flex justify-center pt-[10vh]">
-                    <ConnectionGroup />
+                    <ConnectionGroup total={connections.length} />
                     <div className="w-[145vh] rounded-[20px] h-[84vh] p-[1vh] m-[2vh]">
                         <form className="flex justify-between">
                             <div className="flex">

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import { IoPersonCircleSharp } from 'react-icons/io5'
+import { IoSettings } from 'react-icons/io5'
 import Modal from 'react-modal'
-import Navbar from '../components/navbar/Navbar.jsx'
 import { useNavigate, useParams } from 'react-router-dom'
+import ConnectionCard from '../components/connection/ConnectionCard.jsx'
 import Select from 'react-select'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
@@ -111,148 +113,161 @@ const GroupProfile = () => {
     }))
 
     return (
-        <div className="">
-            <Navbar />
+        <div>
             {group ? (
-                <div className="pt-[60px] flex flex-row h-screen p-[3vh]">
-                    <div className="w-[25%]  my-[3vh] mr-[1.5vh]">
-                        <div className="h-[90%] bg-[#FFB302] rounded-[20px] mb-[1.5vh] p-[2vh]">
-                            <p className="text-3xl m-[2vh]">{newGroupName}</p>
-                            <div className="text-left pl-[5vh]">
+                <div className="flex flex-row h-screen p-[3vh]">
+                    <div className="w-[25%] my-[3vh] mr-[1.5vh]">
+                        <div className="h-[86vh] bg-[#FFF] rounded-[20px] mb-[1.5vh] p-[2vh]">
+                            <div className="flex flex-row items-center justify-center">
+                                <p className="text-3xl m-[2vh]">
+                                    {newGroupName}
+                                </p>
+                                <button
+                                    onClick={toggleEdit}
+                                    className="flex items-center justify-center w-[4.5vh] text-[4vh] font-bold h-[4.5vh] rounded-[1vh] border-solid border-[rgb(84,84,84)] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
+                                >
+                                    <IoSettings />
+                                </button>
+                                <Modal
+                                    className="flex justify-center items-center"
+                                    isOpen={editGroup}
+                                    onRequestClose={toggleEdit}
+                                    shouldCloseOnOverlayClick={true}
+                                >
+                                    <div className="bg-[#fff] border-2 border-[#FFB302] rounded-[20px] w-[100vh] h-[100%] p-[2.5vh] mt-[10vh] content-center">
+                                        <p className="text-3xl m-[3vh]">
+                                            Edit Group
+                                        </p>
+                                        <div className="m-[3vh] grid grid-cols-5 gap-[5vh] items-center">
+                                            <p className="text-xl m-[3vh]">
+                                                Name:
+                                            </p>
+                                            <input
+                                                className="rounded-[10px] px-[3vh] py-[2vh] col-span-4"
+                                                placeholder={group['name']}
+                                                id="name"
+                                                name="name"
+                                                value={newGroupName}
+                                                onChange={(e) =>
+                                                    setNewGroupName(
+                                                        e.target.value
+                                                    )
+                                                }
+                                            />
+                                            <p className="text-xl m-[3vh]">
+                                                Members:
+                                            </p>
+                                            <ul className="col-span-4">
+                                                {members.map(
+                                                    (member, index) => (
+                                                        <li className="flex justify-between px-[3vh] py-[1vh]">
+                                                            <Select
+                                                                placeholder={
+                                                                    member[
+                                                                        'name'
+                                                                    ]
+                                                                }
+                                                                className="text-left w-[45vh]"
+                                                                options={option}
+                                                                onChange={(
+                                                                    newValue
+                                                                ) => {
+                                                                    members[
+                                                                        index
+                                                                    ] =
+                                                                        users.find(
+                                                                            (
+                                                                                user
+                                                                            ) =>
+                                                                                user[
+                                                                                    '_id'
+                                                                                ] ===
+                                                                                newValue.value
+                                                                        )
+                                                                    setMembers(
+                                                                        members
+                                                                    )
+                                                                }}
+                                                            />
+                                                            <button
+                                                                className="rounded-[10px] bg-[#FFB302] px-[3vh] py-[1vh] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
+                                                                onClick={() => {
+                                                                    setMembers(
+                                                                        members.filter(
+                                                                            (
+                                                                                _,
+                                                                                i
+                                                                            ) =>
+                                                                                i !==
+                                                                                index
+                                                                        )
+                                                                    )
+                                                                }}
+                                                            >
+                                                                Remove
+                                                            </button>
+                                                        </li>
+                                                    )
+                                                )}
+                                            </ul>
+
+                                            <button
+                                                className="rounded-[10px] bg-[#FFB302] px-[3vh] text-l h-[6vh] col-span-5 hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
+                                                onClick={addMember}
+                                            >
+                                                Add new members
+                                            </button>
+                                        </div>
+
+                                        <button
+                                            className="ml-[1vh] rounded-[10px] bg-[#FFB302] px-[3vh] text-l h-[6vh] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
+                                            onClick={onSubmit}
+                                        >
+                                            Submit
+                                        </button>
+                                        <p className="text-red-500 mt-[2vh]">
+                                            {message}
+                                        </p>
+                                    </div>
+                                </Modal>
+                            </div>
+                            <div>
                                 {members.map((member) => (
-                                    <p className="text-xl">{member['name']}</p>
+                                    <div className="w-[100%] rounded-[10px] h-[13vh] border-[5px] border-black bg-[#EEEEEE] mt-[1vh] pt-[0.6vh]">
+                                        <div className="flex flex-col items-center justify-center">
+                                            <IoPersonCircleSharp className="w-[7vh] h-[7vh]" />
+                                            <p className="text-xl">
+                                                {member['name']}
+                                            </p>
+                                        </div>
+                                    </div>
                                 ))}
                             </div>
                         </div>
-                        <div className="h-[10%] flex flex-row mt-[1.5vh] justify-center">
-                            <button
-                                className="mx-[1vh] rounded-[10px] bg-[#FFB302] px-[3vh] text-l h-[6vh] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
-                                onClick={toggleEdit}
-                            >
-                                Edit
-                            </button>
-                            <Modal
-                                className="flex justify-center items-center"
-                                isOpen={editGroup}
-                                onRequestClose={toggleEdit}
-                                shouldCloseOnOverlayClick={true}
-                            >
-                                <div className="bg-[#fff] border-2 border-[#FFB302] rounded-[20px] w-[100vh] h-[100%] p-[2.5vh] mt-[10vh] content-center">
-                                    <p className="text-3xl m-[3vh]">
-                                        Edit Group
-                                    </p>
-                                    <div className="m-[3vh] grid grid-cols-5 gap-[5vh] items-center">
-                                        <p className="text-xl m-[3vh]">Name:</p>
-                                        <input
-                                            className="rounded-[10px] px-[3vh] py-[2vh] col-span-4"
-                                            placeholder={group['name']}
-                                            id="name"
-                                            name="name"
-                                            value={newGroupName}
-                                            onChange={(e) =>
-                                                setNewGroupName(e.target.value)
-                                            }
-                                        />
-                                        <p className="text-xl m-[3vh]">
-                                            Members:
-                                        </p>
-                                        <ul className="col-span-4">
-                                            {members.map((member, index) => (
-                                                <li className="flex justify-between px-[3vh] py-[1vh]">
-                                                    <Select
-                                                        placeholder={
-                                                            member['name']
-                                                        }
-                                                        className="text-left w-[45vh]"
-                                                        options={option}
-                                                        onChange={(
-                                                            newValue
-                                                        ) => {
-                                                            members[index] =
-                                                                users.find(
-                                                                    (user) =>
-                                                                        user[
-                                                                            '_id'
-                                                                        ] ===
-                                                                        newValue.value
-                                                                )
-                                                            setMembers(members)
-                                                        }}
-                                                    />
-                                                    <button
-                                                        className="rounded-[10px] bg-[#FFB302] px-[3vh] py-[1vh] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
-                                                        onClick={() => {
-                                                            setMembers(
-                                                                members.filter(
-                                                                    (_, i) =>
-                                                                        i !==
-                                                                        index
-                                                                )
-                                                            )
-                                                        }}
-                                                    >
-                                                        Remove
-                                                    </button>
-                                                </li>
-                                            ))}
-                                        </ul>
-
-                                        <button
-                                            className="rounded-[10px] bg-[#FFB302] px-[3vh] text-l h-[6vh] col-span-5 hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
-                                            onClick={addMember}
-                                        >
-                                            Add new members
-                                        </button>
-                                    </div>
-
-                                    <button
-                                        className="ml-[1vh] rounded-[10px] bg-[#FFB302] px-[3vh] text-l h-[6vh] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
-                                        onClick={onSubmit}
-                                    >
-                                        Submit
-                                    </button>
-                                    <p className="text-red-500 mt-[2vh]">
-                                        {message}
-                                    </p>
-                                </div>
-                            </Modal>
-                            <button
-                                className="mx-[1vh] rounded-[10px] bg-[#FFB302] px-[3vh] text-l h-[6vh] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
-                                onClick={deleteGroup}
-                            >
-                                Delete
-                            </button>
-                            <button
-                                className="mx-[1vh] rounded-[10px] bg-[#FFB302] ml-[5vh] px-[3vh] text-l h-[6vh] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
-                                onClick={() => navigate('/groups')}
-                            >
-                                Return
-                            </button>
-                        </div>
                     </div>
 
-                    <div className="w-[75%] bg-[#FFF] my-[3vh] ml-[1.5vh] rounded-[20px]">
-                        <div className="m-[2vh]">
+                    <div className="w-[75%] ml-[1.5vh] rounded-[20px]">
+                        <div className="m-[2vh] h-[6vh]">
                             <button
-                                className="mx-[1vh] rounded-[10px] bg-[#FFB302] px-[3vh] text-l h-[6vh] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
+                                className="font-bold w-[18vh] mx-[1vh] rounded-[10px] bg-[#FFB302] px-[3vh] text-xl h-[6vh] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
                                 onClick={toggleDiaryView}
                             >
                                 Diary
                             </button>
                             <button
-                                className="mx-[1vh] rounded-[10px] bg-[#FFB302] px-[3vh] text-l h-[6vh] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
+                                className="font-bold w-[18vh] mx-[1vh] rounded-[10px] bg-[#FFB302] px-[3vh] text-xl h-[6vh] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
                                 onClick={toggleEventView}
                             >
                                 Event
                             </button>
                             <button
-                                className="mx-[1vh] rounded-[10px] bg-[#FFB302] px-[3vh] text-l h-[6vh] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
+                                className="font-bold w-[18vh] mx-[1vh] rounded-[10px] bg-[#FFB302] px-[3vh] text-xl h-[6vh] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"
                                 onClick={toggleMapView}
                             >
                                 Location
                             </button>
                         </div>
-                        <div>
+                        <div className="bg-[#FFF] h-[79vh] rounded-[20px]">
                             <p>{view}</p>
                         </div>
                     </div>

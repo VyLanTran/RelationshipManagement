@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { MdEdit } from 'react-icons/md'
 import { FaTrashAlt } from 'react-icons/fa'
 import { IoPersonCircleSharp } from 'react-icons/io5'
-import EditModal from '../connection/EditModal.jsx'
+import EditModal from './EditModal.jsx'
 import { useSelector } from 'react-redux'
 import BASE_URL from '@/../../constants.js'
 

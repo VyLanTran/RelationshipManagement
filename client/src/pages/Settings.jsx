@@ -1,15 +1,12 @@
-import React from "react";
-
-import Navbar from '../components/navbar/Navbar.jsx'
+import React from 'react'
 
 // TODO: edit username, password here
 const Settings = () => {
     return (
-        <div className="">
-            <Navbar />
-            <div className="pt-[60px]">This is the setting page</div>
+        <div>
+            <div>This is the setting page</div>
         </div>
-    );
+    )
 }
 
-export default Settings;
+export default Settings

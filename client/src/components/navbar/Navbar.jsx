@@ -1,6 +1,6 @@
 import React from 'react'
 import NavbarButton from './NavbarButton.tsx'
-import { HiUserGroup } from "react-icons/hi";
+import { HiUserGroup } from 'react-icons/hi'
 import { RiBookletFill } from 'react-icons/ri'
 import { FaBell } from 'react-icons/fa'
 import { FaCalendarAlt } from 'react-icons/fa'
@@ -10,13 +10,14 @@ import { IoIosContacts } from 'react-icons/io'
 import { IoChatbubbleEllipses } from 'react-icons/io5'
 import { FaMap } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
-import NotificationBadge from 'react-notification-badge'
+// import NotificationBadge from 'react-notification-badge'
 import { CgMenuGridO } from 'react-icons/cg'
 import { FiUserPlus } from 'react-icons/fi'
 import { RiUserReceived2Line } from 'react-icons/ri'
+import { GoGraph } from 'react-icons/go'
 import logo from './logo.png'
 
-import { Effect } from 'react-notification-badge'
+// import { Effect } from 'react-notification-badge'
 
 import { LogOut, Settings, User } from 'lucide-react'
 
@@ -33,7 +34,7 @@ import {
 const Navbar = () => {
     const navigate = useNavigate()
     const user = useSelector((state) => state.auth.user)
-    const unreadChats = useSelector((state) => state.chat.unreadChats)
+    const unreadChats = useSelector((state) => state.chat.unreadChats) || []
     const { logout } = useLogout()
 
     const handleLogout = () => {
@@ -47,7 +48,7 @@ const Navbar = () => {
                 onClick={() => navigate('/')}
                 className="cursor-pointer font-bold"
             >
-                <img className="h-[5vh]" src={logo} />
+                <img className="h-[5vh]" src={logo} alt="Logo" />
             </div>
             <div className="flex flex-row gap-4 items-center">
                 {/* TODO: use tooltips for these buttons */}
@@ -87,12 +88,12 @@ const Navbar = () => {
                 >
                     <div>
                         <IoChatbubbleEllipses size={24} />
-                        <div className="absolute top-0 right-0 -mt-1.5 -mr-1.5">
-                            {unreadChats ? <NotificationBadge
+                        {/* <div className="absolute top-0 right-0 -mt-1.5 -mr-1.5">
+                            <NotificationBadge
                                 count={unreadChats.length}
                                 effect={Effect.SCALE}
-                            /> : <div>Unavailable</div>}
-                        </div>
+                            />
+                        </div> */}
                     </div>
                 </NavLink>
                 <Notification />    
@@ -119,7 +120,7 @@ function DropdownSetting({ user, handleLogout }) {
                     <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuGroup>
-                        <Link to={`/${user._id}`}>
+                        <Link to={`users/${user._id}`}>
                             <DropdownMenuItem>
                                 <User className="mr-2 h-4 w-4" />
                                 <span>Profile</span>
@@ -162,15 +163,16 @@ function Notification() {
                     <DropdownMenuLabel>Notifications</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuGroup>
-                        {unreadChats ? unreadChats.map((chat) => {
-                            return (
-                                <Link to="">
-                                    <DropdownMenuItem>
-                                        <span>{unreadChats.length}</span>
-                                    </DropdownMenuItem>
-                                </Link>
-                            )
-                        }) : <div>Unavailable</div>}
+                        {unreadChats &&
+                            unreadChats.map((chat) => {
+                                return (
+                                    <Link to="">
+                                        <DropdownMenuItem>
+                                            <span>{unreadChats.length}</span>
+                                        </DropdownMenuItem>
+                                    </Link>
+                                )
+                            })}
                     </DropdownMenuGroup>
                 </DropdownMenuContent>
             </DropdownMenu>
@@ -210,6 +212,21 @@ function Menu() {
                             <DropdownMenuItem>
                                 <FiUserPlus className="mr-2 h-4 w-4" />
                                 <span>Suggestions</span>
+                            </DropdownMenuItem>
+                        </Link>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
+
+                    <DropdownMenuGroup>
+                        <div className="flex p-2">
+                            <span className="mr-auto text-[16px] font-semibold">
+                                Data
+                            </span>
+                        </div>
+                        <Link to="/dashboard">
+                            <DropdownMenuItem>
+                                <GoGraph className="mr-2 h-4 w-4" />
+                                <span>Dashboard</span>
                             </DropdownMenuItem>
                         </Link>
                     </DropdownMenuGroup>

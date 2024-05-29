@@ -19,10 +19,14 @@ import authReducer, { setLogout } from './authReducer.js'
 import chatReducer, { chatReset } from './chatReducer.js'
 import friendReducer, { friendReset } from './friendReducer.js'
 
+import { setupListeners } from '@reduxjs/toolkit/query'
+import { api } from './api.js'
+
 const rootReducer = combineReducers({
     auth: authReducer,
     chat: chatReducer,
     friend: friendReducer,
+    [api.reducerPath]: api.reducer,
 })
 
 const persistConfig = {
@@ -47,8 +51,9 @@ export const store = configureStore({
                     REGISTER,
                 ],
             },
-        }),
+        }).concat(api.middleware),
 })
+setupListeners(store.dispatch)
 
 export const resetAllSlices = () => {
     store.dispatch(setLogout())
