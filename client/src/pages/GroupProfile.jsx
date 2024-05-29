@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux'
 import BASE_URL from '@/../../constants.js'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../components/ui/tooltip";
 import { EditGroupModal } from '../components/groups/EditGroupModal.jsx';
+import { DiaryModal } from '../components/groups/DiaryModal.jsx';
 
 // TODO: edit username, password here
 const GroupProfile = () => {
@@ -117,7 +118,12 @@ const GroupProfile = () => {
                             </button>
                         </div>
                         <div className='bg-[#FFF] h-[80vh] rounded-[10px]'>
-                            <p>{view}</p>
+                            {
+                                view == "diary" ?
+                                    <DiaryModal group={group}/>
+                                : 
+                                    <p>{view}</p>
+                            }
                         </div>
                     </div>
                 </div>

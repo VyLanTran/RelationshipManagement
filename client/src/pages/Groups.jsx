@@ -82,25 +82,25 @@ const Groups = () => {
             <div>
                 <div className="flex justify-center flex-row pt-[90px] items-center px-[5vh]">
                     <input
-                        className="text-xl mr-[3vh] w-[100vh] rounded-[10px] px-[3vh] py-[2vh]"
+                        className="text-xl mr-[3vh] w-[100vh] rounded-[5px] px-[3vh] py-[2vh]"
                         placeholder="Search groups"
                         onChange={sortGroup}
                         value={searchInput}
                     />
                     <button
-                        className="mx-[1vh] rounded-[10px] bg-[#FFB302] px-[3vh] text-l h-[6vh]"
+                        className="mx-[1vh] rounded-[5px] bg-[#FFF] px-[3vh] text-l h-[6vh] hover:bg-[#ffdc8b] focus:bg-[#FFB302]"
                         onClick={toggleLargeView}
                     >
                         Large
                     </button>
                     <button
-                        className="ml-[1vh] rounded-[10px] bg-[#FFB302] px-[3vh] text-l h-[6vh]"
+                        className="ml-[1vh] rounded-[5px] bg-[#FFF] px-[3vh] text-l h-[6vh] hover:bg-[#ffdc8b] focus:bg-[#FFB302]"
                         onClick={toggleSmallView}
                     >
                         Small
                     </button>
                     <button
-                        className="ml-[10vh] rounded-[10px] bg-[#FFB302] px-[3vh] text-l h-[6vh]"
+                        className="ml-[10vh] rounded-[5px] bg-[#FFF] px-[3vh] text-l h-[6vh] hover:bg-[#ffdc8b] focus:bg-[#FFB302]"
                         onClick={toggleModal}
                     >
                         New group
@@ -111,10 +111,10 @@ const Groups = () => {
                         onRequestClose={toggleModal}
                         shouldCloseOnOverlayClick={true}
                     >
-                        <div className="bg-[#fff] border-2 border-[#FFB302] rounded-[20px] w-[100vh] h-[30vh] p-[2.5vh] mt-[30vh] content-center">
+                        <div className="bg-[#fff] border-2 border-[#FFB302] rounded-[5px] w-[100vh] h-[30vh] p-[2.5vh] mt-[30vh] content-center">
                             <p className="text-3xl m-[3vh]">Create new group</p>
                             <input
-                                className="content-center text-xl mr-[3vh] w-[60vh] rounded-[10px] px-[3vh] py-[2vh]"
+                                className="content-center text-xl mr-[3vh] w-[60vh] rounded-[5px] px-[3vh] py-[2vh]"
                                 placeholder="Name"
                                 id="name"
                                 name="name"
