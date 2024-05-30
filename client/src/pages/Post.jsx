@@ -17,6 +17,7 @@ const Posts = () => {
     const inputFileRef = useRef(null)
 
     useEffect(() => {
+        // get friend list
         const getFriends = async () => {
             try {
                 const res = await fetch(
@@ -31,7 +32,12 @@ const Posts = () => {
                     setFriends(data)
                 }
 
-                const postId = data.map((friend) => friend.posts)
+                let postId = data.map((friend) => friend.posts)
+
+                console.log(currentUser)
+                if (currentUser.posts) {
+                    postId = [...currentUser.posts, ...postId];
+                }
 
                 const postPromises = postId.map((id) =>
                     fetch(`${BASE_URL}/posts/${id}`, {
@@ -63,6 +69,7 @@ const Posts = () => {
         getFriends()
     }, [currentUser._id, token])
 
+    // create a post
     const handlePost = async () => {
         
             if (!postText && !selectedImage) {
@@ -88,24 +95,38 @@ const Posts = () => {
                     setSelectedImage(null)
                     setPostText('')
                     console.log('Post created successfully:', res)
-                    const updateUserResponse = await fetch(`${BASE_URL}/users/${currentUser._id}`, {
-                        method: 'PUT',
+                    // get user data
+                    const userResponse = await fetch(`${BASE_URL}/users/${currentUser._id}`, {
+                        method: 'GET',
                         headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${token}`,
-                        },
-                        body: JSON.stringify({ postId: res._id })
+                            Authorization: `Bearer ${token}`
+                        }
                     });
-        
-                    const updateUserRes = await updateUserResponse.json();
-        
-                    if (!updateUserResponse.ok) {
-                        throw new Error(updateUserRes.error || 'Failed to update user posts');
-                    }
+                    const userData = await userResponse.json();
+
+    
+                    // Check if user data fetch was successful
+                    if (userResponse.ok) {
+                        const currentPosts = userData.posts || [];
+                        const updatedPosts = [...currentPosts, res.post._id];
+                        
+                        // update user's post array 
+                        const updateUserResponse = await fetch(`${BASE_URL}/users`, {
+                            method: 'PATCH',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Authorization: `Bearer ${token}`
+                            },
+                            body: JSON.stringify({ posts: updatedPosts })
+                        });
+    
+                        if (!updateUserResponse.ok) {
+                            throw new Error('Failed to update user posts');
+                        }
                 } else {
                     throw new Error(res.error || 'Failed to create the post');
                 }
-            } catch (error) {
+            } }catch (error) {
                 console.error('Error posting:', error)
             }
     }
