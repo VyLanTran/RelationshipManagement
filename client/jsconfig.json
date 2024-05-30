@@ -1,9 +1,14 @@
 {
     "compilerOptions": {
-        "jsx": "react",
-        "baseUrl": ".",
-        "paths": {
-            "@/*": ["./*"]
-        }
+      "baseUrl": ".",
+      "paths": {
+        "@/*": ["./*"]
+      }
+    },
+    "fallback": {
+      "fs": false,
+      "os": false,
+      "path": false
     }
-}
+  }
+  

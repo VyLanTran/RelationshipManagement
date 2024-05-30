@@ -6,6 +6,7 @@ import Profile from './pages/Profile.jsx'
 import Groups from './pages/Groups.jsx'
 import Map from './pages/Map.jsx'
 import Posts from './pages/Post.jsx'
+import Graph from './pages/Graph.jsx'
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import ProtectedRoute from './utils/ProtectedRoute.js'
@@ -56,6 +57,7 @@ function App() {
                     >
                         <Route exact path="/" element={<Home />} />
                         <Route exact path="/settings" element={<Settings />} />
+                        <Route exact path="/graph" element={<Graph/>} />
                         <Route
                             exact
                             path="/connection/:userId"

@@ -109,7 +109,7 @@ const Connection = () => {
                     </div>
                 </div>
             ) : (
-                <div className="flex justify-center pt-[10vh]">
+                <div className="flex justify-center">
                     <ConnectionGroup total={connections.length} />
                     <div className="w-[145vh] rounded-[20px] h-[84vh] p-[1vh] m-[2vh]">
                         <form className="flex justify-between">

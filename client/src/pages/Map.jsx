@@ -44,7 +44,7 @@ const MapGroup = () => {
     useEffect(() => {
         const initMap = async () => {
             const loader = new Loader({
-                apiKey: 'AIzaSyBUIvdKMKt7Hav5Ly79qwuTEZszxLw1X1I',
+                apiKey: process.env.REACT_APP_GOOGLE_MAPS_API,
                 version: 'weekly',
             })
 
@@ -55,11 +55,14 @@ const MapGroup = () => {
 
             const position = { lat: 53.54, lng: 10 }
 
+            console.log(process.env.REACT_APP_GOOGLE_MAPS_API)
+            console.log(process.env.REACT_APP_GOOGLE_MAPS_ID)
+
             // map options
             const mapOptions = {
                 center: position,
                 zoom: 3,
-                mapId: '7edf854779b8d237',
+                mapId: process.env.REACT_APP_GOOGLE_MAPS_ID,
             }
 
             // setup map
