@@ -8,84 +8,87 @@ import AddConnectionForm from '../components/connection/AddConnectionForm.jsx'
 import ConnectionDetail from '../components/connection/ConnectionDetailCard.jsx'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
-import BASE_URL from '.@/../../constants.js'
+import BASE_URL from '@/../../constants.js'
 
 const Connection = () => {
-	const [connections, setConnections] = useState([])
-	const [searchInput, setSearchInput] = useState('')
-	const [showAddForm, setShowAddForm] = useState(false)
-	const [showConnectionDetails, setShowConnectionDetails] = useState(false)
-	const [selectedConnection, setSelectedConnection] = useState(null)
-	const [user, setUser] = useState(null)
-	const { userId } = useParams()
-	const currentUser = useSelector((state) => state.auth.user)
-	const token = useSelector((state) => state.auth.token)
+    const [connections, setConnections] = useState([])
+    const [searchInput, setSearchInput] = useState('')
+    const [showAddForm, setShowAddForm] = useState(false)
+    const [showConnectionDetails, setShowConnectionDetails] = useState(false)
+    const [selectedConnection, setSelectedConnection] = useState(null)
+    const [user, setUser] = useState(null)
+    const { userId } = useParams()
+    const currentUser = useSelector((state) => state.auth.user)
+    const token = useSelector((state) => state.auth.token)
 
-	useEffect(() => {
-		// get the current user
-		const getUser = async () => {
-			const res = await fetch(`${BASE_URL}/users/${userId}`, {
-				method: 'GET',
-				headers: { Authorization: `Bearer ${token}` },
-			})
-			const data = await res.json()
-			if (res.ok) {
-				setUser(data)
-			}
-		}
-		// fetch the user's connection
-		const fetchConnections = async () => {
-			const res = await fetch(`${BASE_URL}/connections/${currentUser._id}`, {
-				method: 'GET',
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			})
-			const data = await res.json()
+    useEffect(() => {
+        // get the current user
+        const getUser = async () => {
+            const res = await fetch(`${BASE_URL}/users/${userId}`, {
+                method: 'GET',
+                headers: { Authorization: `Bearer ${token}` },
+            })
+            const data = await res.json()
+            if (res.ok) {
+                setUser(data)
+            }
+        }
+        // fetch the user's connection
+        const fetchConnections = async () => {
+            const res = await fetch(
+                `${BASE_URL}/connections/${currentUser._id}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
+            const data = await res.json()
 
-			if (res.ok) {
-				setConnections(data.connections)
-			}
-		}
-		if (currentUser) {
-			getUser()
-			fetchConnections()
-		}
-	}, [user, userId])
-	useEffect(() => {
-		if (selectedConnection !== null) {
-			setShowConnectionDetails(true)
-		}
-	}, [selectedConnection])
+            if (res.ok) {
+                setConnections(data.connections)
+            }
+        }
+        if (currentUser) {
+            getUser()
+            fetchConnections()
+        }
+    }, [user, userId])
+    useEffect(() => {
+        if (selectedConnection !== null) {
+            setShowConnectionDetails(true)
+        }
+    }, [selectedConnection])
 
-	const handleSelectConnection = (connection) => {
-		setSelectedConnection(connection)
-	}
+    const handleSelectConnection = (connection) => {
+        setSelectedConnection(connection)
+    }
 
-	const searchConnection = (e) => {
-		e.preventDefault()
-		setSearchInput(e.target.value)
-	}
+    const searchConnection = (e) => {
+        e.preventDefault()
+        setSearchInput(e.target.value)
+    }
 
-	const handleCloseDetail = () => {
-		setShowConnectionDetails(false)
-		setSelectedConnection(null)
-	}
+    const handleCloseDetail = () => {
+        setShowConnectionDetails(false)
+        setSelectedConnection(null)
+    }
 
-	const handleCloseForm = () => {
-		setShowAddForm(false)
-	}
-	// change to handle null connections
-	const filteredData = connections
-		? connections.filter(
-				(connection) =>
-					connection &&
-					connection.name &&
-					String(connection.name)
-						.toLowerCase()
-						.includes(searchInput.toLowerCase())
-			)
-		: []
+    const handleCloseForm = () => {
+        setShowAddForm(false)
+    }
+    // change to handle null connections
+    const filteredData = connections
+        ? connections.filter(
+              (connection) =>
+                  connection &&
+                  connection.name &&
+                  String(connection.name)
+                      .toLowerCase()
+                      .includes(searchInput.toLowerCase())
+          )
+        : []
 
     return (
         <div>
