@@ -4,14 +4,12 @@ import { Button } from '../ui/button'
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
 } from '../ui/dialog'
 import { Input } from '../ui/input'
-import { Label } from '../ui/label'
 import { useDispatch, useSelector } from 'react-redux'
 import { ScrollArea } from '../ui/scroll-area'
 import UserItem from './UserItem'
@@ -21,7 +19,6 @@ import { HiddenInput } from '../ui/hidden-input'
 import { Badge } from '../ui/badge'
 import { X } from 'lucide-react'
 import { setAllChats, setCurrentChat } from '../../state/chatReducer.js'
-import { Toaster } from '../ui/toaster'
 import BASE_URL from '@/../../constants.js'
 
 export function NewGroupModal({ children }) {
@@ -190,7 +187,6 @@ export function NewGroupModal({ children }) {
                         </Button>
                     </DialogFooter>
                 </DialogContent>
-                <Toaster />
             </Dialog>
         </form>
     )
