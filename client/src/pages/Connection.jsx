@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import ConnectionGroup from '../components/connection/ConnectionGroup.jsx'
-// import ConnectionCard from '../components/groups/ConnectionCard.jsx'
 import ConnectionCard from '../components/connection/ConnectionCard.jsx'
-
 import AddConnectionForm from '../components/connection/AddConnectionForm.jsx'
 import ConnectionDetail from '../components/connection/ConnectionDetailCard.jsx'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
-import BASE_URL from '.@/../../constants.js'
+import BASE_URL from './.@/../../constants.js'
 
 const Connection = () => {
 	const [connections, setConnections] = useState([])
