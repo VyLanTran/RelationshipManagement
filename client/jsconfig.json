@@ -1,14 +1,9 @@
 {
     "compilerOptions": {
-      "baseUrl": ".",
-      "paths": {
-        "@/*": ["./*"]
-      }
-    },
-    "fallback": {
-      "fs": false,
-      "os": false,
-      "path": false
+        "jsx": "react",
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./*"]
+        }
     }
-  }
-  
+}

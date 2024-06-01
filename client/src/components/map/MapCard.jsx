@@ -35,8 +35,6 @@ const ConnectionGroup = ({total}) => {
 
     const options = [{ value: "Everyone", label: "Everyone" }, ...groups.map(group => ({ value: group.name, label: group.name }))];
 
-    console.log(groups)
-
     return (
         <div className="bg-[#FCAF58] rounded-[20px] w-[50vh] h-[84vh] p-[2.5vh] m-[2vh]">
             <Select placeholder="Select group:" className="text-left" options={ options } />
