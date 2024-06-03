@@ -32,6 +32,8 @@ const Posts = () => {
                     setFriends(data)
                 }
 
+                console.log(friends)
+
                 let postId = data.map((friend) => friend.posts)
 
                 console.log(currentUser)
@@ -198,13 +200,15 @@ const Posts = () => {
 
                 <hr className='border-t-2 border-grey-700 my-4 w-[70vh]' />
 
-                {posts.map((post, index) => (
+                {friends.length > 0 ? posts.map((post, index) => (
                     <PostPlaceholder
                         key={index}
                         user={friends[index % friends.length]}
                         post={post}
                     />
-                ))}
+                )) : (
+                    <p>No posts to display yet</p>
+                )}
             </div>
         </>
     )
