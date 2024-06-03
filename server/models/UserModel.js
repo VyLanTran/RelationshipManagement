@@ -10,6 +10,7 @@ const UserSchema = new mongoose.Schema(
         email: {
             type: String,
             required: true,
+            unique: true,
         },
         username: {
             type: String,
@@ -43,10 +44,6 @@ const UserSchema = new mongoose.Schema(
             type: String,
             default: '',
         },
-        // profilePicture: {
-        //     type: Object,
-        //     default: null,
-        // },
         profilePicture: {
             type: Object,
             default: function () {

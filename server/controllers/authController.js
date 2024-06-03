@@ -5,6 +5,7 @@ import validator from 'validator'
 import TokenModel from '../models/TokenModel.js'
 import sendEmail from '../utils/sendEmail.js'
 import crypto from 'crypto'
+import { SALT_ROUNDS } from '../seeds/constants.js'
 
 export const signup = async (req, res) => {
     const CLIENT_BASE_URL = process.env.CLIENT_BASE_URL
@@ -35,7 +36,7 @@ export const signup = async (req, res) => {
         // }
 
         // Create a new user
-        const salt = await bcrypt.genSalt()
+        const salt = await bcrypt.genSalt(SALT_ROUNDS)
         const hashedPassword = await bcrypt.hash(password, salt)
 
         const user = await UserModel.create({
