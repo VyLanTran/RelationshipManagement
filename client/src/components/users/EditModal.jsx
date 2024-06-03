@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { updateUser } from '../../state/authReducer'
 import BASE_URL from '@/../../constants.js'
@@ -8,7 +8,31 @@ const EditModal = ({ isOpen, onClose, user, userId }) => {
     const token = useSelector((state) => state.auth.token)
     const dispatch = useDispatch()
 
+    const autoCompleteCurrentCityRef = useRef(null)
+    const inputCurrentCityRef = useRef(null)
+
+    const autoCompleteHometownRef = useRef(null)
+    const inputHometownRef = useRef(null)
+
     const [userData, setUserData] = useState(user)
+
+    useEffect(() => {
+        autoCompleteCurrentCityRef.current = new window.google.maps.places.Autocomplete(inputCurrentCityRef.current)
+        autoCompleteCurrentCityRef.current.addListener('place_changed', handleCurrentCityChange)
+
+        autoCompleteHometownRef.current = new window.google.maps.places.Autocomplete(inputHometownRef.current)
+        autoCompleteHometownRef.current.addListener('place_changed', handleHometownChange)
+    }, [userData])
+
+    const handleCurrentCityChange = async () => {
+        const place = await autoCompleteCurrentCityRef.current.getPlace()
+        setUserData({ ...userData, currentCity: place.formatted_address })
+    }
+
+    const handleHometownChange = async () => {
+        const place = await autoCompleteHometownRef.current.getPlace()
+        setUserData({ ...userData, hometown: place.formatted_address })
+    }
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -64,16 +88,14 @@ const EditModal = ({ isOpen, onClose, user, userId }) => {
                             name="currentCity"
                             className="bg-gray-50 border border-gray-300 text-sm rounded-sm  w-[400px] p-2.5 focus:outline-none"
                             placeholder="Live in"
-                            value={userData.currentCity}
-                            onChange={handleChange}
+                            ref={inputCurrentCityRef}
                         />
                         <input
                             type="text"
                             name="hometown"
                             className="bg-gray-50 border border-gray-300 text-sm rounded-sm  w-[400px] p-2.5 focus:outline-none"
                             placeholder="Came from"
-                            value={userData.hometown}
-                            onChange={handleChange}
+                            ref={inputHometownRef}
                         />
                         <input
                             type="text"
