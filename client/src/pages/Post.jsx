@@ -27,16 +27,17 @@ const Posts = () => {
                         headers: { Authorization: `Bearer ${token}` },
                     }
                 )
-                const data = await res.json()
+                const friendData = await res.json()
                 if (res.ok) {
-                    setFriends(data)
-                }
+                    setFriends(friendData)
+                };
 
-                console.log(friends)
+                console.log(friendData)
 
-                let postId = data.map((friend) => friend.posts)
+                let postId = friendData.map((friend) => friend.posts)
 
-                console.log(currentUser)
+                console.log(postId)
+
                 if (currentUser.posts) {
                     postId = [...currentUser.posts, ...postId];
                 }
@@ -59,10 +60,13 @@ const Posts = () => {
                         return await response.json()
                     })
                 )
+
                 const flattenedPosts = allPosts.flatMap(
                     (postsArray) => postsArray
                 )
-                const finalPosts = flattenedPosts.map((post) => post.post)
+
+                const finalPosts = flattenedPosts[0].posts
+
                 setPosts(finalPosts)
             } catch (error) {
                 console.error('Error fetching friends:', error)
