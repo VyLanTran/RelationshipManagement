@@ -29,7 +29,7 @@ export const getAllFriends = async (req, res) => {
         const friends = await Promise.all(
             user.friendIds.map((friendId) =>
                 UserModel.findById(friendId).select(
-                    'name email phone company school currentCity profilePicture'
+                    'name email phone company school currentCity profilePicture posts'
                 )
             )
         )

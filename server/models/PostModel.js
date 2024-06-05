@@ -6,11 +6,8 @@ const PostSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    pictures: {
-      // TODO: multiple pictures
-      // type: Array,
-      // default: [],
-      type: Object,
+    picture: {
+      type: String,
       default: null,
     },
     description: String,
