@@ -204,7 +204,7 @@ const Posts = () => {
 
                 <hr className='border-t-2 border-grey-700 my-4 w-[70vh]' />
 
-                {friends.length > 0 ? posts.map((post, index) => (
+                {posts.length > 0 ? posts.map((post, index) => (
                     <PostPlaceholder
                         key={index}
                         user={friends[index % friends.length]}
