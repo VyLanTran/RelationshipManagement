@@ -1,6 +1,10 @@
 import mongoose from 'mongoose'
 
-import { generateUsers, generateDefaultUsers } from './User.js'
+import {
+    generateDefaultUsers,
+    generateRandomUsers,
+    generateUsers,
+} from './User.js'
 import { connectDB } from '../index.js'
 
 const run = async () => {
@@ -18,9 +22,11 @@ const run = async () => {
 
 const generate = () => {
     return new Promise(async (resolve) => {
-        const numUsers = 2
-        await generateDefaultUsers()
-        await generateUsers(numUsers)
+        // const numUsers = 2
+        // await generateDefaultUsers()
+        // await generateUsers(numUsers)
+
+        // await generateUsers(10)
 
         return resolve()
     })

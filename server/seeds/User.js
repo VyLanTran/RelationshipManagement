@@ -1,8 +1,10 @@
+import mongoose from 'mongoose'
 import { faker } from '@faker-js/faker'
 import bcrypt from 'bcrypt'
 import { UniqueEnforcer } from 'enforce-unique'
 import axios from 'axios'
 import { Country, State, City } from 'country-state-city'
+import { countryToAlpha2 } from 'country-to-iso'
 
 import UserModel from '../models/UserModel.js'
 import { generateRandomNum } from './utils.js'
@@ -11,7 +13,16 @@ import { countries, DEFAULT_PASSWORD, SALT_ROUNDS } from './constants.js'
 let universities = null
 let cities = null
 
-export const generateUsers = async (numUsers) => {
+export const generateUsers = async (numRandomUsers = 50) => {
+    return new Promise(async (resolve) => {
+        // await generateDefaultUsers()
+        await generateRandomUsers(numRandomUsers)
+        await generateFriendRelationship()
+        return resolve()
+    })
+}
+
+export const generateRandomUsers = async (numUsers) => {
     if (numUsers <= 0) {
         return
     }
@@ -143,7 +154,9 @@ export const generateDefaultUsers = async () => {
         await linh.save()
         await long.save()
 
-        console.log('========== COMPLETE ==========')
+        console.log(
+            '========== COMPLETE - 4 default users generated =========='
+        )
 
         return resolve()
     })
@@ -195,6 +208,49 @@ const generateUser = async (universities, cities) => {
     return user
 }
 
+const generateFriendRelationship = async () => {
+    console.log('========== Generating relationship between users ==========')
+
+    const allUsers = await UserModel.find({}, '_id')
+    const userIds = allUsers.map((user) => user._id.toString())
+    const totalUsers = userIds.length
+
+    if (totalUsers <= 1) return
+
+    const friendships = {} // a dict with key = user ID, value = set of friend IDs
+    userIds.forEach((userId) => {
+        friendships[userId] = new Set()
+    })
+
+    userIds.forEach((userId, index) => {
+        // Randomly choose number of friends for this user
+        const numFriends = generateRandomNum(0, Math.floor(totalUsers * 0.5))
+
+        while (friendships[userId].size < numFriends) {
+            const friendId = userIds[generateRandomNum(0, totalUsers - 1)]
+
+            if (friendId !== userId && !friendships[userId].has(friendId)) {
+                friendships[userId].add(friendId)
+                friendships[friendId].add(userId)
+            }
+        }
+    })
+
+    // Update users with friendIds
+    const bulkOps = userIds.map((userId) => {
+        return {
+            updateOne: {
+                filter: { _id: new mongoose.Types.ObjectId(userId) },
+                update: { friendIds: Array.from(friendships[userId]) },
+            },
+        }
+    })
+
+    await UserModel.bulkWrite(bulkOps)
+
+    console.log('========== COMPLETE - relationship generated ==========')
+}
+
 const fetchAllUniversities = async () => {
     const sparqlQuery = `
     SELECT ?university ?universityLabel
@@ -242,8 +298,8 @@ const fetchAllUniversities = async () => {
 const fetchAllCities = async () => {
     const cities = []
 
-    for (let countryCode of Object.keys(countries)) {
-        const countryName = countries[countryCode]
+    for (let countryName of countries) {
+        const countryCode = countryToAlpha2(countryName)
         const cityList = City.getCitiesOfCountry(countryCode)
         for (let city of cityList) {
             const cityName = city['name']

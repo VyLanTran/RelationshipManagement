@@ -4,6 +4,7 @@ import { MdOutlineDashboard } from 'react-icons/md'
 import { AiOutlineUser } from 'react-icons/ai'
 import { NavLink } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
+import { BsGlobeAmericas } from 'react-icons/bs'
 
 const Dashboard = () => {
     const menus = [
@@ -13,9 +14,14 @@ const Dashboard = () => {
             icon: <MdOutlineDashboard size={20} />,
         },
         {
-            name: 'Friends',
-            link: '/dashboard/friends',
+            name: 'Friends Information',
+            link: '/dashboard/friendInfo',
             icon: <AiOutlineUser size={20} />,
+        },
+        {
+            name: 'Friends Location',
+            link: '/dashboard/friendGeography',
+            icon: <BsGlobeAmericas size={20} />,
         },
     ]
     const [open, setOpen] = useState(true)
