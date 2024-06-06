@@ -6,6 +6,7 @@ import BASE_URL from '@/../../constants.js'
 export const useSignup = () => {
     const [error, setError] = useState(null) // at the beginning, there is no error
     const [isLoading, setIsLoading] = useState(false)
+    const [message, setMessage] = useState('')
     const dispatch = useDispatch()
 
     const signup = async (name, email, username, password, confirmPassword) => {
@@ -32,15 +33,16 @@ export const useSignup = () => {
             throw new Error(json.error)
         } else {
             // update auth context with current user
-            dispatch(
-                setLogin({
-                    user: json.user,
-                    token: json.token,
-                })
-            )
+            // dispatch(
+            //     setLogin({
+            //         user: json.user,
+            //         token: json.token,
+            //     })
+            // )
             setIsLoading(false)
+            setMessage(res.message)
         }
     }
 
-    return { signup, isLoading, error }
+    return { signup, isLoading, error, message }
 }

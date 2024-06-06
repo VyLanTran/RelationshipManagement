@@ -10,6 +10,7 @@ const UserSchema = new mongoose.Schema(
         email: {
             type: String,
             required: true,
+            unique: true,
         },
         username: {
             type: String,
@@ -18,6 +19,10 @@ const UserSchema = new mongoose.Schema(
         password: {
             type: String,
             require: true,
+        },
+        verified: {
+            type: Boolean,
+            default: false,
         },
         company: {
             type: String,
@@ -39,10 +44,6 @@ const UserSchema = new mongoose.Schema(
             type: String,
             default: '',
         },
-        // profilePicture: {
-        //     type: Object,
-        //     default: null,
-        // },
         profilePicture: {
             type: Object,
             default: function () {
