@@ -1,43 +1,11 @@
-'use client'
-
-import React, { useEffect, useState } from 'react'
-import { Loader } from '@googlemaps/js-api-loader'
-import MapCard from '../components/map/MapCard.jsx'
+import React, { useEffect, useState } from 'react';
+import { Loader } from '@googlemaps/js-api-loader';
 import { getGeocode, getLatLng } from 'use-places-autocomplete'
 import { MarkerClusterer } from '@googlemaps/markerclusterer'
-import { useSelector } from 'react-redux'
-import BASE_URL from '@/../../constants.js'
 
-const MapGroup = () => {
+export function MapModal({ group, members }) {
+
     const mapRef = React.useRef(null)
-
-    const [connections, setConnections] = useState([])
-
-    const currentUser = useSelector((state) => state.auth.user)
-    const token = useSelector((state) => state.auth.token)
-
-    useEffect(() => {
-        // fetch the user's connection
-        const fetchConnections = async () => {
-            const res = await fetch(
-                `${BASE_URL}/connections/${currentUser._id}`,
-                {
-                    method: 'GET',
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            )
-            const data = await res.json()
-
-            if (res.ok) {
-                setConnections(data.connections)
-            }
-        }
-        if (currentUser) {
-            fetchConnections()
-        }
-    }, [currentUser])
 
     // Load the map in + general map configuration
     useEffect(() => {
@@ -69,12 +37,12 @@ const MapGroup = () => {
             const markers = []
 
             await Promise.all(
-                connections.slice().map(async (connection) => {
-                    if (connection && 'location' in connection) {
+                members.slice().map(async (member) => {
+                    if (member && 'currentCity' in member) {
                         try {
                             // Perform geocoding to get latitude and longitude
                             const results = await getGeocode({
-                                address: connection.location,
+                                address: member.currentCity,
                             })
                             const { lat, lng } = await getLatLng(results[0])
 
@@ -93,9 +61,9 @@ const MapGroup = () => {
                                     infoWindow.close()
                                     const html =
                                         '<b>' +
-                                        connection.name +
+                                        member.name +
                                         '</b><br/>' +
-                                        connection.location
+                                        member.currentCity
                                     infoWindow.setContent(html)
                                     infoWindow.open(marker.map, marker, html)
                                 }
@@ -113,21 +81,12 @@ const MapGroup = () => {
         }
 
         initMap()
-    }, [connections])
+    }, [members])
 
     return (
-        <div>
-            <div className="flex justify-center flex-row">
-                <MapCard total={connections.length} />
-                <div className="w-[150vh] bg-[#FCAF3D] rounded-[20px] h-[84vh] p-[2.5vh] m-[2vh]">
-                    <div
-                        className="w-[145vh] rounded-[20px] h-[80vh] mt-[-0.5vh]"
-                        ref={mapRef}
-                    />
-                </div>
-            </div>
+        <div className='h-[100%] w-[100%] flex items-center justify-center'>
+            <div className='h-[95%] w-[98%] rounded-[10px]' ref={mapRef} />
         </div>
     )
 }
 
-export default MapGroup

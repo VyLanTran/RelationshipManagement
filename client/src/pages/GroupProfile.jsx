@@ -8,6 +8,7 @@ import BASE_URL from '@/../../constants.js'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../components/ui/tooltip";
 import { EditGroupModal } from '../components/groups/EditGroupModal.jsx';
 import { DiaryModal } from '../components/groups/DiaryModal.jsx';
+import { MapModal } from '../components/groups/MapModal.jsx';
 
 // TODO: edit username, password here
 const GroupProfile = () => {
@@ -60,7 +61,7 @@ const GroupProfile = () => {
     return (
         <div>
             {group ? (
-                <div className="pt-[60px] flex flex-row h-screen p-[1vh]">
+                <div className="flex flex-row h-screen p-[1vh]">
                     <div className="w-[25%] my-[1.5vh] mr-[1.5vh]">
                         <div className="h-[87.5vh] bg-[#FFF] rounded-[10px] mb-[1.5vh] p-[2vh]">
                             <div className="flex flex-row items-center justify-between">
@@ -122,8 +123,11 @@ const GroupProfile = () => {
                             {
                                 view == "diary" ?
                                     <DiaryModal group={group}/>
-                                : 
-                                    <p>{view}</p>
+                                : view == "map" ?
+                                    <MapModal group={group} members={members}/>
+                                : view == "event" ?
+                                    <p>Event</p>
+                                : <p>Nothing selected</p>
                             }
 
                         </div>
