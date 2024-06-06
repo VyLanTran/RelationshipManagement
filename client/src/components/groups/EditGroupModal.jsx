@@ -27,7 +27,7 @@ export function EditGroupModal({ children, currentGroup, members }) {
 
     const user = useSelector((state) => state.auth.user);
     const token = useSelector((state) => state.auth.token);
-        const authHeader = { headers: { 'Authorization': `Bearer ${token}` } };
+    const authHeader = { headers: { 'Authorization': `Bearer ${token}` } };
     const [message, setMessage] = useState('')
     const navigate = useNavigate()
     const [groupName, setGroupName] = useState(currentGroup['name'])
@@ -73,7 +73,6 @@ export function EditGroupModal({ children, currentGroup, members }) {
                 },
                 authHeader
             )
-            console.log(res.data);
             setMessage('Group edited sucessfully!')
         } catch (error) {
             setMessage(error.response.data['message'])
@@ -97,8 +96,6 @@ export function EditGroupModal({ children, currentGroup, members }) {
         updatedMembers[index] = { ...newUser };
         setNewMembers(updatedMembers);
     };
-
-    console.log(newMembers)
 
     return (
         <Dialog>

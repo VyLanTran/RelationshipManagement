@@ -49,7 +49,7 @@ app.use('/requests', friendRequestRoutes)
 
 const PORT = process.env.PORT || 8080
 
-const connectDB = async () => {
+export const connectDB = async () => {
     try {
         await mongoose.connect(process.env.MONGO_URL)
         console.log(`MongoDB Connected`)

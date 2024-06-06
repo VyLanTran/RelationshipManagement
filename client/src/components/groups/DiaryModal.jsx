@@ -101,9 +101,6 @@ export function DiaryModal({ group }) {
         
     }
 
-    console.log(group)
-    console.log(currentGroup)
-
     return (
         <div className="h-[70vh]">
             <div className="flex flex-row h-[70vh]">

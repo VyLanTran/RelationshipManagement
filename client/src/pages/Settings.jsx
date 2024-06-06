@@ -1,12 +1,13 @@
 import React from 'react'
+import { useToast } from '../components/ui/use-toast'
+import { Button } from '../components/ui/button'
+import { Toaster } from '../components/ui/toaster'
 
 // TODO: edit username, password here
 const Settings = () => {
-    return (
-        <div>
-            <div>This is the setting page</div>
-        </div>
-    )
+    const { toast } = useToast()
+
+    return <div>setting</div>
 }
 
 export default Settings

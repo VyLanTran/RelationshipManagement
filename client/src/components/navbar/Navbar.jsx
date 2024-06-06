@@ -96,7 +96,7 @@ const Navbar = () => {
                         </div> */}
                     </div>
                 </NavLink>
-                <Notification />
+                <Notification />    
                 <DropdownSetting user={user} handleLogout={handleLogout} />
             </div>
         </div>

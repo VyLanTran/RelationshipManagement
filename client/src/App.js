@@ -20,7 +20,10 @@ import Layout from './components/layout/Layout.jsx'
 import Dashboard from './pages/dashboard/Dashboard.jsx'
 import DashboardLayout from './components/dashboard/DashboardLayout.jsx'
 import FriendsData from './pages/dashboard/FriendsData.jsx'
+import FriendsGeography from './pages/dashboard/FriendsGeography.jsx'
 import ProfileLayout from './components/profile/ProfileLayout.jsx'
+import VerificationGuide from './pages/verification/VerificationGuide.jsx'
+import VerificationResult from './pages/verification/VerificationResult.jsx'
 
 // TODO: responsive to screen size
 
@@ -44,6 +47,26 @@ function App() {
                         element={
                             <ProtectedRoute isAuthPage={true}>
                                 <SignUp />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        exact
+                        path="/verificationGuide"
+                        element={
+                            <ProtectedRoute isAuthPage={true}>
+                                <VerificationGuide />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        exact
+                        path="/auth/:id/verify/:token"
+                        element={
+                            <ProtectedRoute isAuthPage={true}>
+                                <VerificationResult />
                             </ProtectedRoute>
                         }
                     />
@@ -89,9 +112,15 @@ function App() {
                         <Route element={<DashboardLayout />}>
                             <Route
                                 exact
-                                path="/dashboard/friends"
+                                path="/dashboard/friendInfo"
                                 element={<FriendsData />}
                             />
+                            <Route
+                                exact
+                                path="/dashboard/friendGeography"
+                                element={<FriendsGeography />}
+                            />
+
                             <Route
                                 exact
                                 path="/dashboard"
