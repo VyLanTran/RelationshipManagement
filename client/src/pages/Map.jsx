@@ -37,16 +37,19 @@ const MapGroup = () => {
         if (currentUser) {
             fetchConnections()
         }
-    }, [currentUser])
+    }, [])
 
     // Load the map in + general map configuration
     useEffect(() => {
         const initMap = async () => {
             const loader = new Loader({
-                apiKey: 'AIzaSyBUIvdKMKt7Hav5Ly79qwuTEZszxLw1X1I',
+                apiKey: process.env.REACT_APP_GOOGLE_MAPS_API,
                 version: 'weekly',
             })
 
+            console.log(connections)
+            console.log("Loading map")
+            
             const { Map, InfoWindow } = await loader.importLibrary('maps')
 
             const { AdvancedMarkerElement, PinElement } =
@@ -58,7 +61,7 @@ const MapGroup = () => {
             const mapOptions = {
                 center: position,
                 zoom: 3,
-                mapId: '7edf854779b8d237',
+                mapId: process.env.REACT_APP_GOOGLE_MAPS_ID,
             }
 
             // setup map
