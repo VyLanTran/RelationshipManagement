@@ -1,10 +1,10 @@
 import {React, useState} from "react";
 import { FaHeart } from 'react-icons/fa';
 
-const placeholderAvatar = 'https://avatar.iran.liara.run/public/39'
+const placeholderAvatar = 'https://hwchamber.co.uk/wp-content/uploads/2022/04/avatar-placeholder.gif'
 
 const PostPlaceholder = ({user, post}) => {
-    
+
     const likes = post.likes || {}
     const likeCount = Object.values(likes).filter(value => value).length
 
