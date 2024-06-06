@@ -17,6 +17,7 @@ import { app } from '../firebase'
 
 import { FaFacebook } from 'react-icons/fa'
 import { FcGoogle } from 'react-icons/fc'
+import { useToast } from '../components/ui/use-toast'
 
 // TODO: keep log in for a longer time
 const Login = () => {
@@ -28,6 +29,7 @@ const Login = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const auth = getAuth(app)
+    const { toast } = useToast()
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword)
@@ -40,7 +42,10 @@ const Login = () => {
             await login(email, password)
             navigate('/')
         } catch (error) {
-            console.log(error)
+            toast({
+                variant: 'destructive',
+                description: error.message || 'An error occurred during log in',
+            })
         }
     }
 
@@ -55,7 +60,11 @@ const Login = () => {
             await loginOrSignupWithGoogle(name, email, profilePicture)
             navigate('/')
         } catch (error) {
-            console.log(error)
+            toast({
+                variant:
+                    error.message || 'An error occurred during Google login',
+                description: error,
+            })
         }
     }
 
@@ -71,7 +80,10 @@ const Login = () => {
             await loginOrSignupWithGoogle(name, email, profilePicture)
             navigate('/')
         } catch (error) {
-            console.log(error)
+            toast({
+                variant: 'An error occurred during Facebook login',
+                description: error,
+            })
         }
     }
 
@@ -152,13 +164,7 @@ const Login = () => {
                             <Icon icon={showPassword ? eye : eyeOff} />
                         </button>
                     </div>
-                    {/* <div className=" w-[70%] flex h-16">
-                        {error && (
-                            <div className="text-[14px] mr-auto text-red-600">
-                                {error}
-                            </div>
-                        )}
-                    </div> */}
+
                     <button
                         type="submit"
                         className="font-azeret bg-[#FFB302] hover:bg-[#ffc235] w-[70%] text-[12px] font-bold  h-[6vh] shadow-sm mt-4 rounded-[5px] hover:cursor-pointer"

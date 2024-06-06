@@ -5,6 +5,7 @@ import ConnectionGroup from '../components/connection/ConnectionGroup.jsx'
 import ConnectionCard from '../components/connection/ConnectionCard.jsx'
 
 import AddConnectionForm from '../components/connection/AddConnectionForm.jsx'
+import ConnectionDetail from '../components/connection/ConnectionDetailCard.jsx'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
 import BASE_URL from '@/../../constants.js'
@@ -13,6 +14,8 @@ const Connection = () => {
     const [connections, setConnections] = useState([])
     const [searchInput, setSearchInput] = useState('')
     const [showAddForm, setShowAddForm] = useState(false)
+    const [showConnectionDetails, setShowConnectionDetails] = useState(false)
+    const [selectedConnection, setSelectedConnection] = useState(null)
     const [user, setUser] = useState(null)
     const { userId } = useParams()
     const currentUser = useSelector((state) => state.auth.user)
@@ -52,10 +55,24 @@ const Connection = () => {
             fetchConnections()
         }
     }, [user, userId])
+    useEffect(() => {
+        if (selectedConnection !== null) {
+            setShowConnectionDetails(true)
+        }
+    }, [selectedConnection])
+
+    const handleSelectConnection = (connection) => {
+        setSelectedConnection(connection)
+    }
 
     const searchConnection = (e) => {
         e.preventDefault()
         setSearchInput(e.target.value)
+    }
+
+    const handleCloseDetail = () => {
+        setShowConnectionDetails(false)
+        setSelectedConnection(null)
     }
 
     const handleCloseForm = () => {

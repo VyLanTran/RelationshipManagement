@@ -1,5 +1,6 @@
 import UserModel from '../models/UserModel.js'
 import cloudinary from '../utils/cloudinary.js'
+import { countryToAlpha3 } from 'country-to-iso'
 
 // GET
 export const getAllUsers = async (req, res) => {
@@ -29,7 +30,7 @@ export const getAllFriends = async (req, res) => {
         const friends = await Promise.all(
             user.friendIds.map((friendId) =>
                 UserModel.findById(friendId).select(
-                    'name email phone company school currentCity profilePicture'
+                    'name email phone company school currentCity profilePicture posts'
                 )
             )
         )
@@ -151,5 +152,41 @@ export const createCoverPhoto = async (req, res) => {
         }
     } catch (err) {
         res.status(404).json({ mesage: err.message })
+    }
+}
+
+export const getFriendGeography = async (req, res) => {
+    try {
+        const user = await UserModel.findById(req.user._id)
+        const friends = await Promise.all(
+            user.friendIds.map((friendId) =>
+                UserModel.findById(friendId).select('name currentCity')
+            )
+        )
+
+        const mappedLocations = friends.reduce((acc, { currentCity }) => {
+            const parts = currentCity.split(',')
+            const country = parts[parts.length - 1].trim()
+
+            let countryISO3 = countryToAlpha3(country)
+            if (countryISO3 == null) {
+                countryISO3 = 'Other'
+            }
+            if (!acc[countryISO3]) {
+                acc[countryISO3] = 0
+            }
+            acc[countryISO3]++
+            return acc
+        }, {})
+
+        const formattedLocations = Object.entries(mappedLocations).map(
+            ([country, count]) => {
+                return { id: country, value: count }
+            }
+        )
+
+        res.status(200).json(formattedLocations)
+    } catch (err) {
+        res.status(404).json({ error: err.message })
     }
 }

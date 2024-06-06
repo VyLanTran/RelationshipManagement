@@ -71,13 +71,14 @@ const FriendsData = () => {
     }, [])
 
     return (
-        <div className="px-4 py-6 flex w-full h-full">
+        <div className="px-[5%] py-6 flex w-full h-full">
             <Box
                 width="100%"
                 height="80vh"
                 sx={{
                     backgroundColor: 'white',
-
+                    overflowX: 'auto',
+                    borderRadius: '0%',
                     '& .MuiDataGrid-columnHeaders': {
                         backgroundColor: '#fce7ac',
                         borderBottom: 'none',
@@ -104,7 +105,6 @@ const FriendsData = () => {
 const CustomGridToolbar = (props) => (
     <div style={{ paddingBottom: '20px', paddingTop: '20px' }}>
         {' '}
-        {/* Adjust this value to add space between the top header row and the GridToolbar */}
         <GridToolbar {...props} />
     </div>
 )

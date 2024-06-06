@@ -14,6 +14,8 @@ import { useDispatch } from 'react-redux'
 import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth'
 import { app } from '../firebase'
 import { useLogin } from '../hooks/useLogin'
+import { useToast } from '../components/ui/use-toast'
+// TODO: the default email in Facbeook login is not correct, also missing avatar taken from FB
 
 const SignUp = () => {
     const navigate = useNavigate()
@@ -23,7 +25,7 @@ const SignUp = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
-    const { signup, isLoading, error } = useSignup()
+    const { signup, isLoading, error, message } = useSignup()
     const { loginOrSignupWithGoogle, isLoading2, error2 } = useLogin()
 
     // Show/hide Password
@@ -31,6 +33,8 @@ const SignUp = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
     const dispatch = useDispatch()
     const auth = getAuth(app)
+
+    const { toast } = useToast()
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword)
@@ -44,9 +48,13 @@ const SignUp = () => {
 
         try {
             await signup(name, email, username, password, confirmPassword)
-            navigate('/')
+            navigate('/verificationGuide')
         } catch (error) {
-            console.log(error)
+            toast({
+                variant: 'destructive',
+                description:
+                    error.message || 'An error occurred during sign up',
+            })
         }
     }
 
@@ -62,7 +70,12 @@ const SignUp = () => {
             await loginOrSignupWithGoogle(name, email, profilePicture)
             navigate('/')
         } catch (error) {
-            console.log(error)
+            toast({
+                variant:
+                    error.message ||
+                    'An error occurred during Google authentication',
+                description: error,
+            })
         }
     }
 
@@ -91,8 +104,10 @@ const SignUp = () => {
             const json = await result.json()
 
             if (!result.ok) {
-                // throw Error(json.error)
-                console.log('not ok')
+                toast({
+                    variant: 'An error occurred during Facebook authentication',
+                    description: error,
+                })
             } else {
                 dispatch(
                     setLogin({
@@ -104,12 +119,20 @@ const SignUp = () => {
 
             navigate('/')
         } catch (error) {
-            console.log(error)
+            toast({
+                variant:
+                    error.message ||
+                    'An error occurred during Facebook authentication',
+                description: error,
+            })
         }
     }
 
     const onFailure = (res) => {
-        console.log(res)
+        toast({
+            variant: 'An error occurred during Facebook authentication',
+            description: error,
+        })
     }
 
     return (
@@ -180,7 +203,6 @@ const SignUp = () => {
                             <Icon icon={showConfirmPassword ? eye : eyeOff} />
                         </button>
                     </div>
-                    {/* TODO: replace with toast */}
                     {/* <div className=" w-[70%] flex h-16">
                         {error && (
                             <div className="text-[14px] mr-auto text-red-600">
@@ -205,10 +227,12 @@ const SignUp = () => {
                         </Link>
                     </div>
 
-                    <div class="relative flex py-5 items-center w-[70%] text-[11px]">
-                        <div class="flex-grow border-t border-gray-300"></div>
-                        <span class="flex-shrink mx-4 text-gray-400">OR</span>
-                        <div class="flex-grow border-t border-gray-300"></div>
+                    <div className="relative flex py-5 items-center w-[70%] text-[11px]">
+                        <div className="flex-grow border-t border-gray-300"></div>
+                        <span className="flex-shrink mx-4 text-gray-400">
+                            OR
+                        </span>
+                        <div className="flex-grow border-t border-gray-300"></div>
                     </div>
 
                     <button

@@ -1,9 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { Spinner } from '../ui/spinner'
 import { Textarea } from '../ui/textarea'
-import { ToastAction } from '../ui/toast'
 import { useToast } from '../ui/use-toast'
-import { Toaster } from '../ui/toaster'
 import Lottie from 'react-lottie'
 import animationData from '../../animations/typing.json'
 
@@ -238,8 +236,6 @@ const CurrentChat = () => {
                             }}
                         />
                     </div>
-
-                    <Toaster />
                 </div>
             ) : (
                 <div>Select a chat</div>

@@ -242,7 +242,7 @@ const Diary = () => {
                     </div>
                 </div>
                 <div className="w-full lg:w-3/4 mx-[5px] h-[88vh]">
-                    <div class="overflow-x-auto flex justify-center items-center h-[55px] block bg-[#FFF] rounded-[10px] my-[5px]">
+                    <div className="overflow-x-auto flex justify-center items-center h-[55px] block bg-[#FFF] rounded-[10px] my-[5px]">
                         <button
                             className="text-xl bg-[#EEE] rounded-[5px] h-[45px] p-[8px] m-[2px] hover:cursor-pointer hover:bg-[#ffdc8b] focus:bg-[#FFB302] flex-none"
                             onClick={() => {
