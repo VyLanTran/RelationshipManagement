@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import Navbar from '../components/navbar/Navbar.jsx'
-import PostPlaceholder from '../components/posts/PostPlaceHolder.jsx'
+import PostPlaceholder from '../components/posts/PostPlaceholder.jsx'
 import BASE_URL from '@/../../constants.js'
 import { MdAttachFile } from 'react-icons/md'
 
