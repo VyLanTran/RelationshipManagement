@@ -17,9 +17,10 @@ const Posts = () => {
     const inputFileRef = useRef(null)
 
     useEffect(() => {
-        // get friend list
+        
         const getFriends = async () => {
             try {
+                // get friend list
                 const res = await fetch(
                     `${BASE_URL}/users/${currentUser._id}/friends`,
                     {
@@ -27,41 +28,73 @@ const Posts = () => {
                         headers: { Authorization: `Bearer ${token}` },
                     }
                 )
-                const data = await res.json()
+                const friendsData = await res.json()
                 if (res.ok) {
-                    setFriends(data)
+                    setFriends(friendsData)
+                }
+                
+                const postData = []
+                for (const friend of friendsData) {
+                    if (friend.posts) {
+                        for (const postId of friend.posts) {
+                            postData.push({postId, user: friend})
+                        }
+                    }
                 }
 
-                let postId = data.map((friend) => friend.posts)
-
-                console.log(currentUser)
                 if (currentUser.posts) {
-                    postId = [...currentUser.posts, ...postId];
+                    currentUser.posts.forEach((postId) => {
+                        postData.push({ postId, user: currentUser })
+                    })
                 }
 
-                const postPromises = postId.map((id) =>
-                    fetch(`${BASE_URL}/posts/${id}`, {
+                const fetchedPosts = await Promise.all(postData.map(async ({ postId, user }) => {
+                    const postResponse = await fetch(`${BASE_URL}/posts/${postId}`, {
                         method: 'GET',
                         headers: { Authorization: `Bearer ${token}` },
-                    })
-                )
-                const postsResponses = await Promise.all(postPromises)
-                const allPosts = await Promise.all(
-                    postsResponses.map(async (response) => {
-                        if (!response.ok) {
-                            console.error(
-                                `Error fetching posts for a friend: ${response.statusText}`
-                            )
-                            return []
-                        }
-                        return await response.json()
-                    })
-                )
-                const flattenedPosts = allPosts.flatMap(
-                    (postsArray) => postsArray
-                )
-                const finalPosts = flattenedPosts.map((post) => post.post)
-                setPosts(finalPosts)
+                    });
+                    if (!postResponse.ok) {
+                        console.error('Error fetching post:', postResponse.statusText);
+                        return null; 
+                    }
+                    const post = await postResponse.json();
+                    return { ...post, user }; 
+                }));
+                const finalPosts = fetchedPosts.filter(post => post != null);
+                
+                setPosts(finalPosts);
+
+
+                // let postId = data.map((friend) => friend.posts)
+
+                // // console.log(currentUser)
+                // if (currentUser.posts) {
+                //     postId = [...currentUser.posts, ...postId];
+                // }
+
+                // const postPromises = postId.map((id) =>
+                //     fetch(`${BASE_URL}/posts/${id}`, {
+                //         method: 'GET',
+                //         headers: { Authorization: `Bearer ${token}` },
+                //     })
+                // )
+                // const postsResponses = await Promise.all(postPromises)
+                // const allPosts = await Promise.all(
+                //     postsResponses.map(async (response) => {
+                //         if (!response.ok) {
+                //             console.error(
+                //                 `Error fetching posts for a friend: ${response.statusText}`
+                //             )
+                //             return []
+                //         }
+                //         return await response.json()
+                //     })
+                // )
+                // const flattenedPosts = allPosts.flatMap(
+                //     (postsArray) => postsArray
+                // )
+                // const finalPosts = flattenedPosts.map((post) => post.post)
+                // setPosts(finalPosts)
             } catch (error) {
                 console.error('Error fetching friends:', error)
             }
@@ -198,13 +231,14 @@ const Posts = () => {
 
                 <hr className='border-t-2 border-grey-700 my-4 w-[70vh]' />
 
-                {posts.map((post, index) => (
+                {friends.length() > 0 ? posts.map((post, index) => (
                     <PostPlaceholder
                         key={index}
                         user={friends[index % friends.length]}
                         post={post}
                     />
-                ))}
+                )) : <></>
+            }
             </div>
         </>
     )
