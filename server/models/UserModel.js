@@ -58,7 +58,7 @@ const UserSchema = new mongoose.Schema(
             default: null,
         },
         friendIds: {
-            type: Array, // array of userId of our friends
+            type: Array,
             default: [],
         },
         connectionIds: {
@@ -71,8 +71,8 @@ const UserSchema = new mongoose.Schema(
         },
         posts: {
             type: Array,
-            default: []
-        }
+            default: [],
+        },
     },
     { timestamps: true }
 )

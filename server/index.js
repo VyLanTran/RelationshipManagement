@@ -15,6 +15,7 @@ import diaryRoutes from './routes/diaryRoutes.js'
 import postRoutes from './routes/postRoutes.js'
 import eventRoutes from './routes/eventRoutes.js'
 import friendRequestRoutes from './routes/friendRequestRoutes.js'
+import friendshipRoutes from './routes/friendshipRoutes.js'
 
 import cookieSession from 'cookie-session'
 
@@ -46,6 +47,7 @@ app.use('/diary', diaryRoutes)
 app.use('/posts', postRoutes)
 app.use('/events', eventRoutes)
 app.use('/requests', friendRequestRoutes)
+app.use('/friendship', friendshipRoutes)
 
 const PORT = process.env.PORT || 8080
 

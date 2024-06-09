@@ -1,5 +1,8 @@
 export const DEFAULT_PASSWORD = 'password'
 export const SALT_ROUNDS = 10
+export const FRIEND_RATIO = 0.5 // the highest number of friends a person can have is (around) 0.5 of the total number of users
+export const START_YEAR = 2021
+export const END_YEAR = 2023
 export const countries = [
     'US',
     'Canada',

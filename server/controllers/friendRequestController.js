@@ -1,4 +1,5 @@
 import FriendRequestModel from '../models/FriendRequestModel.js'
+import FriendshipModel from '../models/FriendshipModel.js'
 import UserModel from '../models/UserModel.js'
 
 // Get all friend requests sent to me
@@ -82,6 +83,27 @@ export const acceptFriendRequest = async (req, res) => {
         // update friend status of both users
         sender.friendIds.push(receiver._id)
         receiver.friendIds.push(sender._id)
+
+        // Check if a friendship already exists between the sender and receiver
+        const existingFriendship = await FriendshipModel.findOne({
+            $or: [
+                { user1: request.sender, user2: request.receiver },
+                { user1: request.receiver, user2: request.sender },
+            ],
+        })
+
+        if (existingFriendship) {
+            // Update the establishedAt field to the current date
+            existingFriendship.establishedAt = new Date()
+            await existingFriendship.save()
+        } else {
+            // Create a new friendship
+            await FriendshipModel.create({
+                user1: request.sender,
+                user2: request.receiver,
+                establishedAt: new Date(),
+            })
+        }
 
         await sender.save({ new: true, validateModifiedOnly: true })
         await receiver.save({ new: true, validateModifiedOnly: true })
