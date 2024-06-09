@@ -5,6 +5,7 @@ import { AiOutlineUser } from 'react-icons/ai'
 import { NavLink } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
 import { BsGlobeAmericas } from 'react-icons/bs'
+import { PiChartLineUp } from 'react-icons/pi'
 
 const Dashboard = () => {
     const menus = [
@@ -22,6 +23,11 @@ const Dashboard = () => {
             name: 'Friends Location',
             link: '/dashboard/friendGeography',
             icon: <BsGlobeAmericas size={20} />,
+        },
+        {
+            name: 'Friends Growth',
+            link: '/dashboard/friendGrowth',
+            icon: <PiChartLineUp size={20} />,
         },
     ]
     const [open, setOpen] = useState(true)

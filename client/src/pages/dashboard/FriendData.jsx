@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import React from 'react'
 import { Box } from '@mui/material'
 
-const FriendsData = () => {
+const FriendData = () => {
     const BASE_URL = process.env.REACT_APP_SERVER_BASE_URL
     const currentUser = useSelector((state) => state.auth.user)
     const token = useSelector((state) => state.auth.token)
@@ -109,4 +109,4 @@ const CustomGridToolbar = (props) => (
     </div>
 )
 
-export default FriendsData
+export default FriendData

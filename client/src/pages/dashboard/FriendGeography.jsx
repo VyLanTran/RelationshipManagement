@@ -6,20 +6,32 @@ import { Spinner } from '../../components/ui/spinner.jsx'
 import { geoData } from '../../utils/geoData.js'
 import { Box } from '@mui/material'
 
-const FriendsGeography = () => {
+const FriendGeography = () => {
     const BASE_URL = process.env.REACT_APP_SERVER_BASE_URL
     const token = useSelector((state) => state.auth.token)
     const [data, setData] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         const getFriendGeography = async () => {
-            const res = await fetch(`${BASE_URL}/users/friendGeography`, {
-                method: 'GET',
-                headers: { Authorization: `Bearer ${token}` },
-            })
+            try {
+                setIsLoading(true)
+                const res = await fetch(`${BASE_URL}/users/friendGeography`, {
+                    method: 'GET',
+                    headers: { Authorization: `Bearer ${token}` },
+                })
 
-            const json = await res.json()
-            setData(json)
+                if (!res.ok) {
+                    throw Error('Failed to fetch data')
+                }
+
+                const json = await res.json()
+                setData(json)
+            } catch (error) {
+                console.error('Error fetching data:', error)
+            } finally {
+                setIsLoading(false)
+            }
         }
 
         getFriendGeography()
@@ -33,7 +45,7 @@ const FriendsGeography = () => {
                 border={`1px solid `}
                 borderRadius="4px"
             >
-                {data.length > 0 ? (
+                {!isLoading ? (
                     <div
                         style={{
                             backgroundColor: '#def5fc',
@@ -123,4 +135,4 @@ const FriendsGeography = () => {
     )
 }
 
-export default FriendsGeography
+export default FriendGeography
