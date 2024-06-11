@@ -6,6 +6,7 @@ import { NavLink } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
 import { BsGlobeAmericas } from 'react-icons/bs'
 import { PiChartLineUp } from 'react-icons/pi'
+import { BsBarChartFill } from 'react-icons/bs'
 
 const Dashboard = () => {
     const menus = [
@@ -23,6 +24,11 @@ const Dashboard = () => {
             name: 'Friends Location',
             link: '/dashboard/friendGeography',
             icon: <BsGlobeAmericas size={20} />,
+        },
+        {
+            name: 'Interactions Report',
+            link: '/dashboard/interactionReport',
+            icon: <BsBarChartFill size={20} />,
         },
         {
             name: 'Friends Growth',
