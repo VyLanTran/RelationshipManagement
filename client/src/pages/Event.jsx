@@ -9,6 +9,8 @@ import axios from 'axios'
 import FullCalendar from '@fullcalendar/react'
 import DayGridPlugin from '@fullcalendar/daygrid'
 import EventDetail from '../components/event/EventDetail.jsx'
+import { Tooltip, TooltipProvider, TooltipTrigger } from "../components/ui/tooltip";
+import { AddEvent } from '../components/event/AddEvent.jsx'
 
 const Event = () => {
     const currentUser = useSelector((state) => state.auth.user)
@@ -51,13 +53,21 @@ const Event = () => {
         <div>
             <div className="flex flex-row">
                 <div className="flex flex-col place-items-center w-[20%] hidden lg:block">
-                    <Button
-                        variant="outline"
-                        className="mx-[2vh] mt-[3vh] h-[10vh]"
-                    >
-                        <MdAdd className="mr-[1vh]" size={40} />
-                        <p className="text-xl">Add Event</p>
-                    </Button>
+                    <TooltipProvider>
+                        <Tooltip>
+                            <AddEvent>
+                                <TooltipTrigger asChild>
+                                <Button
+                                    variant="outline"
+                                    className="mx-[2vh] mt-[3vh] h-[10vh]"
+                                >
+                                    <MdAdd className="mr-[1vh]" size={40} />
+                                    <p className="text-xl">Add Event</p>
+                                </Button>
+                                </TooltipTrigger>
+                            </AddEvent>
+                        </Tooltip>
+                    </TooltipProvider>
                     <Calendar
                         mode="single"
                         selected={date}
