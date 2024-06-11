@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import dayjs from 'dayjs'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-// import BASE_URL from '@/../../constants.js'
+import BASE_URL from '@/../../constants.js'
 import {
     Tooltip,
     TooltipContent,
@@ -17,8 +17,6 @@ import { NewDiaryModal } from '../components/diary/NewDiaryModal.jsx'
 import { Input } from '../components/ui/input'
 
 const Diary = () => {
-    const BASE_URL = process.env.REACT_APP_SERVER_BASE_URL
-    console.log(process.env.REACT_APP_SERVER_BASE_URL.React)
     const user = useSelector((state) => state.auth.user)
     const token = useSelector((state) => state.auth.token)
 
