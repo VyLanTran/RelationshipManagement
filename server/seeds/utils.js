@@ -8,3 +8,12 @@ export const generateRandomDate = (startYear, endYear) => {
     const date = new Date(start + Math.random() * (end - start))
     return date
 }
+
+export const getRandomElementsFromArray = (arr, num) => {
+    const shuffled = arr.sort(() => 0.5 - Math.random())
+    return shuffled.slice(0, num)
+}
+
+export const capitalizeFirstLetter = (word) => {
+    return word.charAt(0).toUpperCase() + word.slice(1)
+}

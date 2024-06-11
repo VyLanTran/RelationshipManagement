@@ -23,7 +23,7 @@ let cities = null
 
 export const generateUsers = async (numRandomUsers = 50) => {
     return new Promise(async (resolve) => {
-        // await generateDefaultUsers()
+        await generateDefaultUsers()
         await generateRandomUsers(numRandomUsers)
         await generateFriendRelationship()
         return resolve()

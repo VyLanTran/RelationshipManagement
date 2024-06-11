@@ -7,6 +7,7 @@ import {
 } from './User.js'
 import { connectDB } from '../index.js'
 import UserModel from '../models/UserModel.js'
+import { generateRandomChatsAndMessages } from './Chat.js'
 
 const run = async () => {
     try {
@@ -23,13 +24,21 @@ const run = async () => {
 
 const generate = () => {
     return new Promise(async (resolve) => {
-        const numRandomUsers = 30
-        // await generateDefaultUsers()
-        // await generateUsers(numUsers)
-
-        await generateUsers(numRandomUsers)
-
+        // UNCOMMENT TO GENERATE FAKE USERS
+        // const numRandomUsers = 30
+        // await generateUsers(numRandomUsers)
         // await deleteAllExceptSpecifiedUsers()
+
+        // UNCOMMENT TO GENERATE FAKE CHATS AND MESSAGES
+        // TODO: Change GROUP_SIZE_RATIO when numUsers get larger
+        // const numChats = 10
+        // const privateChatRatio = 0.7
+        // const numMessages = 20
+        // await generateRandomChatsAndMessages(
+        //     numChats,
+        //     privateChatRatio,
+        //     numMessages
+        // )
 
         return resolve()
     })
