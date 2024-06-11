@@ -65,13 +65,15 @@ export const searchUsers = async (req, res) => {
         const keyword = req.query.search
         const words = keyword.toLowerCase().split(/\s+/)
 
-        // Find all users with that keyword (except from ourself)
-        // TODO: find those in our friend list only
-        // TODO: create a json file of 100+ fake users for testing
-        const users = await UserModel.find({
-            _id: { $ne: req.user._id },
-        })
-        const filteredUsers = users.filter((user) => isMatch(user, words))
+        const user = await UserModel.findById(req.user._id)
+        const friends = await Promise.all(
+            user.friendIds.map((friendId) =>
+                UserModel.findById(friendId).select(
+                    'name email username profilePicture'
+                )
+            )
+        )
+        const filteredUsers = friends.filter((friend) => isMatch(friend, words))
 
         res.status(201).json(filteredUsers)
     } catch (err) {
