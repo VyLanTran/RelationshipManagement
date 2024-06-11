@@ -25,6 +25,7 @@ import ProfileLayout from './components/profile/ProfileLayout.jsx'
 import VerificationGuide from './pages/verification/VerificationGuide.jsx'
 import VerificationResult from './pages/verification/VerificationResult.jsx'
 import FriendGrowth from './pages/dashboard/FriendGrowth.jsx'
+import InteractionReport from './pages/dashboard/InteractionReport.jsx'
 
 // TODO: responsive to screen size
 
@@ -120,6 +121,11 @@ function App() {
                                 exact
                                 path="/dashboard/friendGeography"
                                 element={<FriendGeography />}
+                            />
+                            <Route
+                                exact
+                                path="/dashboard/interactionReport"
+                                element={<InteractionReport />}
                             />
                             <Route
                                 exact
