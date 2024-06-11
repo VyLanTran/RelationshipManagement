@@ -257,7 +257,7 @@ const generateFriendRelationship = async () => {
         }
     })
 
-    // Update friendship table accordingly
+    // Update Friendship table accordingly
     const bulkFriendshipOps = []
     const processedFriendships = new Set()
 

@@ -1,18 +1,7 @@
 import { Card } from '../ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
-import { useDispatch, useSelector } from 'react-redux'
-import { setCurrentChat } from '../../state/chatReducer'
 
 const UserItem = ({ user, addMember }) => {
-    // const dispatch = useDispatch()
-    // const currentChat = useSelector((state) => state.chat.currentChat)
-
-    // const handleClick = () => {
-    //     dispatch(
-    //         setCurrentChat(chat)
-    //     )
-    // }
-
     return (
         <Card
             className={`flex flex-row p-2 py-3 gap-4 border-none shadow-none cursor-pointer hover:bg-gray-100 rounded-md 
@@ -21,10 +10,7 @@ const UserItem = ({ user, addMember }) => {
             onClick={addMember}
         >
             <Avatar>
-                <AvatarImage
-                    src="https://github.com/shadcn.png"
-                    alt="@shadcn"
-                />
+                <AvatarImage src={user.profilePicture.url} alt="@shadcn" />
                 <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <div className="flex flex-col items-start">

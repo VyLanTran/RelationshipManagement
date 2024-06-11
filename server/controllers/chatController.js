@@ -32,7 +32,7 @@ export const getAllMyChats = async (req, res) => {
  * given a keyword, return all chats such that:
  * we are a member
  * either chat name match
- * or some members has name email, username match the keyword
+ * or some members has name, email, username match the keyword
  */
 export const searchChats = async (req, res) => {
     try {
@@ -53,7 +53,64 @@ export const searchChats = async (req, res) => {
             )
         })
 
-        res.status(201).json(filteredChats)
+        let usersWithPrivateChat = new Set()
+
+        // Modify the filteredChats to only include IDs for admin and members
+        let simplifiedChats = []
+        simplifiedChats = filteredChats.map((chat) => {
+            if (!chat.isGroupChat) {
+                chat.members.forEach((member) => {
+                    usersWithPrivateChat.add(member._id.toString())
+                })
+            }
+
+            return {
+                _id: chat._id,
+                chatName: chat.chatName,
+                isGroupChat: chat.isGroupChat,
+                admin: chat.admin
+                    ? {
+                          _id: chat.admin._id,
+                          name: chat.admin.name,
+                          profilePicture: chat.admin.picture,
+                      }
+                    : null,
+                members: chat.members.map((member) => ({
+                    _id: member._id,
+                    name: member.name,
+                    profilePicture: member.profilePicture,
+                })),
+                updatedAt: chat.updatedAt,
+            }
+        })
+
+        // Find matching users who are friends but not already in a private chat
+        const matchingUsersPromises = req.user.friendIds.map(
+            async (friendId) => {
+                const friend = await UserModel.findById(
+                    friendId,
+                    '_id name username email profilePicture'
+                )
+
+                if (
+                    isMemberMatch(friend, words) &&
+                    !usersWithPrivateChat.has(friendId.toString())
+                ) {
+                    return friend
+                }
+                return null
+            }
+        )
+
+        // Await all promises and filter out null values
+        let matchingUsers = []
+        matchingUsers = (await Promise.all(matchingUsersPromises)).filter(
+            (user) => user !== null
+        )
+        res.status(201).json({
+            chats: simplifiedChats,
+            users: matchingUsers,
+        })
     } catch (err) {
         res.status(404).json({ error: err.message })
     }
@@ -98,7 +155,6 @@ export const getChat = async (req, res) => {
  If a chat already exists, get it
  Otherwise, create a new one
  */
-// TODO: do we need messages, and do we need to sort them
 export const getOrCreatePrivateChat = async (req, res) => {
     try {
         const { friendId } = req.body
@@ -113,26 +169,36 @@ export const getOrCreatePrivateChat = async (req, res) => {
             .populate('members')
             .populate('admin')
 
+        let newChat
+
         // If the chat already exists, return it
         if (chat.length > 0) {
-            res.status(201).json(chat[0])
+            // res.status(201).json(chat[0])
+            newChat = chat[0]
         }
         // If no such chat, create one
         else {
             try {
-                const newChat = await ChatModel.create({
+                newChat = await ChatModel.create({
                     chatName: friend.name,
                     isGroupChat: false,
                     members: [myself._id, friendId],
                 })
-                const chat = await ChatModel.findById(newChat._id)
-                    .populate('members')
-                    .populate('admin')
-                res.status(201).json(chat)
             } catch (error) {
                 res.status(404).json({ error: error.message })
             }
         }
+
+        const allChats = await ChatModel.find({
+            members: { $in: [req.user._id] },
+        })
+            .populate('members') // add the whole data of each member (instead of just their id)
+            .populate('admin')
+            .sort({ updatedAt: -1 })
+        res.status(201).json({
+            allChats: allChats,
+            currentChat: newChat,
+        })
     } catch (err) {
         res.status(404).json({ error: err.message })
     }
@@ -165,13 +231,16 @@ export const createGroupChat = async (req, res) => {
             members: parsedMembers,
         })
 
-        const chats = await ChatModel.find({
+        const allChats = await ChatModel.find({
             members: { $in: [req.user._id] },
         })
             .populate('members') // add the whole data of each member (instead of just their id)
             .populate('admin')
             .sort({ updatedAt: -1 })
-        res.status(201).json(chats)
+        res.status(201).json({
+            allChats: allChats,
+            currentChat: newChat,
+        })
     } catch (err) {
         res.status(404).json({ error: err.message })
     }

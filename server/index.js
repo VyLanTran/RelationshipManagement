@@ -34,6 +34,8 @@ app.use(
         name: 'session',
         keys: [process.env.COOKIE_KEY], //  An array of secret keys used for encrypting and decrypting the session data stored in the cookie
         maxAge: 24 * 60 * 60 * 1000, // 1 day = 24 hours * 60 mins * 60 sec * 1000 milisec
+        sameSite: 'None',
+        secure: true,
     })
 )
 
@@ -88,7 +90,6 @@ io.on('connection', (socket) => {
     // the name of this socket is 'setup'
     socket.on('setup', (userData) => {
         socket.join(userData._id)
-        // console.log(userData._id)
         socket.emit('connected')
     })
 

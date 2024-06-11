@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '../ui/button'
 import {
     Dialog,
@@ -19,10 +19,11 @@ import { HiddenInput } from '../ui/hidden-input'
 import { Badge } from '../ui/badge'
 import { X } from 'lucide-react'
 import { setAllChats, setCurrentChat } from '../../state/chatReducer.js'
-import BASE_URL from '@/../../constants.js'
 
 export function NewGroupModal({ children }) {
+    const BASE_URL = process.env.REACT_APP_SERVER_BASE_URL
     const token = useSelector((state) => state.auth.token)
+    const currentUser = useSelector((state) => state.auth.user)
     const dispatch = useDispatch()
 
     const [chatName, setChatName] = useState('')
@@ -31,6 +32,29 @@ export function NewGroupModal({ children }) {
     const [open, setOpen] = useState(false)
 
     const { toast } = useToast()
+
+    useEffect(() => {
+        const fetchAllFriends = async () => {
+            try {
+                const res = await fetch(
+                    `${BASE_URL}/users/${currentUser._id}/friends`,
+                    {
+                        method: 'GET',
+                        headers: { Authorization: `Bearer ${token}` },
+                    }
+                )
+                const data = await res.json()
+
+                if (res.ok) {
+                    setSearchResult(data)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        fetchAllFriends()
+    }, [])
 
     const handleSearch = async (query) => {
         try {
@@ -78,8 +102,8 @@ export function NewGroupModal({ children }) {
             })
             const json = await res.json()
             if (res.ok) {
-                dispatch(setAllChats(json))
-                dispatch(setCurrentChat(json))
+                dispatch(setAllChats(json['allChats']))
+                dispatch(setCurrentChat(json['currentChat']))
                 handleClose()
             } else {
                 toast({
@@ -173,7 +197,7 @@ export function NewGroupModal({ children }) {
                             <div className="p-2">
                                 {searchResult.map((user) => (
                                     <UserItem
-                                        id={user._id}
+                                        key={user._id}
                                         user={user}
                                         addMember={() => addMember(user)}
                                     />
