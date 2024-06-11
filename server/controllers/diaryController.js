@@ -3,6 +3,7 @@ import Diary from "../models/DiaryModel.js";
 export const addDiary = async (req, res) => {
     try {
         const savedDiary = await Diary.create(req.body);
+        console.log(savedDiary)
         res.status(201).json({savedDiary});
     } catch (err) {
         res.status(500).json({ error: err.message });

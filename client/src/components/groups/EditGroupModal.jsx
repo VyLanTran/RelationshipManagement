@@ -70,6 +70,7 @@ export function EditGroupModal({ children, currentGroup, members }) {
                 {
                     name: groupName,
                     members: newMembers,
+                    admin: newMembers,
                 },
                 authHeader
             )
