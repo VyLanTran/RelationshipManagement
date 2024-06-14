@@ -2,10 +2,10 @@ import mongoose from "mongoose";
 
 const PropertySchema = new mongoose.Schema(
     {
-        admin: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
-        }],
+        admin: {
+            type: String,
+            ref: "Group"
+        },
         name: {
             type: String,
             required: true
