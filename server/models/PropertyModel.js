@@ -10,7 +10,7 @@ const PropertySchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        information: {
+        subject: {
             type: String
         }
     }

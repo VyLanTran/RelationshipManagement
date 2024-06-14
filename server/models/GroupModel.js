@@ -19,7 +19,7 @@ const GroupSchema = new mongoose.Schema(
     ],
     GroupInformation: [
       {
-        type: mongoose.Schema.Types.ObjectId
+        type: String
       }
     ]
   },
