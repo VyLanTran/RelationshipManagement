@@ -10,17 +10,13 @@ const GroupSchema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-    }],
+      }
+    ],
     members: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
-    ],
-    GroupInformation: [
-      {
-        type: String
-      }
     ]
   },
   { timestamps: true }

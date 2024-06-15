@@ -23,11 +23,7 @@ export const deleteProperty = async (req, res) => {
 export const getAllProperties = async (req, res) => {
     try {
         const { groupId } = req.params;
-        const group = await GroupModel.findById(groupId);
-        const properties = await Promise.all(
-            group.groupIds.map((groupId) =>
-                Property.findById(groupId))
-        );
+        const properties = await Property.find({ admin: groupId });
         res.status(200).json({ properties });
     } catch (error) {
         res.status(500).json({ msg: error });
@@ -36,9 +32,9 @@ export const getAllProperties = async (req, res) => {
 
 export const updateProperty = async (req, res) => {
 	try {
-		const { id: groupId } = req.params;
+		const { id: propertyId } = req.params;
 		const property = await property.findOneAndUpdate(
-			{ _id: groupId },
+			{ _id: propertyId },
 			req.body,
 			{
 				new: true,
@@ -46,7 +42,7 @@ export const updateProperty = async (req, res) => {
 			}
 		);
 		if (!property) {
-			res.status(404).json({ msg: `No connections with ID ${groupId}` });
+			res.status(404).json({ msg: `No connections with ID ${propertyId}` });
 		}
 		res.status(200).json({ property });
 	} catch (error) {
