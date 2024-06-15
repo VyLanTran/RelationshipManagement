@@ -1,4 +1,5 @@
 import React from "react";
+import { MdEdit } from 'react-icons/md'
 import {
     Table,
     TableBody,
@@ -7,26 +8,32 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-  } from "@/components/ui/table";
+  } from "../ui/table";
 
 export function PropertyModal() {
-    <Table>
-        <TableCaption>A list of your recent invoices.</TableCaption>
-        <TableHeader>
-            <TableRow>
-            <TableHead className="w-[100px]">Invoice</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Method</TableHead>
-            <TableHead className="text-right">Amount</TableHead>
-            </TableRow>
-        </TableHeader>
-        <TableBody>
-            <TableRow>
-            <TableCell className="font-medium">INV001</TableCell>
-            <TableCell>Paid</TableCell>
-            <TableCell>Credit Card</TableCell>
-            <TableCell className="text-right">$250.00</TableCell>
-            </TableRow>
-        </TableBody>
-    </Table>
+
+    return (
+        <div className="pt-[40px]">
+            <Table className="">
+                <TableCaption>Some interesting tidbits about your group so far!</TableCaption>
+                <TableBody className="text-left">
+                    <TableRow>
+                    <TableCell className="w-[23%] font-medium">Fun fact</TableCell>
+                    <TableCell className="">Linh is the coolest person in the room</TableCell>
+                    <TableCell className="w-[10%]"><button className="flex items-center justify-center font-azeret bg-[#FFB302] w-[5vh] text-[4vh] font-bold border h-[5vh] rounded-[10px] border-solid border-[rgb(84,84,84)] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"><MdEdit/></button></TableCell>
+                    </TableRow>
+                    <TableRow>
+                    <TableCell className="w-[23%] font-medium">Who's sleepy?</TableCell>
+                    <TableCell className="">Definitely not Jimmy</TableCell>
+                    <TableCell className="w-[10%]"><button className="flex items-center justify-center font-azeret bg-[#FFB302] w-[5vh] text-[4vh] font-bold border h-[5vh] rounded-[10px] border-solid border-[rgb(84,84,84)] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"><MdEdit/></button></TableCell>
+                    </TableRow>
+                    <TableRow>
+                    <TableCell className="w-[23%] font-medium">Who loves cats the most?</TableCell>
+                    <TableCell className="">Idk dont ask me</TableCell>
+                    <TableCell className="w-[10%]"><button className="flex items-center justify-center font-azeret bg-[#FFB302] w-[5vh] text-[4vh] font-bold border h-[5vh] rounded-[10px] border-solid border-[rgb(84,84,84)] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"><MdEdit/></button></TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+        </div>
+    )
 }
