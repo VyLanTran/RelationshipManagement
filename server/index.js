@@ -14,6 +14,7 @@ import messageRoutes from './routes/messageRoutes.js'
 import diaryRoutes from './routes/diaryRoutes.js'
 import postRoutes from './routes/postRoutes.js'
 import eventRoutes from './routes/eventRoutes.js'
+import propertyRoutes from './routes/propertyRoutes.js'
 import friendRequestRoutes from './routes/friendRequestRoutes.js'
 import friendshipRoutes from './routes/friendshipRoutes.js'
 
@@ -50,6 +51,7 @@ app.use('/posts', postRoutes)
 app.use('/events', eventRoutes)
 app.use('/requests', friendRequestRoutes)
 app.use('/friendship', friendshipRoutes)
+app.use('/properties', propertyRoutes)
 
 const PORT = process.env.PORT || 8080
 
