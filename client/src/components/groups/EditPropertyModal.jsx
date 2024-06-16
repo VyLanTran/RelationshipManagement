@@ -1,32 +1,52 @@
-import React, { useEffect, useState } from 'react'
-import { Button } from "../ui/button"
+import React from "react";
 import {
     Dialog,
     DialogContent,
     DialogFooter,
     DialogHeader,
     DialogTitle,
+    DialogDescription,
     DialogTrigger,
 } from "../ui/dialog"
-import { Input } from "../ui/input"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "../ui/select"
-import { useDispatch, useSelector } from "react-redux"
-import BASE_URL from '@/../../constants.js'
-import { useNavigate } from 'react-router-dom'
-import { Trash2 } from "lucide-react";
+import { Button } from "../ui/button"
 
-import axios from "axios";
+export function EditPropertyModal({ children }) {
 
-export function EditPropertyModal() {
 
 
     return (
-        <p>Test</p>
+        <Dialog>
+            <DialogTrigger>
+                {children}
+            </DialogTrigger>
+            <DialogContent>
+                <DialogHeader>
+                <DialogTitle>Add/Update something fun about your group!</DialogTitle>
+                </DialogHeader>
+                <form className="text-left">
+                    <div className="mt-[20px]">
+                        <p className="font-bold">Label</p>
+                        <input
+                        type="text"
+                        name="name"
+                        className="bg-gray-50 border border-gray-300 text-sm rounded-sm  w-[400px] p-2.5 focus:outline-none"
+                        placeholder="What is it about?"/>
+                    </div>
+                    <div className="mt-[20px]">
+                        <p className="font-bold">Something interesting!</p>
+                        <textarea
+                        type="text"
+                        name="subejct"
+                        className="bg-gray-50 border border-gray-300 text-sm rounded-sm  w-[400px] p-2.5 focus:outline-none"
+                        placeholder="Something fun!"/>
+                    </div>
+                </form>
+                <DialogFooter className="">
+                    <div>
+                        <Button>Save</Button>
+                    </div>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
     )
 }

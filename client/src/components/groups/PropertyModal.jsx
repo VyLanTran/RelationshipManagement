@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from 'react-redux'
-import { Pencil, Trash2 } from 'lucide-react';
+import { Pencil, Trash2, CirclePlus } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -8,7 +8,9 @@ import {
   TableCell,
   TableRow,
 } from "../ui/table";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 import BASE_URL from '@/../../constants.js'
+import { EditPropertyModal } from "./EditPropertyModal.jsx";
 
 export function PropertyModal({groupId}) {
 
@@ -43,8 +45,23 @@ export function PropertyModal({groupId}) {
     }
 
     return (
-        <div className="p-[10px]">
-            <Table className="">
+        <div className="pl-[10px] pr-[10px] pt-[10px] text-left">
+            <TooltipProvider>
+                <Tooltip>
+                    <EditPropertyModal>
+                        <TooltipTrigger asChild>
+                            <button className="ml-[5px] text-slate-400 hover:text-black" variant="outline" size="icon">
+                                <CirclePlus size={36} strokeWidth={2} absoluteStrokeWidth/>
+                            </button>
+                        </TooltipTrigger>
+                    </EditPropertyModal>
+                    <TooltipContent className="bg-gray-100">
+                        <p>Add Property</p>
+                    </TooltipContent>
+                </Tooltip>
+            </TooltipProvider>
+            
+            <Table>
                 <TableCaption>Some interesting tidbits about your group so far!</TableCaption>
                 <TableBody className="text-left">
                     {properties.length > 0 ? properties.map((property) => (
