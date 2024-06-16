@@ -139,7 +139,7 @@ const GroupProfile = () => {
                                 : view === "event" ?
                                     <p>Event</p>
                                 : view === "property" ?
-                                    <p><PropertyModal /></p>
+                                    <p><PropertyModal groupId={group._id}/></p>
                                 : <p>Nothing selected</p>
                             }
 

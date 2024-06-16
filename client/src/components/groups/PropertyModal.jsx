@@ -1,37 +1,70 @@
-import React from "react";
-import { MdEdit } from 'react-icons/md'
+import React, { useState, useEffect } from "react";
+import { useSelector } from 'react-redux'
+import { Pencil, Trash2 } from 'lucide-react';
 import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-  } from "../ui/table";
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableRow,
+} from "../ui/table";
+import BASE_URL from '@/../../constants.js'
 
-export function PropertyModal() {
+export function PropertyModal({groupId}) {
+
+    const [properties, setProperties] = useState([]);
+    const [checkRefresh, setCheckRefresh] = useState(true);
+    const token = useSelector((state) => state.auth.token)
+    const authHeader = {
+        method: 'GET',
+        headers: { Authorization: `Bearer ${token}` },
+    }
+
+    useEffect(() => {
+        const getProperties = async () => {
+            const res = await fetch(`${BASE_URL}/properties/${groupId}`, authHeader)
+            const data = await res.json()
+            if (res.ok) {
+                setProperties(data.properties)
+            }
+            console.log(data)
+        }   
+        if (groupId) {
+            getProperties();
+        }
+    }, [groupId, checkRefresh]);
+
+    const handleDelete = async (e) => {
+        const res = await fetch(`${BASE_URL}/properties/` + e._id, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+        })
+        setCheckRefresh(!checkRefresh)
+    }
 
     return (
-        <div className="pt-[40px]">
+        <div className="p-[10px]">
             <Table className="">
                 <TableCaption>Some interesting tidbits about your group so far!</TableCaption>
                 <TableBody className="text-left">
-                    <TableRow>
-                    <TableCell className="w-[23%] font-medium">Fun fact</TableCell>
-                    <TableCell className="">Linh is the coolest person in the room</TableCell>
-                    <TableCell className="w-[10%]"><button className="flex items-center justify-center font-azeret bg-[#FFB302] w-[5vh] text-[4vh] font-bold border h-[5vh] rounded-[10px] border-solid border-[rgb(84,84,84)] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"><MdEdit/></button></TableCell>
-                    </TableRow>
-                    <TableRow>
-                    <TableCell className="w-[23%] font-medium">Who's sleepy?</TableCell>
-                    <TableCell className="">Definitely not Jimmy</TableCell>
-                    <TableCell className="w-[10%]"><button className="flex items-center justify-center font-azeret bg-[#FFB302] w-[5vh] text-[4vh] font-bold border h-[5vh] rounded-[10px] border-solid border-[rgb(84,84,84)] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"><MdEdit/></button></TableCell>
-                    </TableRow>
-                    <TableRow>
-                    <TableCell className="w-[23%] font-medium">Who loves cats the most?</TableCell>
-                    <TableCell className="">Idk dont ask me</TableCell>
-                    <TableCell className="w-[10%]"><button className="flex items-center justify-center font-azeret bg-[#FFB302] w-[5vh] text-[4vh] font-bold border h-[5vh] rounded-[10px] border-solid border-[rgb(84,84,84)] hover:cursor-pointer hover:text-[white] hover:bg-[rgb(59,59,59)]"><MdEdit/></button></TableCell>
-                    </TableRow>
+                    {properties.length > 0 ? properties.map((property) => (
+                        <TableRow>
+                            <TableCell className="w-[23%] font-medium">{property.name}</TableCell>
+                            <TableCell className="">{property.subject}</TableCell>
+                            <TableCell className="w-[10%]">
+                                <button
+                                    className="text-slate-400 hover:text-black"
+                                    variant="outline" size="icon">
+                                    <Pencil size={36} strokeWidth={2} />
+                                </button>
+                                <button
+                                    className="text-slate-400 hover:text-black ml-[10px]"
+                                    variant="outline" size="icon" onClick={() => handleDelete(property)}>
+                                    <Trash2 size={36} strokeWidth={2} />
+                                </button>
+                            </TableCell>
+                        </TableRow>
+                    )) : <p></p>}
                 </TableBody>
             </Table>
         </div>
