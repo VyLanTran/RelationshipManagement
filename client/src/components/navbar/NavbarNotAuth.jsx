@@ -15,13 +15,14 @@ const NavbarNotAuth = () => {
             >
                 <img className="h-[36px]" src={logo} alt="Logo" />
             </div>
-            <div className="flex flex-row gap-4 items-center">
-                <Button
-                    className="font-bold"
-                    onClick={() => navigate('/login')}
-                >
-                    Log In
-                </Button>
+            <div className="flex flex-row gap-6 items-center text-[14px] font-semibold">
+                <NavLink to="/login">
+                    <div className="hover:underline">Log in</div>
+                </NavLink>
+
+                <NavLink to="/signup">
+                    <div className="hover:underline">Sign up</div>
+                </NavLink>
             </div>
         </div>
     )

@@ -53,37 +53,37 @@ const Navbar = () => {
             </div>
             <div className="flex flex-row gap-4 items-center">
                 {/* TODO: use tooltips for these buttons */}
-                {user ? <Menu /> : <div></div>}
+                <Menu />
                 <NavbarButton
                     icon={<RiBookletFill size={21} />}
                     name="Diary"
-                    url={user ? "/diary" : "#diary"}
+                    url="/diary"
                 />
 
                 <NavbarButton
                     icon={<HiUserGroup size={21} />}
                     name="Groups"
-                    url={user ? "/groups" : "#group"}
+                    url="/groups"
                 />
 
                 <NavbarButton
                     icon={<FaMap size={21} />}
                     name="Map"
-                    url={user ? "/map" : "#map"}
+                    url="/map"
                 />
                 <NavbarButton
                     icon={<FaCalendarAlt size={21} />}
                     name="Event"
-                    url={user ? "/events" : "#event"}
+                    url="/events"
                 />
                 <NavbarButton
                     icon={<IoIosContacts size={26} />}
                     name="Connection"
-                    url={user ? `/connection/${user._id}` : "#connection"}
+                    url={`/connection/${user._id}`}
                 />
 
                 <NavLink
-                    to={user ? "/chats" : "#chat"}
+                    to="/chats"
                     title="Chats"
                     className="relative inline-block"
                 >
@@ -97,13 +97,9 @@ const Navbar = () => {
                         </div> */}
                     </div>
                 </NavLink>
-                {user ? <Notification /> : <div></div>}
-                {user ? <DropdownSetting user={user} handleLogout={handleLogout} /> : <Button className="font-bold"onClick={() => navigate("/login")}>Log In</Button>}
 
- {/*
                 <Notification />
                 <DropdownSetting user={user} handleLogout={handleLogout} />
-*/}
             </div>
         </div>
     )
