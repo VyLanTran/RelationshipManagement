@@ -10,6 +10,10 @@ const EventSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
         }],
+        group: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Group",
+        },
         content: {
             type: String,
         },
