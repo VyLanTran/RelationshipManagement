@@ -38,15 +38,14 @@ function App() {
             <Router>
                 <Routes>
                     <Route
-                        exact
-                        path="/landing"
                         element={
                             <ProtectedRoute isAuthPage={true}>
                                 <Layout />
-                                <Landing />
                             </ProtectedRoute>
                         }
-                    />
+                    >
+                        <Route exact path="/home" element={<Landing />} />
+                    </Route>
                     <Route
                         exact
                         path="/login"

@@ -6,7 +6,7 @@ const ProtectedRoute = ({ children, isAuthPage = false }) => {
 
     if (isAuthPage) return !user ? children : <Navigate to="/" />
 
-    return user ? children : <Navigate to="/login" />
+    return user ? children : <Navigate to="/home" />
 }
 
 export default ProtectedRoute
