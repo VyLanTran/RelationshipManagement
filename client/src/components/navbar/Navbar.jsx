@@ -48,7 +48,7 @@ const Navbar = () => {
                 onClick={() => navigate('/')}
                 className="cursor-pointer font-bold"
             >
-                <img className="h-[5vh]" src={logo} alt="Logo" />
+                <img className="h-[36px]" src={logo} alt="Logo" />
             </div>
             <div className="flex flex-row gap-4 items-center">
                 {/* TODO: use tooltips for these buttons */}
@@ -96,7 +96,7 @@ const Navbar = () => {
                         </div> */}
                     </div>
                 </NavLink>
-                <Notification />    
+                <Notification />
                 <DropdownSetting user={user} handleLogout={handleLogout} />
             </div>
         </div>
