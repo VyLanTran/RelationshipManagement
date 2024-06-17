@@ -38,23 +38,54 @@ export const generateRandomChatsAndMessages = async (
         const numGroupChats = numChats - numPrivateChats
 
         const chats = []
+        const usedPairs = new Set()
+
+        // Helper function to create unique pair key
+        const createPairKey = (userId1, userId2) => {
+            return [userId1, userId2].sort().join('-')
+        }
 
         // Create private chats
-        for (let i = 0; i < numPrivateChats; i++) {
+        let privateChatsCreated = 0
+        for (const user of users) {
+            for (const friendId of user.friendIds) {
+                if (privateChatsCreated >= numPrivateChats) break
+
+                const pairKey = createPairKey(user._id, friendId)
+                if (!usedPairs.has(pairKey)) {
+                    const chat = new ChatModel({
+                        chatName: `Private Chat ${privateChatsCreated + 1}`,
+                        isGroupChat: false,
+                        members: [user._id, friendId],
+                    })
+                    chats.push(chat)
+                    usedPairs.add(pairKey)
+                    privateChatsCreated++
+                }
+            }
+        }
+
+        // Create remaining private chats if needed
+        while (privateChatsCreated < numPrivateChats) {
             const members = getRandomElementsFromArray(users, 2)
-            const chat = new ChatModel({
-                chatName: `Private Chat ${i + 1}`,
-                isGroupChat: false,
-                members: members.map((user) => user._id),
-            })
-            chats.push(chat)
+            const pairKey = createPairKey(members[0], members[1])
+            if (!usedPairs.has(pairKey)) {
+                const chat = new ChatModel({
+                    chatName: `Private Chat ${privateChatsCreated + 1}`,
+                    isGroupChat: false,
+                    members: members.map((user) => user._id),
+                })
+                chats.push(chat)
+                usedPairs.add(pairKey)
+                privateChatsCreated++
+            }
         }
 
         // Create group chats
         for (let i = 0; i < numGroupChats; i++) {
             const members = getRandomElementsFromArray(
                 users,
-                generateRandomNum(3, users.length * GROUP_SIZE_RATIO)
+                generateRandomNum(3, Math.min(users.length, 20))
             )
             const admin = members[generateRandomNum(0, members.length - 1)]
             const chat = new ChatModel({
