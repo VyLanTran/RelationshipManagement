@@ -130,7 +130,7 @@ const GroupProfile = () => {
                                 Location
                             </button>
                         </div>
-                        <div className='bg-[#FFF] h-[80vh] rounded-[10px]'>
+                        <div className='bg-[#FFF] h-[80vh] rounded-[10px] overflow-auto'>
                             {
                                 view === "diary" ?
                                     <DiaryModal group={group}/>

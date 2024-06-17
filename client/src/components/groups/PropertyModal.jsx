@@ -48,7 +48,7 @@ export function PropertyModal({groupId}) {
         <div className="pl-[10px] pr-[10px] pt-[10px] text-left">
             <TooltipProvider>
                 <Tooltip>
-                    <EditPropertyModal>
+                    <EditPropertyModal groupId="666efada481adef36e730304" checkRefresh={checkRefresh} setCheckRefresh={setCheckRefresh}>
                         <TooltipTrigger asChild>
                             <button className="ml-[5px] text-slate-400 hover:text-black" variant="outline" size="icon">
                                 <CirclePlus size={36} strokeWidth={2} absoluteStrokeWidth/>
