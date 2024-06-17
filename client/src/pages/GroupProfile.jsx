@@ -20,9 +20,13 @@ const GroupProfile = () => {
     }
     const [group, setGroup] = useState(null)
     const { groupId } = useParams()
-    const [view, setView] = useState('diary')
+    const [view, setView] = useState('property')
     const [newGroupName, setNewGroupName] = useState('')
     const [members, setMembers] = useState([])
+
+    const togglePropertyView = () => {
+        setView('property')
+    }
 
     const toggleDiaryView = () => {
         setView('diary')
@@ -102,6 +106,12 @@ const GroupProfile = () => {
                         <div className="m-[1.5vh] h-[6vh]">
                             <button
                                 className="w-[18vh] mx-[0.5vh] bg-[#FFF] rounded-[5px] bg-[#FFB302] px-[3vh] text-xl h-[6vh] hover:bg-[#ffdc8b] focus:bg-[#FFB302]"
+                                onClick={togglePropertyView}
+                            >
+                                Information
+                            </button>
+                            <button
+                                className="w-[18vh] mx-[0.5vh] bg-[#FFF] rounded-[5px] bg-[#FFB302] px-[3vh] text-xl h-[6vh] hover:bg-[#ffdc8b] focus:bg-[#FFB302]"
                                 onClick={toggleDiaryView}
                             >
                                 Diary
@@ -121,12 +131,14 @@ const GroupProfile = () => {
                         </div>
                         <div className='bg-[#FFF] h-[80vh] rounded-[10px]'>
                             {
-                                view == "diary" ?
+                                view === "diary" ?
                                     <DiaryModal group={group}/>
-                                : view == "map" ?
+                                : view === "map" ?
                                     <MapModal group={group} members={members}/>
-                                : view == "event" ?
+                                : view === "event" ?
                                     <p>Event</p>
+                                : view === "property" ?
+                                    <p>Property</p>
                                 : <p>Nothing selected</p>
                             }
 
