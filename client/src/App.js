@@ -26,6 +26,7 @@ import VerificationGuide from './pages/verification/VerificationGuide.jsx'
 import VerificationResult from './pages/verification/VerificationResult.jsx'
 import FriendGrowth from './pages/dashboard/FriendGrowth.jsx'
 import InteractionReport from './pages/dashboard/InteractionReport.jsx'
+import NetworkGraph from './pages/NetworkGraph.jsx'
 
 // TODO: responsive to screen size
 
@@ -80,7 +81,7 @@ function App() {
                             </ProtectedRoute>
                         }
                     >
-                        <Route exact path="/" element={<Home />} />
+                        <Route exact path="/" element={<NetworkGraph />} />
                         <Route exact path="/settings" element={<Settings />} />
                         <Route exact path="/graph" element={<Graph />} />
                         <Route
