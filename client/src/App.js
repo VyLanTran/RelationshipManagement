@@ -29,6 +29,7 @@ import FriendGrowth from './pages/dashboard/FriendGrowth.jsx'
 import { LandPlot } from 'lucide-react'
 import InteractionReport from './pages/dashboard/InteractionReport.jsx'
 import NetworkGraph from './pages/NetworkGraph.jsx'
+import LayoutNotAuth from './components/layout/LayoutNotAuth.jsx'
 
 // TODO: responsive to screen size
 
@@ -40,50 +41,50 @@ function App() {
                     <Route
                         element={
                             <ProtectedRoute isAuthPage={true}>
-                                <Layout />
+                                <LayoutNotAuth />
                             </ProtectedRoute>
                         }
                     >
                         <Route exact path="/home" element={<Landing />} />
+                        <Route
+                            exact
+                            path="/signup"
+                            element={
+                                <ProtectedRoute isAuthPage={true}>
+                                    <SignUp />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            exact
+                            path="/login"
+                            element={
+                                <ProtectedRoute isAuthPage={true}>
+                                    <Login />
+                                </ProtectedRoute>
+                            }
+                        />
+
+                        <Route
+                            exact
+                            path="/verificationGuide"
+                            element={
+                                <ProtectedRoute isAuthPage={true}>
+                                    <VerificationGuide />
+                                </ProtectedRoute>
+                            }
+                        />
+
+                        <Route
+                            exact
+                            path="/auth/:id/verify/:token"
+                            element={
+                                <ProtectedRoute isAuthPage={true}>
+                                    <VerificationResult />
+                                </ProtectedRoute>
+                            }
+                        />
                     </Route>
-                    <Route
-                        exact
-                        path="/login"
-                        element={
-                            <ProtectedRoute isAuthPage={true}>
-                                <Login />
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route
-                        exact
-                        path="/signup"
-                        element={
-                            <ProtectedRoute isAuthPage={true}>
-                                <SignUp />
-                            </ProtectedRoute>
-                        }
-                    />
-
-                    <Route
-                        exact
-                        path="/verificationGuide"
-                        element={
-                            <ProtectedRoute isAuthPage={true}>
-                                <VerificationGuide />
-                            </ProtectedRoute>
-                        }
-                    />
-
-                    <Route
-                        exact
-                        path="/auth/:id/verify/:token"
-                        element={
-                            <ProtectedRoute isAuthPage={true}>
-                                <VerificationResult />
-                            </ProtectedRoute>
-                        }
-                    />
 
                     <Route
                         element={
