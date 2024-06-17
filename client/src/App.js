@@ -7,6 +7,7 @@ import Groups from './pages/Groups.jsx'
 import Map from './pages/Map.jsx'
 import Posts from './pages/Post.jsx'
 import Graph from './pages/Graph.jsx'
+import Landing from './pages/Landing.jsx'
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import ProtectedRoute from './utils/ProtectedRoute.js'
@@ -25,7 +26,9 @@ import ProfileLayout from './components/profile/ProfileLayout.jsx'
 import VerificationGuide from './pages/verification/VerificationGuide.jsx'
 import VerificationResult from './pages/verification/VerificationResult.jsx'
 import FriendGrowth from './pages/dashboard/FriendGrowth.jsx'
+import { LandPlot } from 'lucide-react'
 import InteractionReport from './pages/dashboard/InteractionReport.jsx'
+import NetworkGraph from './pages/NetworkGraph.jsx'
 
 // TODO: responsive to screen size
 
@@ -34,6 +37,16 @@ function App() {
         <div className="app">
             <Router>
                 <Routes>
+                    <Route
+                        exact
+                        path="/landing"
+                        element={
+                            <ProtectedRoute isAuthPage={true}>
+                                <Layout />
+                                <Landing />
+                            </ProtectedRoute>
+                        }
+                    />
                     <Route
                         exact
                         path="/login"
@@ -80,7 +93,7 @@ function App() {
                             </ProtectedRoute>
                         }
                     >
-                        <Route exact path="/" element={<Home />} />
+                        <Route exact path="/" element={<NetworkGraph />} />
                         <Route exact path="/settings" element={<Settings />} />
                         <Route exact path="/graph" element={<Graph />} />
                         <Route
