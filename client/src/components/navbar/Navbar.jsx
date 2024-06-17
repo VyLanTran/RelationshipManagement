@@ -15,6 +15,7 @@ import { CgMenuGridO } from 'react-icons/cg'
 import { FiUserPlus } from 'react-icons/fi'
 import { RiUserReceived2Line } from 'react-icons/ri'
 import { GoGraph } from 'react-icons/go'
+import { Button } from '../ui/button.jsx'
 import logo from './logo.png'
 
 // import { Effect } from 'react-notification-badge'
@@ -52,37 +53,37 @@ const Navbar = () => {
             </div>
             <div className="flex flex-row gap-4 items-center">
                 {/* TODO: use tooltips for these buttons */}
-                <Menu />
+                {user ? <Menu /> : <div></div>}
                 <NavbarButton
                     icon={<RiBookletFill size={21} />}
-                    name="My space"
-                    url="/diary"
+                    name="Diary"
+                    url={user ? "/diary" : "#diary"}
                 />
 
                 <NavbarButton
                     icon={<HiUserGroup size={21} />}
                     name="Groups"
-                    url="/groups"
+                    url={user ? "/groups" : "#group"}
                 />
 
                 <NavbarButton
                     icon={<FaMap size={21} />}
                     name="Map"
-                    url="/map"
+                    url={user ? "/map" : "#map"}
                 />
                 <NavbarButton
                     icon={<FaCalendarAlt size={21} />}
                     name="Event"
-                    url="/events"
+                    url={user ? "/events" : "#event"}
                 />
                 <NavbarButton
                     icon={<IoIosContacts size={26} />}
                     name="Connection"
-                    url={`/connection/${user._id}`}
+                    url={user ? `/connection/${user._id}` : "#connection"}
                 />
 
                 <NavLink
-                    to="/chats"
+                    to={user ? "/chats" : "#chat"}
                     title="Chats"
                     className="relative inline-block"
                 >
@@ -96,8 +97,13 @@ const Navbar = () => {
                         </div> */}
                     </div>
                 </NavLink>
+                {user ? <Notification /> : <div></div>}
+                {user ? <DropdownSetting user={user} handleLogout={handleLogout} /> : <Button className="font-bold"onClick={() => navigate("/login")}>Log In</Button>}
+
+ {/*
                 <Notification />
                 <DropdownSetting user={user} handleLogout={handleLogout} />
+*/}
             </div>
         </div>
     )

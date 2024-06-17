@@ -19,6 +19,30 @@ body,
   overflow-x: hidden;
 }
 
+.homepage {
+  background-image: url('../public/assets/logo.svg');
+  background-repeat: no-repeat;
+  background-position: right -100% bottom 50%;
+  background-size: 900px;
+  background-color: white;
+}
+
+.landing-diary {
+  background-image: url('../public/assets/diary.png');
+  background-repeat: no-repeat;
+  background-position: right -40% bottom 50%;
+  background-size: 800px;
+  background-color: white;
+}
+
+.landing-map {
+  background-image: url('../public/assets/map.png');
+  background-repeat: no-repeat;
+  background-position: left -40% bottom 80%;
+  background-size: 800px;
+  background-color: white;
+}
+
 @layer base {
   .font-azeret {
     font-family: 'Azeret', sans-serif;
