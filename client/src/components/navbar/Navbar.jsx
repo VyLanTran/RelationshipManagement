@@ -47,9 +47,10 @@ const Navbar = () => {
         <div className="fixed h-[60px] z-10 w-full bg-[#FFB302] flex flex-row justify-between items-center px-10">
             <div
                 onClick={() => navigate('/')}
-                className="cursor-pointer font-bold"
+                className="cursor-pointer font-bold  flex flex-row gap-4 items-center"
             >
                 <img className="h-[36px]" src={logo} alt="Logo" />
+                <div className="text-[26px] app-name">Bondscape</div>
             </div>
             <div className="flex flex-row gap-4 items-center">
                 {/* TODO: use tooltips for these buttons */}

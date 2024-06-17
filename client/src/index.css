@@ -43,6 +43,13 @@ body,
   background-color: white;
 }
 
+.app-name {
+  font-family: "Playwrite AU VIC", cursive;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
 @layer base {
   .font-azeret {
     font-family: 'Azeret', sans-serif;
