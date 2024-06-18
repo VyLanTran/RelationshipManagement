@@ -69,7 +69,7 @@ const UserSchema = new mongoose.Schema(
             type: String,
             default: null,
         },
-        posts: {
+        postIds: {
             type: Array,
             default: [],
         },
