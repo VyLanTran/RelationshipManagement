@@ -13,11 +13,11 @@ import axios from "axios";
 import BASE_URL from '@/../../constants.js'
 import { useSelector } from "react-redux";
 
-export function EditPropertyModal({ children, groupId, checkRefresh, setCheckRefresh }) {
+export function EditPropertyModal({ children, groupId, checkRefresh, setCheckRefresh, init_label, description }) {
 
     const token = useSelector((state) => state.auth.token);
-    const [label, setLabel] = useState("");
-    const [content, setContent] = useState("");
+    const [label, setLabel] = useState(init_label);
+    const [content, setContent] = useState(description);
     const authHeader = { headers: { 'Authorization': `Beareer ${token}` }};
 
     const onSubmit = async (event) => {
@@ -54,6 +54,7 @@ export function EditPropertyModal({ children, groupId, checkRefresh, setCheckRef
                         onChange={(e) => setLabel(e.target.value)}
                         type="text"
                         name="name"
+                        value={init_label}
                         className="bg-gray-50 border border-gray-300 text-sm rounded-sm  w-[400px] p-2.5 focus:outline-none"
                         placeholder="What is it about?"/>
                     </div>
@@ -62,12 +63,13 @@ export function EditPropertyModal({ children, groupId, checkRefresh, setCheckRef
                         <textarea
                         onChange={(e) => setContent(e.target.value)}
                         type="text"
+                        value={description}
                         name="subejct"
                         className="bg-gray-50 border border-gray-300 text-sm rounded-sm  w-[400px] p-2.5 focus:outline-none"
                         placeholder="Something fun!"/>
                     </div>
                 </form>
-                <DialogFooter className="">
+                <DialogFooter>
                     <div>
                         <Button onClick={onSubmit}>Save</Button>
                     </div>

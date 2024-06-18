@@ -48,7 +48,7 @@ export function PropertyModal({groupId}) {
         <div className="pl-[10px] pr-[10px] pt-[10px] text-left">
             <TooltipProvider>
                 <Tooltip>
-                    <EditPropertyModal groupId="666efada481adef36e730304" checkRefresh={checkRefresh} setCheckRefresh={setCheckRefresh}>
+                    <EditPropertyModal groupId="666efada481adef36e730304" checkRefresh={checkRefresh} setCheckRefresh={setCheckRefresh}  init_label="" description="">
                         <TooltipTrigger asChild>
                             <button className="ml-[5px] text-slate-400 hover:text-black" variant="outline" size="icon">
                                 <CirclePlus size={36} strokeWidth={2} absoluteStrokeWidth/>
@@ -61,6 +61,7 @@ export function PropertyModal({groupId}) {
                 </Tooltip>
             </TooltipProvider>
             
+            {properties.length > 0 ?
             <Table>
                 <TableCaption>Some interesting tidbits about your group so far!</TableCaption>
                 <TableBody className="text-left">
@@ -69,11 +70,19 @@ export function PropertyModal({groupId}) {
                             <TableCell className="w-[23%] font-medium">{property.name}</TableCell>
                             <TableCell className="">{property.subject}</TableCell>
                             <TableCell className="w-[10%]">
-                                <button
-                                    className="text-slate-400 hover:text-black"
-                                    variant="outline" size="icon">
-                                    <Pencil size={36} strokeWidth={2} />
-                                </button>
+                                <TooltipProvider>
+                                    <Tooltip>
+                                        <EditPropertyModal groupId={property.admin} checkRefresh={checkRefresh} setCheckRefresh={setCheckRefresh} init_label={property.name} description={property.subject}>
+                                            <TooltipTrigger asChild>
+                                                <button
+                                                    className="text-slate-400 hover:text-black"
+                                                    variant="outline" size="icon">
+                                                    <Pencil size={36} strokeWidth={2} />
+                                                </button>
+                                            </TooltipTrigger>
+                                        </EditPropertyModal>
+                                    </Tooltip>
+                                </TooltipProvider>
                                 <button
                                     className="text-slate-400 hover:text-black ml-[10px]"
                                     variant="outline" size="icon" onClick={() => handleDelete(property)}>
@@ -81,9 +90,10 @@ export function PropertyModal({groupId}) {
                                 </button>
                             </TableCell>
                         </TableRow>
-                    )) : <p></p>}
+                    )) : <></>}
                 </TableBody>
             </Table>
+            : <Table><TableCaption>Oh no! There is nothing here yet! Create some!</TableCaption></Table>}
         </div>
     )
 }
