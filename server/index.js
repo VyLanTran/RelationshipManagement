@@ -4,6 +4,7 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import bodyParser from 'body-parser'
 import { Server } from 'socket.io'
+import neo4j from 'neo4j-driver'
 
 import authRoutes from './routes/authRoutes.js'
 import userRoutes from './routes/userRoutes.js'
@@ -17,6 +18,7 @@ import eventRoutes from './routes/eventRoutes.js'
 import propertyRoutes from './routes/propertyRoutes.js'
 import friendRequestRoutes from './routes/friendRequestRoutes.js'
 import friendshipRoutes from './routes/friendshipRoutes.js'
+import networkRoutes from './routes/networkRoutes.js'
 
 import cookieSession from 'cookie-session'
 
@@ -52,6 +54,7 @@ app.use('/events', eventRoutes)
 app.use('/requests', friendRequestRoutes)
 app.use('/friendship', friendshipRoutes)
 app.use('/properties', propertyRoutes)
+app.use('/network', networkRoutes)
 
 const PORT = process.env.PORT || 8080
 
@@ -70,6 +73,13 @@ export const connectDB = async () => {
 //   app.listen(PORT, () => console.log(`Successfully connect to port ${PORT}`))
 // })
 // .catch((err) => console.log(`${err}`))
+
+// Neo4j connection
+const driver = neo4j.driver(
+    process.env.NEO4J_URI,
+    neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
+)
+app.locals.neo4jDriver = driver
 
 connectDB()
 
