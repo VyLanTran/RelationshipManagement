@@ -12,6 +12,7 @@ import io from 'socket.io-client'
 import { Card } from '../ui/card'
 import BASE_URL from '@/../../constants.js'
 import { setUnreadChats } from '../../state/chatReducer.js'
+import { ReactComponent as NoDataSvg } from '../dashboard/no_data.svg'
 
 const ENDPOINT = `${BASE_URL}`
 var socket, currentChatCompare
@@ -32,6 +33,19 @@ const CurrentChat = () => {
     const [isTyping, setIsTyping] = useState(false)
 
     const { toast } = useToast()
+
+    let chatName
+
+    if (currentChat) {
+        if (currentChat.isGroupChat) {
+            chatName = currentChat.chatName
+        } else {
+            const members = currentChat.members
+            const friend =
+                members[0]._id !== currentUser._id ? members[0] : members[1]
+            chatName = friend.name
+        }
+    }
 
     // set up
     useEffect(() => {
@@ -141,11 +155,9 @@ const CurrentChat = () => {
                 })
             }
         } catch (error) {
-            // console.log(error)
             toast({
                 variant: 'destructive',
                 title: error,
-                // title: 'not ok 2',
             })
         }
     }
@@ -186,7 +198,7 @@ const CurrentChat = () => {
             {currentChat ? (
                 <div>
                     <div className="h-[60px] w-full flex flex-row justify-between items-center p-4 border-b fixed  bg-white">
-                        <span>{currentChat.chatName}</span>
+                        <span>{chatName}</span>
                     </div>
 
                     <div className="flex flex-col overflow-y-auto h-full bg-white mt-[60px] py-4">
@@ -238,7 +250,15 @@ const CurrentChat = () => {
                     </div>
                 </div>
             ) : (
-                <div>Select a chat</div>
+                <div className="flex flex-col w-full h-full justify-center items-center pb-[20%]">
+                    <NoDataSvg />
+                    <div className="text-gray-400 text-[18px] font-semibold mb-2">
+                        No messages to display
+                    </div>
+                    <span className="text-gray-400 text-[14px]">
+                        Select a chat on the left to view your conversation
+                    </span>
+                </div>
             )}
         </div>
     )

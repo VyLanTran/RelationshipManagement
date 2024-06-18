@@ -6,6 +6,8 @@ import {
     generateUsers,
 } from './User.js'
 import { connectDB } from '../index.js'
+import UserModel from '../models/UserModel.js'
+import { generateRandomChatsAndMessages } from './Chat.js'
 
 const run = async () => {
     try {
@@ -22,11 +24,21 @@ const run = async () => {
 
 const generate = () => {
     return new Promise(async (resolve) => {
-        // const numUsers = 2
-        // await generateDefaultUsers()
-        // await generateUsers(numUsers)
+        // UNCOMMENT TO GENERATE FAKE USERS
+        // const numRandomUsers = 30
+        // await generateUsers(numRandomUsers)
+        // await deleteAllExceptSpecifiedUsers()
 
-        // await generateUsers(10)
+        // UNCOMMENT TO GENERATE FAKE CHATS AND MESSAGES
+        // TODO: Change GROUP_SIZE_RATIO when numUsers get larger
+        const numChats = 20
+        const privateChatRatio = 0.7
+        const numMessages = 25
+        await generateRandomChatsAndMessages(
+            numChats,
+            privateChatRatio,
+            numMessages
+        )
 
         return resolve()
     })
@@ -49,5 +61,23 @@ const sleep = (s) => {
         setTimeout(resolve, s * 1000)
     })
 }
+
+// const deleteAllExceptSpecifiedUsers = async () => {
+//     try {
+//         const idsToKeep = [
+//             new mongoose.Types.ObjectId('66281a90985b1127397389bb'),
+//             new mongoose.Types.ObjectId('665d3474a426fb4f27b094ce'),
+//             new mongoose.Types.ObjectId('665d50291cd87015148ff20e'),
+//         ]
+
+//         const result = await UserModel.deleteMany({
+//             _id: { $nin: idsToKeep },
+//         })
+
+//         console.log(`Deleted ${result.deletedCount} users`)
+//     } catch (err) {
+//         console.error('Error deleting users:', err)
+//     }
+// }
 
 run()

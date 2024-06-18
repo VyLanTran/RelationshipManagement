@@ -16,15 +16,17 @@ import {
     TooltipTrigger,
 } from '../ui/tooltip'
 import { ScrollArea } from '../ui/scroll-area'
-import BASE_URL from '@/../../constants.js'
+
+import NewPrivateChatItem from './NewPrivateChatItem'
 
 const ChatList = () => {
+    const BASE_URL = process.env.REACT_APP_SERVER_BASE_URL
     const token = useSelector((state) => state.auth.token)
     const chats = useSelector((state) => state.chat.allChats)
-    const currentChat = useSelector((state) => state.chat.currentChat)
 
     const [search, setSearch] = useState('')
     const [searchResult, setSearchResult] = useState([])
+    const [matchingUsers, setMatchingUsers] = useState([])
 
     const { toast } = useToast()
 
@@ -44,7 +46,10 @@ const ChatList = () => {
                 )
                 const data = await res.json()
 
-                setSearchResult(data)
+                if (res.ok) {
+                    setSearchResult(data['chats'])
+                    setMatchingUsers(data['users'])
+                }
             } catch (error) {
                 toast({
                     variant: 'destructive',
@@ -58,7 +63,7 @@ const ChatList = () => {
         }
 
         handleSearch()
-    }, [searchResult, chats])
+    }, [search, chats])
 
     return (
         <div className="w-full flex flex-col h-full">
@@ -110,10 +115,20 @@ const ChatList = () => {
 
             <div className="flex flex-col overflow-y-auto h-full bg-white mt-[120px]">
                 <ScrollArea className="w-full flex flex-col h-screen ">
-                    {searchResult.length > 0 ? (
-                        searchResult.map((chat) => {
-                            return <ChatItem id={chat._id} chat={chat} />
-                        })
+                    {searchResult &&
+                    matchingUsers &&
+                    (searchResult.length > 0 || matchingUsers.length > 0) ? (
+                        <div>
+                            {searchResult.map((chat) => {
+                                return <ChatItem key={chat._id} chat={chat} />
+                            })}
+                            {matchingUsers.map((user) => (
+                                <NewPrivateChatItem
+                                    key={user._id}
+                                    user={user}
+                                />
+                            ))}
+                        </div>
                     ) : (
                         <span className="text-[13px] text-gray-400">
                             No results found

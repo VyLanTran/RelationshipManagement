@@ -40,12 +40,14 @@ const Groups = () => {
                 `${BASE_URL}/groups/`,
                 {
                     name: newGroupName,
-                    admin: currentUser._id,
+                    admin: [currentUser._id],
+                    members: [currentUser._id],
                 },
                 authHeader
             )
             setMessage('New group added successfully')
             setNewGroupName('')
+            console.log(res.data)
         } catch (error) {
             setMessage(error.response.data['message'])
         }

@@ -4,6 +4,7 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import bodyParser from 'body-parser'
 import { Server } from 'socket.io'
+import neo4j from 'neo4j-driver'
 
 import authRoutes from './routes/authRoutes.js'
 import userRoutes from './routes/userRoutes.js'
@@ -14,7 +15,10 @@ import messageRoutes from './routes/messageRoutes.js'
 import diaryRoutes from './routes/diaryRoutes.js'
 import postRoutes from './routes/postRoutes.js'
 import eventRoutes from './routes/eventRoutes.js'
+import propertyRoutes from './routes/propertyRoutes.js'
 import friendRequestRoutes from './routes/friendRequestRoutes.js'
+import friendshipRoutes from './routes/friendshipRoutes.js'
+import networkRoutes from './routes/networkRoutes.js'
 
 import cookieSession from 'cookie-session'
 
@@ -33,6 +37,8 @@ app.use(
         name: 'session',
         keys: [process.env.COOKIE_KEY], //  An array of secret keys used for encrypting and decrypting the session data stored in the cookie
         maxAge: 24 * 60 * 60 * 1000, // 1 day = 24 hours * 60 mins * 60 sec * 1000 milisec
+        sameSite: 'None',
+        secure: true,
     })
 )
 
@@ -46,6 +52,9 @@ app.use('/diary', diaryRoutes)
 app.use('/posts', postRoutes)
 app.use('/events', eventRoutes)
 app.use('/requests', friendRequestRoutes)
+app.use('/friendship', friendshipRoutes)
+app.use('/properties', propertyRoutes)
+app.use('/network', networkRoutes)
 
 const PORT = process.env.PORT || 8080
 
@@ -64,6 +73,13 @@ export const connectDB = async () => {
 //   app.listen(PORT, () => console.log(`Successfully connect to port ${PORT}`))
 // })
 // .catch((err) => console.log(`${err}`))
+
+// Neo4j connection
+const driver = neo4j.driver(
+    process.env.NEO4J_URI,
+    neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
+)
+app.locals.neo4jDriver = driver
 
 connectDB()
 
@@ -86,7 +102,6 @@ io.on('connection', (socket) => {
     // the name of this socket is 'setup'
     socket.on('setup', (userData) => {
         socket.join(userData._id)
-        // console.log(userData._id)
         socket.emit('connected')
     })
 

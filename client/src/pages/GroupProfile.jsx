@@ -8,6 +8,7 @@ import BASE_URL from '@/../../constants.js'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../components/ui/tooltip";
 import { EditGroupModal } from '../components/groups/EditGroupModal.jsx';
 import { DiaryModal } from '../components/groups/DiaryModal.jsx';
+import { MapModal } from '../components/groups/MapModal.jsx';
 
 // TODO: edit username, password here
 const GroupProfile = () => {
@@ -19,9 +20,13 @@ const GroupProfile = () => {
     }
     const [group, setGroup] = useState(null)
     const { groupId } = useParams()
-    const [view, setView] = useState('diary')
+    const [view, setView] = useState('property')
     const [newGroupName, setNewGroupName] = useState('')
     const [members, setMembers] = useState([])
+
+    const togglePropertyView = () => {
+        setView('property')
+    }
 
     const toggleDiaryView = () => {
         setView('diary')
@@ -60,7 +65,7 @@ const GroupProfile = () => {
     return (
         <div>
             {group ? (
-                <div className="pt-[60px] flex flex-row h-screen p-[1vh]">
+                <div className="flex flex-row h-screen p-[1vh]">
                     <div className="w-[25%] my-[1.5vh] mr-[1.5vh]">
                         <div className="h-[87.5vh] bg-[#FFF] rounded-[10px] mb-[1.5vh] p-[2vh]">
                             <div className="flex flex-row items-center justify-between">
@@ -101,6 +106,12 @@ const GroupProfile = () => {
                         <div className="m-[1.5vh] h-[6vh]">
                             <button
                                 className="w-[18vh] mx-[0.5vh] bg-[#FFF] rounded-[5px] bg-[#FFB302] px-[3vh] text-xl h-[6vh] hover:bg-[#ffdc8b] focus:bg-[#FFB302]"
+                                onClick={togglePropertyView}
+                            >
+                                Information
+                            </button>
+                            <button
+                                className="w-[18vh] mx-[0.5vh] bg-[#FFF] rounded-[5px] bg-[#FFB302] px-[3vh] text-xl h-[6vh] hover:bg-[#ffdc8b] focus:bg-[#FFB302]"
                                 onClick={toggleDiaryView}
                             >
                                 Diary
@@ -120,10 +131,15 @@ const GroupProfile = () => {
                         </div>
                         <div className='bg-[#FFF] h-[80vh] rounded-[10px]'>
                             {
-                                view == "diary" ?
+                                view === "diary" ?
                                     <DiaryModal group={group}/>
-                                : 
-                                    <p>{view}</p>
+                                : view === "map" ?
+                                    <MapModal group={group} members={members}/>
+                                : view === "event" ?
+                                    <p>Event</p>
+                                : view === "property" ?
+                                    <p>Property</p>
+                                : <p>Nothing selected</p>
                             }
 
                         </div>

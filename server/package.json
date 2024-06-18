@@ -7,7 +7,8 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "nodemon index.js",
-        "seeds": "node seeds/index.js"
+        "seeds": "node seeds/index.js",
+        "transferData": "node utils/transferData.js"
     },
     "author": "",
     "license": "ISC",
@@ -25,6 +26,7 @@
         "express": "^4.19.2",
         "jsonwebtoken": "^9.0.2",
         "mongoose": "^8.2.3",
+        "neo4j-driver": "^5.21.0",
         "nodemailer": "^6.9.13",
         "nodemon": "^3.1.0",
         "passport": "^0.7.0",

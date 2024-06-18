@@ -15,6 +15,7 @@ import { CgMenuGridO } from 'react-icons/cg'
 import { FiUserPlus } from 'react-icons/fi'
 import { RiUserReceived2Line } from 'react-icons/ri'
 import { GoGraph } from 'react-icons/go'
+import { Button } from '../ui/button.jsx'
 import logo from './logo.png'
 
 // import { Effect } from 'react-notification-badge'
@@ -46,16 +47,17 @@ const Navbar = () => {
         <div className="fixed h-[60px] z-10 w-full bg-[#FFB302] flex flex-row justify-between items-center px-10">
             <div
                 onClick={() => navigate('/')}
-                className="cursor-pointer font-bold"
+                className="cursor-pointer font-bold  flex flex-row gap-4 items-center"
             >
-                <img className="h-[5vh]" src={logo} alt="Logo" />
+                <img className="h-[36px]" src={logo} alt="Logo" />
+                <div className="text-[26px] app-name">Bondscape</div>
             </div>
             <div className="flex flex-row gap-4 items-center">
                 {/* TODO: use tooltips for these buttons */}
                 <Menu />
                 <NavbarButton
                     icon={<RiBookletFill size={21} />}
-                    name="My space"
+                    name="Diary"
                     url="/diary"
                 />
 
@@ -96,7 +98,8 @@ const Navbar = () => {
                         </div> */}
                     </div>
                 </NavLink>
-                <Notification />    
+
+                <Notification />
                 <DropdownSetting user={user} handleLogout={handleLogout} />
             </div>
         </div>

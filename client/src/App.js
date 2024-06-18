@@ -6,6 +6,8 @@ import Profile from './pages/Profile.jsx'
 import Groups from './pages/Groups.jsx'
 import Map from './pages/Map.jsx'
 import Posts from './pages/Post.jsx'
+import Graph from './pages/Graph.jsx'
+import Landing from './pages/Landing.jsx'
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import ProtectedRoute from './utils/ProtectedRoute.js'
@@ -18,11 +20,16 @@ import FriendSuggestions from './pages/FriendSuggestions.jsx'
 import Layout from './components/layout/Layout.jsx'
 import Dashboard from './pages/dashboard/Dashboard.jsx'
 import DashboardLayout from './components/dashboard/DashboardLayout.jsx'
-import FriendsData from './pages/dashboard/FriendsData.jsx'
-import FriendsGeography from './pages/dashboard/FriendsGeography.jsx'
+import FriendData from './pages/dashboard/FriendData.jsx'
+import FriendGeography from './pages/dashboard/FriendGeography.jsx'
 import ProfileLayout from './components/profile/ProfileLayout.jsx'
 import VerificationGuide from './pages/verification/VerificationGuide.jsx'
 import VerificationResult from './pages/verification/VerificationResult.jsx'
+import FriendGrowth from './pages/dashboard/FriendGrowth.jsx'
+import { LandPlot } from 'lucide-react'
+import InteractionReport from './pages/dashboard/InteractionReport.jsx'
+import NetworkGraph from './pages/NetworkGraph.jsx'
+import LayoutNotAuth from './components/layout/LayoutNotAuth.jsx'
 
 // TODO: responsive to screen size
 
@@ -32,43 +39,52 @@ function App() {
             <Router>
                 <Routes>
                     <Route
-                        exact
-                        path="/login"
                         element={
                             <ProtectedRoute isAuthPage={true}>
-                                <Login />
+                                <LayoutNotAuth />
                             </ProtectedRoute>
                         }
-                    />
-                    <Route
-                        exact
-                        path="/signup"
-                        element={
-                            <ProtectedRoute isAuthPage={true}>
-                                <SignUp />
-                            </ProtectedRoute>
-                        }
-                    />
+                    >
+                        <Route exact path="/home" element={<Landing />} />
+                        <Route
+                            exact
+                            path="/signup"
+                            element={
+                                <ProtectedRoute isAuthPage={true}>
+                                    <SignUp />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            exact
+                            path="/login"
+                            element={
+                                <ProtectedRoute isAuthPage={true}>
+                                    <Login />
+                                </ProtectedRoute>
+                            }
+                        />
 
-                    <Route
-                        exact
-                        path="/verificationGuide"
-                        element={
-                            <ProtectedRoute isAuthPage={true}>
-                                <VerificationGuide />
-                            </ProtectedRoute>
-                        }
-                    />
+                        <Route
+                            exact
+                            path="/verificationGuide"
+                            element={
+                                <ProtectedRoute isAuthPage={true}>
+                                    <VerificationGuide />
+                                </ProtectedRoute>
+                            }
+                        />
 
-                    <Route
-                        exact
-                        path="/auth/:id/verify/:token"
-                        element={
-                            <ProtectedRoute isAuthPage={true}>
-                                <VerificationResult />
-                            </ProtectedRoute>
-                        }
-                    />
+                        <Route
+                            exact
+                            path="/auth/:id/verify/:token"
+                            element={
+                                <ProtectedRoute isAuthPage={true}>
+                                    <VerificationResult />
+                                </ProtectedRoute>
+                            }
+                        />
+                    </Route>
 
                     <Route
                         element={
@@ -77,8 +93,9 @@ function App() {
                             </ProtectedRoute>
                         }
                     >
-                        <Route exact path="/" element={<Home />} />
+                        <Route exact path="/" element={<NetworkGraph />} />
                         <Route exact path="/settings" element={<Settings />} />
+                        <Route exact path="/graph" element={<Graph />} />
                         <Route
                             exact
                             path="/connection/:userId"
@@ -111,14 +128,23 @@ function App() {
                             <Route
                                 exact
                                 path="/dashboard/friendInfo"
-                                element={<FriendsData />}
+                                element={<FriendData />}
                             />
                             <Route
                                 exact
                                 path="/dashboard/friendGeography"
-                                element={<FriendsGeography />}
+                                element={<FriendGeography />}
                             />
-
+                            <Route
+                                exact
+                                path="/dashboard/interactionReport"
+                                element={<InteractionReport />}
+                            />
+                            <Route
+                                exact
+                                path="/dashboard/friendGrowth"
+                                element={<FriendGrowth />}
+                            />
                             <Route
                                 exact
                                 path="/dashboard"

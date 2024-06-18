@@ -30,11 +30,10 @@ export function NewDiaryModal({ children, currentGroup }) {
     const createDiary = async (event) => {
         event.preventDefault();
         try {
-            console.log(currentGroup)
             const res = await axios.post(`${BASE_URL}/diary`,
                 {
                     name: entryName,
-                    admin: (currentGroup === undefined) ? currentGroup.members : user._id,
+                    admin: (!!currentGroup.members) ? currentGroup.members : [user._id],
                     group: (currentGroup) ? currentGroup._id : null,
                     entry: ""
                 }, authHeader);
