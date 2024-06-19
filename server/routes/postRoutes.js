@@ -2,6 +2,7 @@ import express from 'express'
 import { getAllPost, getPost, updatePost, deletePost, createPost } from '../controllers/postControllers.js'
 
 const router = express.Router()
+router.use(verifyAuth)
 
 router.get('/', getAllPost)
 router.get('/:id', getPost)
