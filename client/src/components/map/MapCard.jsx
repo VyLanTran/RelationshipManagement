@@ -8,9 +8,9 @@ import { IoPersonSharp } from "react-icons/io5";
 import { IoChatboxEllipses } from "react-icons/io5";
 import { IoDocumentText } from "react-icons/io5";
 
-const ConnectionGroup = ({total}) => {
+const ConnectionGroup = ({total, currGroup, setCurrGroup, checkRefresh, setCheckRefresh, mapMarkers, setMapMarkers}) => {
 
-    const [ groups, setGroups ] = useState([])
+    const [groups, setGroups] = useState([])
     const user = useSelector((state) => state.auth.user)
     const token = useSelector((state) => state.auth.token)
     const authHeader = { headers: { Authorization: `Bearer ${token}`} }
@@ -33,11 +33,19 @@ const ConnectionGroup = ({total}) => {
         }
     }, [])
 
-    const options = [{ value: "Everyone", label: "Everyone" }, ...groups.map(group => ({ value: group.name, label: group.name }))];
+    const handleGroupChange = async (currGroup) => {
+        console.log(mapMarkers)
+        await setMapMarkers([])
+        console.log(mapMarkers)
+        setCurrGroup(currGroup.value)
+        setCheckRefresh(!checkRefresh)
+    }
+
+    const options = [{ value: "Everyone", label: "Everyone" }, ...groups.map(group => ({ value: group._id, label: group.name }))];
 
     return (
         <div className="bg-[#FCAF58] rounded-[20px] w-[50vh] h-[84vh] p-[2.5vh] m-[2vh]">
-            <Select placeholder="Select group:" className="text-left" options={ options } />
+            <Select onChange={handleGroupChange} placeholder="Select group:" className="text-left" options={ options } />
             <div>
                 <div className="text-left ml-[6vh] mt-[10vh] text-[2.5vh]">
                     <div className="flex flex-row">
