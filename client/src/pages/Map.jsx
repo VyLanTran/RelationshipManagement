@@ -48,8 +48,10 @@ const MapGroup = () => {
             const dataGroup = await resGroup.json()
 
             if (resAll.ok && currGroup=="Everyone") {
+                setConnections([])
                 setConnections(dataAll)
             } else if (resGroup.ok) {
+                setConnections([])
                 setConnections(dataGroup)
             }
         }
@@ -78,7 +80,7 @@ const MapGroup = () => {
     
         const map = new Map(mapRef.current, mapOptions);
         setMapInstance(map);
-      }, []);
+    });
     
 
     const initMarkers = useCallback(async (map) => {
@@ -95,7 +97,7 @@ const MapGroup = () => {
                 if (connection && 'currentCity' in connection) {
                     try {
                         const results = await getGeocode({ address: connection.currentCity });
-                        const { lat, lng } = await getLatLng(results[0]);
+                        const { lat, lng } = getLatLng(results[0]);
             
                         const marker = new AdvancedMarkerElement({
                             map,
@@ -119,22 +121,24 @@ const MapGroup = () => {
         
         setMapMarkers(newMarkers.filter(Boolean))
         new MarkerClusterer({ map, markers: mapMarkers });
-    }, [connections, setMapMarkers]);
+    });
+    
     
     useEffect(() => {
-            initMap();
-        }, []);
+        initMap();
+    }, []);
     
+
     useEffect(() => {
         if (mapInstance) {
             initMarkers(mapInstance);
         }
-    }, [mapInstance, initMarkers]);
+    }, [connections, currGroup]);
 
     return (
         <div>
             <div className="flex justify-center flex-row">
-                <MapCard total={connections.length} groups={currGroup} setCurrGroup={setCurrGroup} checkRefresh={checkRefresh} setCheckRefresh={setCheckRefresh} mapMarkers={mapMarkers} setMapMarkers={setMapMarkers}/>
+                <MapCard total={connections.length} groups={currGroup} setCurrGroup={setCurrGroup} checkRefresh={checkRefresh} setCheckRefresh={setCheckRefresh} mapMarkers={mapMarkers} setMapMarkers={setMapMarkers} setConnections={setConnections}/>
                 <div className="w-[150vh] bg-[#FCAF3D] rounded-[20px] h-[84vh] p-[2.5vh] m-[2vh]">
                     <div
                         className="w-[145vh] rounded-[20px] h-[80vh] mt-[-0.5vh]"

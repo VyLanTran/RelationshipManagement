@@ -8,7 +8,7 @@ import { IoPersonSharp } from "react-icons/io5";
 import { IoChatboxEllipses } from "react-icons/io5";
 import { IoDocumentText } from "react-icons/io5";
 
-const ConnectionGroup = ({total, currGroup, setCurrGroup, checkRefresh, setCheckRefresh, mapMarkers, setMapMarkers}) => {
+const ConnectionGroup = ({total, currGroup, setCurrGroup, checkRefresh, setCheckRefresh, mapMarkers, setMapMarkers, setConnections}) => {
 
     const [groups, setGroups] = useState([])
     const user = useSelector((state) => state.auth.user)
@@ -34,11 +34,14 @@ const ConnectionGroup = ({total, currGroup, setCurrGroup, checkRefresh, setCheck
     }, [])
 
     const handleGroupChange = async (currGroup) => {
-        console.log(mapMarkers)
+        await mapMarkers.forEach(marker => {
+            console.log(marker.map)
+            marker.map = null;
+        });
         await setMapMarkers([])
-        console.log(mapMarkers)
-        setCurrGroup(currGroup.value)
-        setCheckRefresh(!checkRefresh)
+        await setConnections([])
+        await setCurrGroup(currGroup.value)
+        await setCheckRefresh(!checkRefresh)
     }
 
     const options = [{ value: "Everyone", label: "Everyone" }, ...groups.map(group => ({ value: group._id, label: group.name }))];
