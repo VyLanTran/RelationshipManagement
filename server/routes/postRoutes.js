@@ -1,5 +1,6 @@
 import express from 'express'
 import { getAllPost, getPost, updatePost, deletePost, createPost } from '../controllers/postControllers.js'
+import { verifyAuth } from '../middleware/auth.js'
 
 const router = express.Router()
 router.use(verifyAuth)
