@@ -27,9 +27,25 @@ const app = express()
 
 // app.use(express.json());
 // app.use(bodyParser.json({ limit: "30mb", extended: true }));
+
+const allowedOrigins = ['http://localhost:3000', 'http://127.0.0.1:5000/']
+
+const corsOptions = {
+    origin: function (origin, callback) {
+        // Check if the origin is in the list of allowed origins
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not allowed by CORS'))
+        }
+    },
+    credentials: true,
+}
+
 app.use(express.json({ limit: '50mb' }))
 app.use(express.urlencoded({ extended: true, limit: '50mb' }))
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
+// app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
+app.use(cors(corsOptions))
 
 // cookie-session simplifies session management by storing session data directly in encrypted cookie
 app.use(

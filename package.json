@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "startClient": "npm start --prefix client",
     "startServer": "npm start --prefix server",
-    "start": "concurrently \"npm start --prefix client\" \"npm start --prefix server\""
+    "startFlask": "cd flaskApi && flask --app recommendationSystem.py run",
+    "start": "concurrently \"npm start --prefix client\" \"npm start --prefix server\" \"npm run startFlask\""
   },
   "author": "",
   "license": "ISC",
