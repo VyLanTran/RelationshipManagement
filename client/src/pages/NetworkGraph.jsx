@@ -3,8 +3,12 @@ import * as d3 from 'd3'
 import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { LuExternalLink } from 'react-icons/lu'
+import { ScrollArea, ScrollBar } from '../components/ui/scroll-area'
 
 const NetworkGraph = () => {
+    const RADIUS_FRIEND = 10
+    const RADIUS_CURRENT = 30
+
     const token = useSelector((state) => state.auth.token)
     const userId = useSelector((state) => state.auth.user._id)
     const BASE_URL = process.env.REACT_APP_SERVER_BASE_URL
@@ -12,11 +16,25 @@ const NetworkGraph = () => {
     const d3Container = useRef(null)
     const [graphData, setGraphData] = useState({ nodes: [], links: [] })
     const [selectedUser, setSelectedUser] = useState(null)
-
-    const RADIUS_FRIEND = 10
-    const RADIUS_CURRENT = 30
-
+    const [recommendations, setRecommendations] = useState([])
     const [searchKeyword, setSearchKeyword] = useState('')
+
+    useEffect(() => {
+        const fetchRecommendations = async () => {
+            const res = await fetch(`${BASE_URL}/users/recommend`, {
+                method: 'GET',
+                headers: { Authorization: `Bearer ${token}` },
+            })
+            const data = await res.json()
+
+            if (res.ok) {
+                setRecommendations(data)
+                console.log(data)
+            }
+        }
+
+        fetchRecommendations()
+    }, [recommendations])
 
     useEffect(() => {
         const width = 928
@@ -227,7 +245,7 @@ const NetworkGraph = () => {
     }, [searchKeyword])
 
     return (
-        <div className="flex flex-row w-full h-screen bg-[#f2f1ea]">
+        <div className="flex flex-row w-full h-full bg-[#f2f1ea]">
             <div className="w-[70%] flex  py-6 flex-col items-center">
                 <div className="flex flex-col gap-8">
                     <div class="w-[500px] h-[45px] mx-auto rounded-lg shadow-md">
@@ -262,20 +280,42 @@ const NetworkGraph = () => {
                         </div>
                     </div>
 
+                    <div className="w-[700px]">
+                        {recommendations.length > 0 && (
+                            <ScrollArea className="w-[700px] whitespace-nowrap rounded-md border">
+                                <div className="flex w-max space-x-4 p-4 gap-4">
+                                    {recommendations.map((user, id) => (
+                                        <figure key={id} className="shrink-0">
+                                            <div className="overflow-hidden rounded-md">
+                                                <img
+                                                    className="rounded-full w-[50px] border-2 border-white"
+                                                    src={
+                                                        user.profilePicture.url
+                                                    }
+                                                    alt=""
+                                                />
+                                            </div>
+                                        </figure>
+                                    ))}
+                                </div>
+
+                                <ScrollBar orientation="horizontal" />
+                            </ScrollArea>
+                        )}
+                    </div>
+
                     <div className="text-[22px]">
                         You are connecting to {graphData.nodes.length - 1}{' '}
                         people. Let's expand your circle of friends
                     </div>
                 </div>
 
-                <div className="pb-auto pt-[-50px]">
-                    <svg ref={d3Container} className="flex-grow" />
-                </div>
+                <svg ref={d3Container} className="flex-grow" />
             </div>
 
-            <div className="w-[30%] h-full overflow-y-auto ">
+            <div className="w-[30%] h-full ">
                 {selectedUser && (
-                    <div className="absolute p-4 bg-white border right-0 border-gray-300 ">
+                    <div className=" p-4 bg-white border right-0 border-gray-300 ">
                         <button
                             className="absolute top-2 right-2 text-xl font-bold"
                             onClick={() => setSelectedUser(null)}

@@ -1,3 +1,4 @@
+import axios from 'axios'
 import UserModel from '../models/UserModel.js'
 import cloudinary from '../utils/cloudinary.js'
 import { countryToAlpha3 } from 'country-to-iso'
@@ -55,6 +56,33 @@ export const getAllNonFriends = async (req, res) => {
         res.status(200).json(nonFriends)
     } catch (err) {
         res.status(404).json({ error: err.message })
+    }
+}
+
+export const getFriendRecommendations = async (req, res) => {
+    try {
+        const currentUser = req.user
+        if (!currentUser) {
+            return res.status(404).json({ error: 'Authentication required' })
+        }
+
+        const nonFriends = await UserModel.find({
+            _id: { $nin: [...currentUser.friendIds, currentUser._id] },
+        }).select('-password')
+
+        // Send request to Flask API
+        const response = await axios.post('http://127.0.0.1:5000/recommend', {
+            currentUser: currentUser.toObject(),
+            nonFriends: nonFriends.map((user) => user.toObject()),
+        })
+
+        const recommendations = []
+        for (let item of response.data) {
+            recommendations.push(item[0])
+        }
+        res.status(200).json(recommendations)
+    } catch (err) {
+        res.status(500).json({ error: err.message })
     }
 }
 
