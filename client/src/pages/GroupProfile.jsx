@@ -9,6 +9,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../com
 import { EditGroupModal } from '../components/groups/EditGroupModal.jsx';
 import { DiaryModal } from '../components/groups/DiaryModal.jsx';
 import { MapModal } from '../components/groups/MapModal.jsx';
+import { PropertyModal } from '../components/groups/PropertyModal.jsx';
 
 // TODO: edit username, password here
 const GroupProfile = () => {
@@ -129,7 +130,7 @@ const GroupProfile = () => {
                                 Location
                             </button>
                         </div>
-                        <div className='bg-[#FFF] h-[80vh] rounded-[10px]'>
+                        <div className='bg-[#FFF] h-[80vh] rounded-[10px] overflow-auto'>
                             {
                                 view === "diary" ?
                                     <DiaryModal group={group}/>
@@ -138,7 +139,7 @@ const GroupProfile = () => {
                                 : view === "event" ?
                                     <p>Event</p>
                                 : view === "property" ?
-                                    <p>Property</p>
+                                    <p><PropertyModal groupId={group._id}/></p>
                                 : <p>Nothing selected</p>
                             }
 
