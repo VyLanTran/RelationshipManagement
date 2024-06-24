@@ -35,7 +35,6 @@ const ConnectionGroup = ({total, currGroup, setCurrGroup, checkRefresh, setCheck
 
     const handleGroupChange = async (currGroup) => {
         await mapMarkers.forEach(marker => {
-            console.log(marker.map)
             marker.map = null;
         });
         await setMapMarkers([])

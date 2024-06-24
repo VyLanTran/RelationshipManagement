@@ -21,46 +21,56 @@ const MapGroup = () => {
     const token = useSelector((state) => state.auth.token)
 
     useEffect(() => {
-        // fetch the user's connection
-        const fetchConnections = async () => {
-
-            const resAll = await fetch(
-                `${BASE_URL}/users/${currentUser._id}/friends`,
-                {
-                    method: 'GET',
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
+        // Function to fetch the user's connections
+        const fetchConnections = async (signal) => {
+            try {
+                // Parallel fetch requests
+                const [resAll, resGroup] = await Promise.all([
+                    fetch(`${BASE_URL}/users/${currentUser._id}/friends`, {
+                        method: 'GET',
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                        signal: signal
+                    }),
+                    fetch(`${BASE_URL}/groups/${currGroup}/members`, {
+                        method: 'GET',
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                        signal: signal
+                    }),
+                ]);
+    
+                // Handle responses
+                const dataAll = await resAll.json();
+                const dataGroup = await resGroup.json();
+    
+                if (resAll.ok && currGroup === "Everyone") {
+                    console.log("Check connection all");
+                    setConnections(dataAll);
+                } else if (resGroup.ok) {
+                    console.log("Check connection group");
+                    setConnections(dataGroup);
                 }
-            )
+            } catch (error) {
+                console.error("Error fetching connections:", error);
+            }
+        };
+    
+        // Fetch connections if currentUser exists
+        if (currentUser) {
+            const controller = new AbortController();
+            const signal = controller.signal;
+            fetchConnections(signal);
 
-            const resGroup = await fetch(
-                `${BASE_URL}/groups/${currGroup}/members`,
-                {
-                    method: 'GET',
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            )
-
-            const dataAll = await resAll.json()
-            const dataGroup = await resGroup.json()
-
-            if (resAll.ok && currGroup=="Everyone") {
-                setConnections([])
-                setConnections(dataAll)
-            } else if (resGroup.ok) {
-                setConnections([])
-                setConnections(dataGroup)
+            return () => {
+                controller.abort();
             }
         }
-        if (currentUser) {
-            fetchConnections()
-        }
-    }, [checkRefresh])
+    }, [checkRefresh]);
 
-
+    
     const initMap = useCallback(async () => {
         const loader = new Loader({
             apiKey: process.env.REACT_APP_GOOGLE_MAPS_API,
@@ -130,11 +140,15 @@ const MapGroup = () => {
     
 
     useEffect(() => {
+        console.log("Testing out")
+        console.log(connections)
+        console.log(currGroup)
         if (mapInstance) {
             initMarkers(mapInstance);
         }
     }, [connections, currGroup]);
 
+    
     return (
         <div>
             <div className="flex justify-center flex-row">
