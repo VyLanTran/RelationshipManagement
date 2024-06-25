@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { setLogin } from '../state/authReducer'
 import BASE_URL from '@/../../constants.js'
 import { setFriendIds } from '../state/friendReducer'
+import { setPost } from '../state/postReducer'
 
 export const useLogin = () => {
     const [error, setError] = useState(null) // at the beginning, there is no error
@@ -36,6 +37,7 @@ export const useLogin = () => {
                 })
             )
             dispatch(setFriendIds(json.user.friendIds))
+            dispatch(setPost(json.user.posts))
 
             setIsLoading(false)
         }
