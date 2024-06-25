@@ -111,8 +111,6 @@ const io = new Server(server, {
     },
 })
 
-app.set('io', io)
-
 io.on('connection', (socket) => {
     console.log('Successfully connect to socket.io')
 
@@ -153,11 +151,6 @@ io.on('connection', (socket) => {
     })
 
     // -------------- FRIEND REQUESTS ----------------- //
-    socket.on('new friend request', (friendRequest) => {
-        socket
-            .in(friendRequest.receiverId)
-            .emit('friend request received', friendRequest)
-    })
 
     socket.off('setup', () => {
         console.log('USER DISCONNECTED')

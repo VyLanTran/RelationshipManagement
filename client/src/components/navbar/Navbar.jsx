@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import NavbarButton from './NavbarButton.tsx'
 import { HiUserGroup } from 'react-icons/hi'
 import { RiBookletFill } from 'react-icons/ri'
@@ -9,7 +9,7 @@ import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { IoIosContacts } from 'react-icons/io'
 import { IoChatbubbleEllipses } from 'react-icons/io5'
 import { FaMap } from 'react-icons/fa'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 // import NotificationBadge from 'react-notification-badge'
 import { CgMenuGridO } from 'react-icons/cg'
 import { FiUserPlus } from 'react-icons/fi'
@@ -17,7 +17,6 @@ import { RiUserReceived2Line } from 'react-icons/ri'
 import { GoGraph } from 'react-icons/go'
 import { Button } from '../ui/button.jsx'
 import logo from './logo.png'
-import io from 'socket.io-client'
 
 // import { Effect } from 'react-notification-badge'
 
@@ -32,7 +31,6 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
-import { setReceivedRequesets } from '../../state/friendReducer.js'
 
 const Navbar = () => {
     const navigate = useNavigate()
@@ -153,31 +151,8 @@ function DropdownSetting({ user, handleLogout }) {
     )
 }
 
-const Notification = () => {
+function Notification() {
     const unreadChats = useSelector((state) => state.chat.unreadChats)
-
-    const BASE_URL = process.env.REACT_APP_SERVER_BASE_URL
-    const currentUser = useSelector((state) => state.auth.user)
-    const [socketConnected, setSocketConnected] = useState(false)
-    const dispatch = useDispatch()
-    const receivedRequests = useSelector(
-        (state) => state.friend.receivedRequests
-    )
-
-    var socket
-
-    // set up
-    useEffect(() => {
-        socket = io(BASE_URL)
-        socket.emit('setup', currentUser)
-        socket.on('connected', () => setSocketConnected(true))
-    }, [])
-
-    useEffect(() => {
-        socket.on('friend request received', (friendRequest) => {
-            dispatch(setReceivedRequesets([...receivedRequests, friendRequest]))
-        })
-    }, [receivedRequests])
 
     return (
         <div className="cursor-pointer">
@@ -201,9 +176,6 @@ const Notification = () => {
                                     </Link>
                                 )
                             })}
-                        {receivedRequests.map((request, id) => {
-                            return <div key={id}>id</div>
-                        })}
                     </DropdownMenuGroup>
                 </DropdownMenuContent>
             </DropdownMenu>

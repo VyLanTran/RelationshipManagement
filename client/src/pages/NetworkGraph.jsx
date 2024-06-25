@@ -4,10 +4,9 @@ import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { LuExternalLink } from 'react-icons/lu'
 import { ScrollArea, ScrollBar } from '../components/ui/scroll-area'
-import { BiSolidUserCheck } from 'react-icons/bi'
 
 const NetworkGraph = () => {
-    const RADIUS_FRIEND = 14
+    const RADIUS_FRIEND = 10
     const RADIUS_CURRENT = 30
 
     const token = useSelector((state) => state.auth.token)
@@ -19,42 +18,27 @@ const NetworkGraph = () => {
     const [selectedUser, setSelectedUser] = useState(null)
     const [recommendations, setRecommendations] = useState([])
     const [searchKeyword, setSearchKeyword] = useState('')
-    const friendIds = useSelector((state) => state.auth.user.friendIds)
-    const [isFriend, setIsFriend] = useState(false)
-
-    // useEffect(() => {
-    //     const fetchRecommendations = async () => {
-    //         const res = await fetch(`${BASE_URL}/users/recommend`, {
-    //             method: 'GET',
-    //             headers: { Authorization: `Bearer ${token}` },
-    //         })
-    //         const data = await res.json()
-
-    //         if (res.ok) {
-    //             setRecommendations(data)
-    //         } else {
-    //             await fetchAllNonFriends()
-    //         }
-    //     }
-
-    //     const fetchAllNonFriends = async () => {
-    //         const res = await fetch(`${BASE_URL}/users/nonFriends`, {
-    //             method: 'GET',
-    //             headers: { Authorization: `Bearer ${token}` },
-    //         })
-    //         const data = await res.json()
-
-    //         if (res.ok) {
-    //             setRecommendations(data)
-    //         }
-    //     }
-
-    //     fetchRecommendations()
-    // }, [recommendations])
 
     useEffect(() => {
-        const width = 1000
-        const height = 1000
+        const fetchRecommendations = async () => {
+            const res = await fetch(`${BASE_URL}/users/recommend`, {
+                method: 'GET',
+                headers: { Authorization: `Bearer ${token}` },
+            })
+            const data = await res.json()
+
+            if (res.ok) {
+                setRecommendations(data)
+                console.log(data)
+            }
+        }
+
+        fetchRecommendations()
+    }, [recommendations])
+
+    useEffect(() => {
+        const width = 928
+        const height = 600
 
         // Fetch graph data from backend
         const fetchGraphData = async () => {
@@ -97,7 +81,7 @@ const NetworkGraph = () => {
             .attr('width', width)
             .attr('height', height)
             .attr('viewBox', [0, 0, width, height])
-            .attr('style', 'max-width: 100%; height: auto;; overflow: auto;')
+            .attr('style', 'max-width: 100%; height: auto;')
 
         const link = svg
             .append('g')
@@ -120,34 +104,10 @@ const NetworkGraph = () => {
             .attr('stroke', (d) => (d.id === userId ? '#000' : '#fff'))
             .attr('stroke-width', (d) => (d.id === userId ? 3 : 1.5))
             .attr('fill', 'none')
-            .attr('cursor', 'pointer')
             .call(drag(simulation))
             .on('mouseover', handleMouseOver)
             .on('mouseout', handleMouseOut)
             .on('click', handleNodeClick)
-
-        // Add pin icons
-        const pins = svg
-            .append('g')
-            .selectAll('text')
-            .data(graphData.nodes)
-            .enter()
-            .append('text')
-            .attr(
-                'x',
-                (d) => (d.id === userId ? RADIUS_CURRENT : RADIUS_FRIEND) / 4
-            )
-            .attr(
-                'y',
-                (d) => (d.id === userId ? RADIUS_CURRENT : RADIUS_FRIEND) / 4
-            )
-            .attr('class', 'pin-icon')
-            .text('\u{1F4CC}') // Unicode for pushpin
-            .attr('font-size', 12)
-            .attr('cursor', 'pointer')
-            .on('click', (event, d) =>
-                handlePinClick(event, d, svg, width, height)
-            )
 
         const nodeImages = svg
             .append('g')
@@ -167,7 +127,6 @@ const NetworkGraph = () => {
             .attr('height', (d) =>
                 d.id === userId ? RADIUS_CURRENT * 2 : RADIUS_FRIEND * 2
             )
-            .attr('cursor', 'pointer')
             .attr(
                 'clip-path',
                 (d) =>
@@ -210,14 +169,6 @@ const NetworkGraph = () => {
                 )
 
             nodeLabels.attr('x', (d) => d.x + 15).attr('y', (d) => d.y)
-
-            pins.attr(
-                'x',
-                (d) => d.x + (d.id === userId ? RADIUS_CURRENT : RADIUS_FRIEND)
-            ).attr(
-                'y',
-                (d) => d.y - (d.id === userId ? RADIUS_CURRENT : RADIUS_FRIEND)
-            )
         }
 
         function handleMouseOver(event, d) {
@@ -232,8 +183,6 @@ const NetworkGraph = () => {
 
         function handleNodeClick(event, d) {
             setSelectedUser(d)
-            setIsFriend(friendIds.includes(d.id))
-
             link.attr('stroke', (l) =>
                 l.source.id === d.id || l.target.id === d.id
                     ? '#fc0303'
@@ -264,61 +213,6 @@ const NetworkGraph = () => {
                 .on('start', dragStarted)
                 .on('drag', dragged)
                 .on('end', dragEnded)
-        }
-
-        // Handle pin click to show/hide cards
-        function handlePinClick(event, d, svg, width, height) {
-            const isPinned = d3.select(event.target).classed('pinned')
-            d3.select(event.target).classed('pinned', !isPinned)
-
-            if (isPinned) {
-                svg.selectAll(`.card-${d.id}`).remove()
-                svg.selectAll(`.line-${d.id}`).remove()
-            } else {
-                // Display 5-6 cards with lines
-                const cardsData = [
-                    `Birthday reminder: 5 days until ${d.name}'s birthday`,
-                    `${d.name}'s latest post: "Had a great day at the park!"`,
-                    `Shared memory: Remember when we went to the beach?`,
-                    `Friendship duration: 3 years`,
-                    `Messages this month: 42`,
-                ]
-
-                const angleStep = (2 * Math.PI) / cardsData.length
-                const radius = 200
-
-                cardsData.forEach((cardText, i) => {
-                    const angle = i * angleStep
-                    const cardX = d.x + radius * Math.cos(angle)
-                    const cardY = d.y + radius * Math.sin(angle)
-
-                    svg.append('line')
-                        .attr('class', `line-${d.id}`)
-                        .attr('x1', d.x)
-                        .attr('y1', d.y)
-                        .attr('x2', cardX)
-                        .attr('y2', cardY)
-                        .attr('stroke', '#000')
-                        .attr('stroke-width', 1)
-
-                    svg.append('foreignObject')
-                        .attr('class', `card-${d.id}`)
-                        .attr('x', cardX - 50)
-                        .attr('y', cardY - 50)
-                        .attr('width', radius)
-                        .attr('height', 150)
-                        .append('xhtml:div')
-                        .style('border', '1px solid #000')
-                        .style('background', '#fff')
-                        .style('padding', '10px')
-                        .style('border-radius', '8px')
-                        .style('box-shadow', '0 0 5px rgba(0,0,0,0.3)')
-                        .style('overflow', 'auto') // Make the card scrollable
-                        .style('max-height', '100px') // Set max height for the card
-                        .style('font-size', '10px') // Make text smaller
-                        .html(`<p>${cardText}</p>`)
-                })
-            }
         }
 
         return () => {
@@ -416,21 +310,12 @@ const NetworkGraph = () => {
                     </div>
                 </div>
 
-                <div
-                    style={{
-                        width: '100%',
-                        height: '600px',
-                        overflow: 'auto',
-                        // #eb4034
-                    }}
-                >
-                    <svg ref={d3Container} width="2000" height="2000"></svg>
-                </div>
+                <svg ref={d3Container} className="flex-grow" />
             </div>
 
             <div className="w-[30%] h-full ">
                 {selectedUser && (
-                    <div className="relative p-4 bg-white border right-0 border-gray-300 ">
+                    <div className=" p-4 bg-white border right-0 border-gray-300 ">
                         <button
                             className="absolute top-2 right-2 text-xl font-bold"
                             onClick={() => setSelectedUser(null)}
@@ -453,11 +338,6 @@ const NetworkGraph = () => {
                                 </div>
                             </div>
                         </NavLink>
-                        {/* {isFriend && (
-                            <div className="mr-4 pb-10 flex justify-center items-center">
-                                <BiSolidUserCheck size={22} color="#0d941b" />
-                            </div>
-                        )} */}
                         <div className="flex flex-col text-[12px]">
                             <div class="grid grid-cols-5 gap-4">
                                 <div class="col-span-1 text-left font-bold">
