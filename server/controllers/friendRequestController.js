@@ -36,8 +36,8 @@ export const createFriendRequest = async (req, res) => {
             res.status(404).json({ error: 'No such receiver exists' })
         }
         const request = await FriendRequestModel.create({
-            sender: req.user._id,
-            receiver: receiverId,
+            senderId: req.user._id,
+            receiverId: receiverId,
         })
 
         res.status(201).json(request)

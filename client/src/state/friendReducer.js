@@ -14,20 +14,29 @@ export const friendSlice = createSlice({
         setFriendIds: (state, action) => {
             state.friendIds = action.payload
         },
-        setSentRequest: (state, action) => {
+        setSentRequests: (state, action) => {
             state.sentRequests = action.payload
+        },
+        setReceivedRequesets: (state, action) => {
+            state.receivedRequests = action.payload
         },
         setProfileViewing: (state, action) => {
             state.profileViewing = action.payload
         },
         friendReset: (state) => {
             state.friendIds = []
-            state.friendRequests = []
+            state.sentRequests = []
+            state.receivedRequests = []
             state.profileViewing = null
         },
     },
 })
 
-export const { setFriendIds, setSentRequest, setProfileViewing, friendReset } =
-    friendSlice.actions
+export const {
+    setFriendIds,
+    setSentRequests,
+    setReceivedRequesets,
+    setProfileViewing,
+    friendReset,
+} = friendSlice.actions
 export default friendSlice.reducer

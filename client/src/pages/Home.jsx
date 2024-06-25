@@ -66,7 +66,7 @@ const Home = () => {
 		if (user) {
 			fetchGroups()
 		}
-	}, [groups, user])
+	}, [user])
 
     return (
         <div>
