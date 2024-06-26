@@ -201,9 +201,9 @@ const Notification = () => {
                                     </Link>
                                 )
                             })}
-                        {receivedRequests.map((request, id) => {
+                        {/* {receivedRequests.map((request, id) => {
                             return <div key={id}>id</div>
-                        })}
+                        })} */}
                     </DropdownMenuGroup>
                 </DropdownMenuContent>
             </DropdownMenu>
