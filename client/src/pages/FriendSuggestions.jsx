@@ -94,7 +94,6 @@ const SuggestionItem = ({ user, token }) => {
             if (!res.ok) {
                 throw new Error(json.error)
             } else {
-                console.log('SEND SUCCESSFULLY')
                 setIsRequestSent(!isRequestSent)
                 socket.emit('new friend request', json)
                 dispatch(setSentRequests([...sentRequests, json]))
