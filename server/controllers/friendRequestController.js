@@ -31,14 +31,18 @@ export const getSentRequests = async (req, res) => {
 export const createFriendRequest = async (req, res) => {
     try {
         const { receiverId } = req.params
-        const receiver = await UserModel.findById(receiverId)
-        if (!receiver) {
+        const receiverObj = await UserModel.findById(receiverId)
+        if (!receiverObj) {
             res.status(404).json({ error: 'No such receiver exists' })
         }
-        const request = await FriendRequestModel.create({
-            senderId: req.user._id,
-            receiverId: receiverId,
+        const newRequest = await FriendRequestModel.create({
+            sender: req.user._id,
+            receiver: receiverId,
         })
+
+        const request = await FriendRequestModel.findOne({
+            _id: newRequest._id,
+        }).populate('sender', 'name profilePicture')
 
         res.status(201).json(request)
     } catch (err) {

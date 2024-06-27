@@ -17,7 +17,7 @@ export const friendSlice = createSlice({
         setSentRequests: (state, action) => {
             state.sentRequests = action.payload
         },
-        setReceivedRequesets: (state, action) => {
+        setReceivedRequests: (state, action) => {
             state.receivedRequests = action.payload
         },
         setProfileViewing: (state, action) => {
@@ -35,7 +35,7 @@ export const friendSlice = createSlice({
 export const {
     setFriendIds,
     setSentRequests,
-    setReceivedRequesets,
+    setReceivedRequests,
     setProfileViewing,
     friendReset,
 } = friendSlice.actions

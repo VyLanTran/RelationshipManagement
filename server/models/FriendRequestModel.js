@@ -2,11 +2,11 @@ import mongoose from 'mongoose'
 
 const FriendRequestSchema = new mongoose.Schema(
     {
-        senderId: {
+        sender: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
         },
-        receiverId: {
+        receiver: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
         },

@@ -1,28 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import NavbarButton from './NavbarButton.tsx'
 import { HiUserGroup } from 'react-icons/hi'
 import { RiBookletFill } from 'react-icons/ri'
-import { FaBell } from 'react-icons/fa'
 import { FaCalendarAlt } from 'react-icons/fa'
 import { useLogout } from '../../hooks/useLogout.js'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { IoIosContacts } from 'react-icons/io'
 import { IoChatbubbleEllipses } from 'react-icons/io5'
 import { FaMap } from 'react-icons/fa'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 // import NotificationBadge from 'react-notification-badge'
 import { CgMenuGridO } from 'react-icons/cg'
 import { FiUserPlus } from 'react-icons/fi'
 import { RiUserReceived2Line } from 'react-icons/ri'
 import { GoGraph } from 'react-icons/go'
-import { Button } from '../ui/button.jsx'
 import logo from './logo.png'
-import io from 'socket.io-client'
-
-// import { Effect } from 'react-notification-badge'
-
-import { LogOut, Settings, User } from 'lucide-react'
-
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -32,7 +24,10 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
-import { setReceivedRequesets } from '../../state/friendReducer.js'
+// import { Effect } from 'react-notification-badge'
+
+import { LogOut, Settings, User } from 'lucide-react'
+import Notification from './Notification.jsx'
 
 const Navbar = () => {
     const navigate = useNavigate()
@@ -147,64 +142,6 @@ function DropdownSetting({ user, handleLogout }) {
                             <span>Log out</span>
                         </DropdownMenuItem>
                     </div>
-                </DropdownMenuContent>
-            </DropdownMenu>
-        </div>
-    )
-}
-
-const Notification = () => {
-    const unreadChats = useSelector((state) => state.chat.unreadChats)
-
-    const BASE_URL = process.env.REACT_APP_SERVER_BASE_URL
-    const currentUser = useSelector((state) => state.auth.user)
-    const [socketConnected, setSocketConnected] = useState(false)
-    const dispatch = useDispatch()
-    const receivedRequests = useSelector(
-        (state) => state.friend.receivedRequests
-    )
-
-    var socket
-
-    // set up
-    useEffect(() => {
-        socket = io(BASE_URL)
-        socket.emit('setup', currentUser)
-        socket.on('connected', () => setSocketConnected(true))
-    }, [])
-
-    useEffect(() => {
-        socket.on('friend request received', (friendRequest) => {
-            dispatch(setReceivedRequesets([...receivedRequests, friendRequest]))
-        })
-    }, [receivedRequests])
-
-    return (
-        <div className="cursor-pointer">
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <div>
-                        <FaBell size={21} />
-                    </div>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-[320px]">
-                    <DropdownMenuLabel>Notifications</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuGroup>
-                        {unreadChats &&
-                            unreadChats.map((chat) => {
-                                return (
-                                    <Link to="">
-                                        <DropdownMenuItem>
-                                            <span>{unreadChats.length}</span>
-                                        </DropdownMenuItem>
-                                    </Link>
-                                )
-                            })}
-                        {/* {receivedRequests.map((request, id) => {
-                            return <div key={id}>id</div>
-                        })} */}
-                    </DropdownMenuGroup>
                 </DropdownMenuContent>
             </DropdownMenu>
         </div>

@@ -155,7 +155,7 @@ io.on('connection', (socket) => {
     // -------------- FRIEND REQUESTS ----------------- //
     socket.on('new friend request', (friendRequest) => {
         socket
-            .in(friendRequest.receiverId)
+            .in(friendRequest.receiver)
             .emit('friend request received', friendRequest)
     })
 
