@@ -15,11 +15,13 @@ import {
 import authReducer, { setLogout } from './authReducer.js'
 import chatReducer, { chatReset } from './chatReducer.js'
 import friendReducer, { friendReset } from './friendReducer.js'
+import postReducer, { postReset } from './postReducer.js'
 
 const rootReducer = combineReducers({
     auth: authReducer,
     chat: chatReducer,
     friend: friendReducer,
+    post: postReducer,
 })
 
 const persistConfig = {
@@ -50,6 +52,7 @@ export const resetAllSlices = () => {
     store.dispatch(setLogout())
     store.dispatch(chatReset())
     store.dispatch(friendReset())
+    store.dispatch(postReset())
 }
 
 export const persistor = persistStore(store)

@@ -7,6 +7,7 @@ import {
     setReceivedRequests,
     setSentRequests,
 } from '../state/friendReducer'
+import { setPost } from '../state/postReducer'
 
 export const useLogin = () => {
     const [error, setError] = useState(null) // at the beginning, there is no error
@@ -51,6 +52,7 @@ export const useLogin = () => {
                 })
             )
             dispatch(setFriendIds(json.user.friendIds))
+            dispatch(setPost(json.user.posts))
             dispatch(setSentRequests(sentRequests))
             dispatch(setReceivedRequests(receivedRequests))
             setIsLoading(false)
