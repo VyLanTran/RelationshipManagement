@@ -33,7 +33,17 @@ const ConnectionGroup = ({connections, currGroup, setCurrGroup, checkRefresh, se
         }
     }, [])
 
-    const options = [{ value: "Everyone", label: "Everyone" }, ...groups.map(group => ({ value: group.name, label: group.name }))];
+    const handleGroupChange = async (currGroup) => {
+        await mapMarkers.forEach(marker => {
+            marker.map = null;
+        });
+        await setMapMarkers([])
+        await setConnections([])
+        await setCurrGroup(currGroup.value)
+        await setCheckRefresh(!checkRefresh)
+    }
+
+    const options = [{ value: "Everyone", label: "Everyone" }, ...groups.map(group => ({ value: group._id, label: group.name }))];
 
     return (
         <div className="bg-[#FCAF58] rounded-[20px] w-[50vh] h-[87vh] p-[2.5vh] m-[2vh]">
