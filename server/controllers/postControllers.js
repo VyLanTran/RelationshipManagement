@@ -128,3 +128,29 @@ export const deletePicture = async (req, res) => {
     res.status(500).json({message: error.message})
   }
 }
+
+export const addMembers = async (req, res) => {
+  try {
+    const postId = req.post._id
+    const userId = req.user._id
+
+    const post = await PostModel.findById(postId)
+    if(!post) return res.status(404)
+    
+    if(!post.memberIds.includes(userId)) {
+      return res.status(403).json({msg: 'You are not allowed to edit this post!'})
+    }
+
+    const newPost = await PostModel.findOneAndUpdate(
+      postId,
+      req.body,
+      {
+        new: true,
+        runValidators: true
+      }
+    )
+    return res.status(200).json({post: newPost})
+  } catch (error) {
+    res.status(500).json({message: error.message})
+  }
+}

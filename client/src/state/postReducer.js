@@ -1,8 +1,12 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 import BASE_URL from './.@/../../constants.js'
 
-export const fetchedPosts = createAsyncThunk('posts', async () => {
-    const response = await fetch(`${BASE_URL}/posts`)
+export const fetchedPosts = createAsyncThunk('posts', async (_, { getState }) => {
+    const token = getState().auth.token;
+    const response = await fetch(`${BASE_URL}/posts`, {
+        method: 'GET',
+        headers: { Authorization: `Bearer ${token}` },
+    })
     const data = await response.json()
     return data
 })
@@ -43,7 +47,7 @@ const postSlice = createSlice({
             })
             .addCase(fetchedPosts.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.items = action.payload;
+                state.items = action.payload.posts;
             })
             .addCase(fetchedPosts.rejected, (state, action) => {
                 state.status = 'failed';
