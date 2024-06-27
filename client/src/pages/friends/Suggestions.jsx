@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react'
-import BASE_URL from '@/../../constants.js'
 import { useDispatch, useSelector } from 'react-redux'
 import { FaUserPlus } from 'react-icons/fa'
-import { Separator } from '../components/ui/separator.jsx'
-import { setProfileViewing, setSentRequests } from '../state/friendReducer.js'
+import { Separator } from '../../components/ui/separator.jsx'
+import {
+    setProfileViewing,
+    setSentRequests,
+} from '../../state/friendReducer.js'
 import { FaUserMinus } from 'react-icons/fa'
 import { MdOutlineRemoveCircle } from 'react-icons/md'
 import io from 'socket.io-client'
 
 var socket
+const BASE_URL = process.env.REACT_APP_SERVER_BASE_URL
 
-const FriendSuggestions = () => {
-    const BASE_URL = process.env.REACT_APP_SERVER_BASE_URL
+const Suggestions = () => {
     const token = useSelector((state) => state.auth.token)
     const currentUser = useSelector((state) => state.auth.user)
 
@@ -28,6 +30,7 @@ const FriendSuggestions = () => {
 
     useEffect(() => {
         // For now, I will just fetch all nonFriends from the system, but should only suggest those within 2 degrees of connection
+        // TODO: send request to flaskAPI to get top suggestions
         const fetchSuggestions = async () => {
             const res = await fetch(`${BASE_URL}/users/nonFriends`, {
                 method: 'GET',
@@ -44,27 +47,31 @@ const FriendSuggestions = () => {
     }, [suggestions, token])
 
     return (
-        <div>
-            <div className=" w-full min-h-screen flex flex-row">
-                <div className="w-[30%] bg-white border-r border-gray-300">
-                    <div className=" px-4 border-b flex h-[60px] items-center">
-                        <span className="text-[16px] font-semibold mr-auto">
-                            People You May Know
-                        </span>
-                    </div>
-                    {suggestions.map((user) => (
-                        <SuggestionItem
-                            id={user._id}
-                            user={user}
-                            token={token}
-                        />
-                    ))}
-                </div>
+        // <div>
+        //     <div className=" w-full min-h-screen flex flex-row">
+        //         <div className="w-[30%] bg-white border-r border-gray-300">
+        //             <div className=" px-4 border-b flex h-[60px] items-center">
+        //                 <PageSelection />
+        //             </div>
+        //             {suggestions.map((user) => (
+        //                 <SuggestionItem
+        //                     id={user._id}
+        //                     user={user}
+        //                     token={token}
+        //                 />
+        //             ))}
+        //         </div>
 
-                <div className="w-[70%] bg-white">
-                    <ProfileViewing />
-                </div>
-            </div>
+        //         <div className="w-[70%] bg-white">
+        //             <ProfileViewing />
+        //         </div>
+        //     </div>
+        // </div>
+
+        <div>
+            {suggestions.map((user) => (
+                <SuggestionItem key={user._id} user={user} token={token} />
+            ))}
         </div>
     )
 }
@@ -177,16 +184,4 @@ const SuggestionItem = ({ user, token }) => {
     )
 }
 
-const ProfileViewing = () => {
-    const user = useSelector((state) => state.friend.profileViewing)
-
-    return user ? (
-        <div>
-            <span>{user.name}</span>
-        </div>
-    ) : (
-        <div>Choose a profile to view</div>
-    )
-}
-
-export default FriendSuggestions
+export default Suggestions

@@ -169,17 +169,17 @@ function Menu() {
                                 Friends
                             </span>
                         </div>
-                        <Link to="/requests">
+                        {/* <Link to="/requests">
                             <DropdownMenuItem>
                                 <RiUserReceived2Line className="mr-2 h-4 w-4" />
                                 <span>Requests</span>
                             </DropdownMenuItem>
-                        </Link>
+                        </Link> */}
 
-                        <Link to="/friendSuggestions">
-                            <DropdownMenuItem>
+                        <Link to="/friends">
+                            <DropdownMenuItem className="cursor-pointer hover:bg-[#fff6e0]">
                                 <FiUserPlus className="mr-2 h-4 w-4" />
-                                <span>Suggestions</span>
+                                <span>Friends</span>
                             </DropdownMenuItem>
                         </Link>
                     </DropdownMenuGroup>
@@ -192,7 +192,7 @@ function Menu() {
                             </span>
                         </div>
                         <Link to="/dashboard">
-                            <DropdownMenuItem>
+                            <DropdownMenuItem className="cursor-pointer hover:bg-[#fff6e0]">
                                 <GoGraph className="mr-2 h-4 w-4" />
                                 <span>Dashboard</span>
                             </DropdownMenuItem>
