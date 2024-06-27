@@ -2,7 +2,11 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { setLogin } from '../state/authReducer'
 import BASE_URL from '@/../../constants.js'
-import { setFriendIds } from '../state/friendReducer'
+import {
+    setFriendIds,
+    setReceivedRequests,
+    setSentRequests,
+} from '../state/friendReducer'
 import { setPost } from '../state/postReducer'
 
 export const useLogin = () => {
@@ -30,6 +34,17 @@ export const useLogin = () => {
             setError(json.error)
             throw new Error(json.error)
         } else {
+            const resSent = await fetch(`${BASE_URL}/requests/sent`, {
+                method: 'GET',
+                headers: { Authorization: `Bearer ${json.token}` },
+            })
+            const resReceived = await fetch(`${BASE_URL}/requests/received`, {
+                method: 'GET',
+                headers: { Authorization: `Bearer ${json.token}` },
+            })
+            const sentRequests = await resSent.json()
+            const receivedRequests = await resReceived.json()
+
             dispatch(
                 setLogin({
                     user: json.user,
@@ -38,7 +53,8 @@ export const useLogin = () => {
             )
             dispatch(setFriendIds(json.user.friendIds))
             dispatch(setPost(json.user.posts))
-
+            dispatch(setSentRequests(sentRequests))
+            dispatch(setReceivedRequests(receivedRequests))
             setIsLoading(false)
         }
     }

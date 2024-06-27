@@ -151,6 +151,11 @@ io.on('connection', (socket) => {
     })
 
     // -------------- FRIEND REQUESTS ----------------- //
+    socket.on('new friend request', (friendRequest) => {
+        socket
+            .in(friendRequest.receiver)
+            .emit('friend request received', friendRequest)
+    })
 
     socket.off('setup', () => {
         console.log('USER DISCONNECTED')

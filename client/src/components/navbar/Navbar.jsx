@@ -2,7 +2,6 @@ import React from 'react'
 import NavbarButton from './NavbarButton.tsx'
 import { HiUserGroup } from 'react-icons/hi'
 import { RiBookletFill } from 'react-icons/ri'
-import { FaBell } from 'react-icons/fa'
 import { FaCalendarAlt } from 'react-icons/fa'
 import { useLogout } from '../../hooks/useLogout.js'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
@@ -15,13 +14,7 @@ import { CgMenuGridO } from 'react-icons/cg'
 import { FiUserPlus } from 'react-icons/fi'
 import { RiUserReceived2Line } from 'react-icons/ri'
 import { GoGraph } from 'react-icons/go'
-import { Button } from '../ui/button.jsx'
 import logo from './logo.png'
-
-// import { Effect } from 'react-notification-badge'
-
-import { LogOut, Settings, User } from 'lucide-react'
-
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -31,6 +24,10 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
+// import { Effect } from 'react-notification-badge'
+
+import { LogOut, Settings, User } from 'lucide-react'
+import Notification from './Notification.jsx'
 
 const Navbar = () => {
     const navigate = useNavigate()
@@ -145,38 +142,6 @@ function DropdownSetting({ user, handleLogout }) {
                             <span>Log out</span>
                         </DropdownMenuItem>
                     </div>
-                </DropdownMenuContent>
-            </DropdownMenu>
-        </div>
-    )
-}
-
-function Notification() {
-    const unreadChats = useSelector((state) => state.chat.unreadChats)
-
-    return (
-        <div className="cursor-pointer">
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <div>
-                        <FaBell size={21} />
-                    </div>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-[320px]">
-                    <DropdownMenuLabel>Notifications</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuGroup>
-                        {unreadChats &&
-                            unreadChats.map((chat) => {
-                                return (
-                                    <Link to="">
-                                        <DropdownMenuItem>
-                                            <span>{unreadChats.length}</span>
-                                        </DropdownMenuItem>
-                                    </Link>
-                                )
-                            })}
-                    </DropdownMenuGroup>
                 </DropdownMenuContent>
             </DropdownMenu>
         </div>

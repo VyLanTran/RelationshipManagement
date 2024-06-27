@@ -29,7 +29,6 @@ const FriendSuggestions = () => {
         }
 
         fetchSuggestions()
-        // console.log(suggestions)
     }, [suggestions, token])
 
     return (
