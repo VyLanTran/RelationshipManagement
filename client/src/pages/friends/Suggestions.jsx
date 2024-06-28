@@ -112,28 +112,6 @@ const SuggestionItem = ({ user, token }) => {
         }
     }
 
-    const cancelRequest = async (e) => {
-        e.preventDefault()
-        try {
-            const res = await fetch(`${BASE_URL}/requests/${user._id}`, {
-                method: 'DELETE',
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                },
-            })
-            const json = await res.json()
-
-            if (!res.ok) {
-                throw new Error(json.error)
-            } else {
-                setIsRequestSent(!isRequestSent)
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
     return (
         <div
             className={`px-4  ${profileViewing && user._id === profileViewing._id && 'bg-gray-100'}`}
@@ -159,26 +137,12 @@ const SuggestionItem = ({ user, token }) => {
                     </div>
                 </div>
                 <div className="text-[11px] flex flex-row gap-4 ml-auto items-center">
-                    {!isRequestSent ? (
-                        <div
-                            className="text-[#eda705] cursor-pointer"
-                            onClick={sendRequest}
-                        >
-                            <FaUserPlus size={20} />
-                        </div>
-                    ) : (
-                        <div
-                            className="bg-[#fae1a7] py-1 px-2 flex flex-row gap-2 items-center w-[110px]"
-                            onClick={cancelRequest}
-                        >
-                            <FaUserMinus />
-                            <button>Cancel request</button>
-                        </div>
-                    )}
-
-                    {/* <div className=" cursor-pointer">
-                        <MdOutlineRemoveCircle size={20} color="#eb4034" />
-                    </div> */}
+                    <div
+                        className="text-[#eda705] cursor-pointer"
+                        onClick={sendRequest}
+                    >
+                        <FaUserPlus size={20} />
+                    </div>
                 </div>
             </div>
             <Separator className="" />

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Separator } from '../../components/ui/separator.jsx'
 import { FaCircleCheck } from 'react-icons/fa6'
 import { motion, useAnimation } from 'framer-motion'
+import { TiDelete } from 'react-icons/ti'
 
 const BASE_URL = process.env.REACT_APP_SERVER_BASE_URL
 
@@ -42,6 +43,9 @@ const ReceivedRequests = () => {
                     onAccept={() => {
                         handleRemoveRequest(request._id)
                     }}
+                    onDecline={() => {
+                        handleRemoveRequest(request._id)
+                    }}
                 />
             ))}
         </div>
@@ -50,21 +54,14 @@ const ReceivedRequests = () => {
 
 export default ReceivedRequests
 
-const Item = ({ user, token, onAccept }) => {
+const Item = ({ user, token, onAccept, onDecline }) => {
     const dispatch = useDispatch()
     const profileViewing = useSelector((state) => state.friend.profileViewing)
     const [isRequestSent, setIsRequestSent] = useState(false)
     const sentRequests = useSelector((state) => state.friend.sentRequests)
     const controls = useAnimation()
 
-    // console.log(user._id)
-
-    // const handleClick = () => {
-    //     dispatch(setProfileViewing(user))
-    // }
-
-    const acceptRequest = async (e) => {
-        // e.preventDefault()
+    const acceptRequest = async () => {
         try {
             const res = await fetch(`${BASE_URL}/requests/accept/${user._id}`, {
                 method: 'POST',
@@ -78,27 +75,27 @@ const Item = ({ user, token, onAccept }) => {
         }
     }
 
-    // const cancelRequest = async (e) => {
-    //     e.preventDefault()
-    //     try {
-    //         const res = await fetch(`${BASE_URL}/requests/${user._id}`, {
-    //             method: 'DELETE',
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`,
-    //                 'Content-Type': 'application/json',
-    //             },
-    //         })
-    //         const json = await res.json()
+    const declineRequest = async () => {
+        try {
+            const res = await fetch(
+                `${BASE_URL}/requests/decline/${user._id}`,
+                {
+                    method: 'DELETE',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+            const json = await res.json()
 
-    //         if (!res.ok) {
-    //             throw new Error(json.error)
-    //         } else {
-    //             setIsRequestSent(!isRequestSent)
-    //         }
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
+            if (!res.ok) {
+                throw new Error(json.error)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const handleAccept = () => {
         const startElement = document.getElementById(`request-${user._id}`)
@@ -117,6 +114,10 @@ const Item = ({ user, token, onAccept }) => {
         setTimeout(() => onAccept(user), 1500)
     }
 
+    const handleDecline = () => {
+        setTimeout(() => onDecline(user), 500)
+    }
+
     return (
         <div
             className={`px-4 ${profileViewing && user._id === profileViewing._id && 'bg-gray-100'}`}
@@ -124,7 +125,6 @@ const Item = ({ user, token, onAccept }) => {
             <div className="flex flex-row h-[80px] items-center">
                 <div
                     id={`request-${user._id}`}
-                    // animate={controls}
                     className="flex flex-row gap-4 items-center"
                 >
                     <motion.div animate={controls}>
@@ -135,15 +135,12 @@ const Item = ({ user, token, onAccept }) => {
                         />
                     </motion.div>
                     <div className="flex flex-col items-start">
-                        <span
-                            className="text-[14px]  cursor-pointer"
-                            // onClick={handleClick}
-                        >
+                        <span className="text-[14px]  cursor-pointer">
                             {user.name}
                         </span>
                     </div>
                 </div>
-                <div className="text-[11px] flex ml-auto items-center">
+                <div className="text-[11px] flex gap-2 ml-auto items-center p-0">
                     <div
                         className=" cursor-pointer"
                         onClick={() => {
@@ -151,7 +148,16 @@ const Item = ({ user, token, onAccept }) => {
                             acceptRequest()
                         }}
                     >
-                        <FaCircleCheck size={20} color="#FFB302" />
+                        <FaCircleCheck size={20} color="#0cba06" />
+                    </div>
+                    <div
+                        className=" cursor-pointer"
+                        onClick={() => {
+                            handleDecline()
+                            declineRequest()
+                        }}
+                    >
+                        <TiDelete size={30} color="#eb4034" />
                     </div>
                 </div>
             </div>

@@ -4,6 +4,12 @@ import Suggestions from './Suggestions.jsx'
 import { useEffect, useRef, useState } from 'react'
 import ReceivedRequests from './ReceivedRequests.jsx'
 import SentRequests from './SentRequests.jsx'
+import {
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from '../../components/ui/tooltip.jsx'
+import { Tooltip } from '@radix-ui/react-tooltip'
 
 const BASE_URL = process.env.REACT_APP_SERVER_BASE_URL
 
@@ -40,7 +46,7 @@ const Friends = () => {
                     <ProfileViewing />
                 </div>
                 <div ref={rightSidebarRef} className="w-[25%] bg-white">
-                    <List />
+                    <BondList />
                 </div>
             </div>
         </div>
@@ -61,7 +67,7 @@ const ProfileViewing = () => {
     )
 }
 
-const List = () => {
+const BondList = () => {
     const token = useSelector((state) => state.auth.token)
     const currentUser = useSelector((state) => state.auth.user)
 
@@ -92,11 +98,20 @@ const List = () => {
             <div id="friend-list" className="flex flex-wrap p-2">
                 {friends.map((friend) => (
                     <div key={friend._id} className="w-[25%] p-1">
-                        <img
-                            src={friend.profilePicture?.url}
-                            alt={friend.name}
-                            className="w-[50px] h-auto rounded-full"
-                        />
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <img
+                                        src={friend.profilePicture?.url}
+                                        alt={friend.name}
+                                        className="w-[50px] h-auto rounded-full cursor-pointer"
+                                    />
+                                </TooltipTrigger>
+                                <TooltipContent className="bg-gray-200 text-black">
+                                    <p>{friend.name}</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
                     </div>
                 ))}
             </div>

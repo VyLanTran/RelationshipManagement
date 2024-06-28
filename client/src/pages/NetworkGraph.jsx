@@ -52,6 +52,7 @@ const NetworkGraph = () => {
     //     fetchRecommendations()
     // }, [recommendations])
 
+    // TODO: script to update neo4j database + update network graph
     useEffect(() => {
         const width = 1000
         const height = 1000
