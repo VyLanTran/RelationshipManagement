@@ -20,23 +20,22 @@ export const getAllPossibleSuggestions = async (req, res) => {
             sender: req.user._id,
         }).populate('receiver', 'name profilePicture')
 
-        const sentRequestReceiverIds = new Set(
-            sentRequests.map((req) => req.receiver._id)
+        const sentSet = new Set(
+            sentRequests.map((req) => req.receiver._id.toString())
         )
-        const receivedRequestSenderIds = new Set(
-            receivedRequests.map((req) => req.sender._id)
+        const receivedSet = new Set(
+            receivedRequests.map((req) => req.sender._id.toString())
         )
 
-        // Filter nonFriends to exclude those in sent requests
+        const sentArray = Array.from(sentSet)
+        const receivedArray = Array.from(receivedSet)
+
+        // Filter nonFriends to exclude those in sent requests or received requests
         let allSuggestions = nonFriends.filter(
-            (nonFriend) => !sentRequestReceiverIds.has(nonFriend._id)
+            (nonFriend) =>
+                !sentArray.includes(nonFriend._id.toString()) &&
+                !receivedArray.includes(nonFriend._id.toString())
         )
-
-        // Add 'pending' field to each suggestion
-        allSuggestions = allSuggestions.map((suggestion) => ({
-            ...suggestion.toObject(),
-            pending: receivedRequestSenderIds.has(suggestion._id.toString()),
-        }))
 
         res.status(201).json(allSuggestions)
     } catch (error) {
@@ -92,13 +91,33 @@ export const createFriendRequest = async (req, res) => {
     }
 }
 
-export const deleteFriendRequest = async (req, res) => {
+export const unsendFriendRequest = async (req, res) => {
     try {
         const { receiverId } = req.params
 
         const request = await FriendRequestModel.findOneAndDelete({
             sender: req.user._id,
             receiver: receiverId,
+        })
+
+        if (!request) {
+            return res
+                .status(404)
+                .json({ error: 'No such friend request exists' })
+        }
+        res.status(201).json(request)
+    } catch (err) {
+        res.status(404).json({ error: err.message })
+    }
+}
+
+export const declineFriendRequest = async (req, res) => {
+    try {
+        const { senderId } = req.params
+
+        const request = await FriendRequestModel.findOneAndDelete({
+            receiver: req.user._id,
+            sender: senderId,
         })
 
         if (!request) {
@@ -126,13 +145,6 @@ export const acceptFriendRequest = async (req, res) => {
                 .status(404)
                 .json({ error: 'No such friend request exists' })
         }
-
-        // Check if the current user is the receiver of the request
-        // if (String(req.user._id) !== String(request.receiver)) {
-        //     return res.status(403).json({
-        //         error: 'You are not authorized to accept this request',
-        //     })
-        // }
 
         const sender = await UserModel.findById(request.sender)
         const receiver = await UserModel.findById(request.receiver)
@@ -170,15 +182,16 @@ export const acceptFriendRequest = async (req, res) => {
             request._id
         )
 
-        res.status(200).json(
-            //     {
-            //     senderId: request.sender,
-            //     receiverId: request.receiver,
-            // }
-            deletedRequest
-            // sender
-        )
+        res.status(200).json(deletedRequest)
     } catch (err) {
         res.status(404).json({ error: err.message })
     }
 }
+
+// const unfriend
+//  // Create a new friendship
+// await FriendshipModel.create({
+//     user1: request.sender,
+//     user2: request.receiver,
+//     establishedAt: new Date(),
+// })

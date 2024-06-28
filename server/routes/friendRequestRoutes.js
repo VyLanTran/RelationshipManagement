@@ -4,10 +4,11 @@ import { verifyAuth } from '../middleware/auth.js'
 import {
     acceptFriendRequest,
     createFriendRequest,
-    deleteFriendRequest,
+    declineFriendRequest,
     getAllPossibleSuggestions,
     getReceivedRequests,
     getSentRequests,
+    unsendFriendRequest,
 } from '../controllers/friendRequestController.js'
 
 const router = express.Router()
@@ -19,6 +20,7 @@ router.get('/sent', getSentRequests)
 router.get('/received', getReceivedRequests)
 router.post('/accept/:senderId', acceptFriendRequest)
 router.post('/:receiverId', createFriendRequest)
-router.delete('/:receiverId', deleteFriendRequest)
+router.delete('/unsend/:receiverId', unsendFriendRequest)
+router.delete('/decline/:senderId', declineFriendRequest)
 
 export default router
