@@ -14,6 +14,7 @@ const MessageSchema = mongoose.Schema(
         ],
         content: {
             type: String,
+            default: '',
             trim: true, // trim the redundant spaces at the beginning and end of message
         },
         // TODO: attachment and images

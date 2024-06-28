@@ -10,10 +10,10 @@ import MessageItem from './MessageItem'
 import { useEffect, useState } from 'react'
 import io from 'socket.io-client'
 import { Card } from '../ui/card'
-import BASE_URL from '@/../../constants.js'
 import { setUnreadChats } from '../../state/chatReducer.js'
 import { ReactComponent as NoDataSvg } from '../dashboard/no_data.svg'
 
+const BASE_URL = process.env.REACT_APP_SERVER_BASE_URL
 const ENDPOINT = `${BASE_URL}`
 var socket, currentChatCompare
 
@@ -207,7 +207,7 @@ const CurrentChat = () => {
                         ) : (
                             <div>
                                 {messages.map((message, index) => (
-                                    <div id={message._id} className="w-full">
+                                    <div key={message._id} className="w-full">
                                         <MessageItem
                                             index={index}
                                             user={message.sender}

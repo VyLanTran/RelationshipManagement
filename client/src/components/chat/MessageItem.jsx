@@ -4,6 +4,7 @@ import { Tooltip } from '../ui/tooltip'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 
 const MessageItem = ({ index, user, message, messages }) => {
+    // console.log()
     const currentUser = useSelector((state) => state.auth.user)
 
     const isMyMessage = (user) => {
@@ -31,7 +32,7 @@ const MessageItem = ({ index, user, message, messages }) => {
         )
     }
 
-    return (
+    return messages && message ? (
         <div
             className={`flex justify-start items-center
         ${isSameSender(index, message, messages) ? 'mt-0.5' : 'mt-8'}
@@ -74,6 +75,8 @@ const MessageItem = ({ index, user, message, messages }) => {
                 </div>
             </div>
         </div>
+    ) : (
+        <div></div>
     )
 }
 

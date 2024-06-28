@@ -31,9 +31,9 @@ const generate = () => {
 
         // UNCOMMENT TO GENERATE FAKE CHATS AND MESSAGES
         // TODO: Change GROUP_SIZE_RATIO when numUsers get larger
-        const numChats = 20
-        const privateChatRatio = 0.7
-        const numMessages = 25
+        const numChats = 30
+        const privateChatRatio = 0.5
+        const numMessages = 20
         await generateRandomChatsAndMessages(
             numChats,
             privateChatRatio,

@@ -8,9 +8,9 @@ export const getAllMessagesInChat = async (req, res) => {
     try {
         const { chatId } = req.params
         const messages = await MessageModel.find({ chat: chatId })
-            // populate the sender with name, profilePicture
             .populate('sender', 'name profilePicture')
             .populate('chat')
+            .select('sender receiver content chat') // Explicitly selecting fields
 
         res.status(201).json(messages)
     } catch (err) {
