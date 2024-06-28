@@ -32,7 +32,7 @@ const Suggestions = () => {
         // For now, I will just fetch all nonFriends from the system, but should only suggest those within 2 degrees of connection
         // TODO: send request to flaskAPI to get top suggestions
         const fetchSuggestions = async () => {
-            const res = await fetch(`${BASE_URL}/users/nonFriends`, {
+            const res = await fetch(`${BASE_URL}/requests/allSuggestions`, {
                 method: 'GET',
                 headers: { Authorization: `Bearer ${token}` },
             })
@@ -75,6 +75,8 @@ const Suggestions = () => {
         </div>
     )
 }
+
+export default Suggestions
 
 const SuggestionItem = ({ user, token }) => {
     const dispatch = useDispatch()
@@ -174,14 +176,12 @@ const SuggestionItem = ({ user, token }) => {
                         </div>
                     )}
 
-                    <div className=" cursor-pointer">
+                    {/* <div className=" cursor-pointer">
                         <MdOutlineRemoveCircle size={20} color="#eb4034" />
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <Separator className="" />
         </div>
     )
 }
-
-export default Suggestions
