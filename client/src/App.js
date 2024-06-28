@@ -16,7 +16,7 @@ import GroupProfile from './pages/GroupProfile.jsx'
 import Chat from './pages/Chat.jsx'
 import Diary from './pages/Diary.jsx'
 import Event from './pages/Event.jsx'
-import FriendSuggestions from './pages/FriendSuggestions.jsx'
+import Friends from './pages/friends/Friends.jsx'
 import Layout from './components/layout/Layout.jsx'
 import Dashboard from './pages/dashboard/Dashboard.jsx'
 import DashboardLayout from './components/dashboard/DashboardLayout.jsx'
@@ -118,11 +118,7 @@ function App() {
                         <Route exact path="/chats" element={<Chat />} />
                         <Route exact path="/diary" element={<Diary />} />
                         <Route exact path="/events" element={<Event />} />
-                        <Route
-                            exact
-                            path="/friendSuggestions"
-                            element={<FriendSuggestions />}
-                        />
+                        <Route exact path="/friends" element={<Friends />} />
                         <Route exact path="/posts" element={<Posts />} />
                         <Route element={<DashboardLayout />}>
                             <Route

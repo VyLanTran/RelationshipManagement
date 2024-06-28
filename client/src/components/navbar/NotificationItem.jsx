@@ -7,7 +7,7 @@ const NotificationItem = ({ type = 'OTHER', data, isRead, onToggleRead }) => {
             {type === 'FRIEND_REQUEST' && (
                 <Card
                     className={`w-full flex flex-row py-3 px-2 gap-4 border-none shadow-none cursor-pointer rounded-none
-                ${!isRead && 'bg-[#fcefcf]'}`}
+                ${!isRead && 'bg-[#fff6e0]'}`}
                 >
                     <div className="w-10 h-10 ">
                         <img
