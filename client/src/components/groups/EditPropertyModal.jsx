@@ -33,6 +33,8 @@ export function EditPropertyModal({ children, groupId, checkRefresh, setCheckRef
                 authHeader
             )
             setCheckRefresh(!checkRefresh);
+            setLabel(init_label);
+            setContent(description);
         } catch (error) {
             console.log(error)
         }
@@ -51,22 +53,24 @@ export function EditPropertyModal({ children, groupId, checkRefresh, setCheckRef
                     <div className="mt-[20px]">
                         <p className="font-bold">Label</p>
                         <input
-                        onChange={(e) => setLabel(e.target.value)}
-                        type="text"
-                        name="name"
-                        value={init_label}
-                        className="bg-gray-50 border border-gray-300 text-sm rounded-sm  w-[400px] p-2.5 focus:outline-none"
-                        placeholder="What is it about?"/>
+                            onChange={(e) => setLabel(e.target.value)}
+                            type="text"
+                            name="name"
+                            value={label}
+                            className="bg-gray-50 border border-gray-300 text-sm rounded-sm  w-[400px] p-2.5 focus:outline-none"
+                            placeholder="What is it about?"
+                        />
                     </div>
                     <div className="mt-[20px]">
                         <p className="font-bold">Something interesting!</p>
                         <textarea
-                        onChange={(e) => setContent(e.target.value)}
-                        type="text"
-                        value={description}
-                        name="subejct"
-                        className="bg-gray-50 border border-gray-300 text-sm rounded-sm  w-[400px] p-2.5 focus:outline-none"
-                        placeholder="Something fun!"/>
+                            onChange={(e) => setContent(e.target.value)}
+                            type="text"
+                            value={content}
+                            name="subejct"
+                            className="bg-gray-50 border border-gray-300 text-sm rounded-sm  w-[400px] p-2.5 focus:outline-none"
+                            placeholder="Something fun!"
+                        />
                     </div>
                 </form>
                 <DialogFooter>

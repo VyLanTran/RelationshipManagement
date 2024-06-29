@@ -1,5 +1,5 @@
 import React from 'react'
-import NavbarButton from './NavbarButton.tsx'
+import NavbarButton from './NavbarButton.jsx'
 import { HiUserGroup } from 'react-icons/hi'
 import { RiBookletFill } from 'react-icons/ri'
 import { FaCalendarAlt } from 'react-icons/fa'
@@ -49,41 +49,19 @@ const Navbar = () => {
                 <img className="h-[36px]" src={logo} alt="Logo" />
                 <div className="text-[26px] app-name">Bondscape</div>
             </div>
-            <div className="flex flex-row gap-4 items-center">
+            <div className="flex flex-row gap-4 items-center mb-[-1vh]">
                 {/* TODO: use tooltips for these buttons */}
-                <Menu />
-                <NavbarButton
-                    icon={<RiBookletFill size={21} />}
-                    name="Diary"
-                    url="/diary"
-                />
 
                 <NavbarButton
-                    icon={<HiUserGroup size={21} />}
+                    icon={<HiUserGroup size={22} />}
                     name="Groups"
                     url="/groups"
-                />
-
-                <NavbarButton
-                    icon={<FaMap size={21} />}
-                    name="Map"
-                    url="/map"
-                />
-                <NavbarButton
-                    icon={<FaCalendarAlt size={21} />}
-                    name="Event"
-                    url="/events"
-                />
-                <NavbarButton
-                    icon={<IoIosContacts size={26} />}
-                    name="Connection"
-                    url={`/connection/${user._id}`}
                 />
 
                 <NavLink
                     to="/chats"
                     title="Chats"
-                    className="relative inline-block"
+                    className="relative inline-block cursor-pointer group h-[4vh] w-[4vh] flex flex-col items-center justify-center"
                 >
                     <div>
                         <IoChatbubbleEllipses size={24} />
@@ -94,9 +72,29 @@ const Navbar = () => {
                             />
                         </div> */}
                     </div>
+                    <span className="mt-[3px] left-0 w-0 transition-all duration-150 h-[3px] bg-indigo-600 group-hover:w-full"></span>
                 </NavLink>
 
+                <NavbarButton
+                    icon={<FaMap size={22} />}
+                    name="Map"
+                    url="/map"
+                />
+
+                <NavbarButton
+                    icon={<RiBookletFill size={22} />}
+                    name="Diary"
+                    url="/diary"
+                />
+
+                <NavbarButton
+                    icon={<FaCalendarAlt size={22} />}
+                    name="Event"
+                    url="/events"
+                />
+
                 <Notification />
+                <Menu user={user} />
                 <DropdownSetting user={user} handleLogout={handleLogout} />
             </div>
         </div>
@@ -148,9 +146,9 @@ function DropdownSetting({ user, handleLogout }) {
     )
 }
 
-function Menu() {
+function Menu({ user }) {
     return (
-        <div className="cursor-pointer">
+        <div className="cursor-pointer group h-[4vh] w-[4vh] flex flex-col items-center justify-center">
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <div>
@@ -188,6 +186,21 @@ function Menu() {
                     <DropdownMenuGroup>
                         <div className="flex p-2">
                             <span className="mr-auto text-[16px] font-semibold">
+                                Off-Bond Connections
+                            </span>
+                        </div>
+                        <Link to={`/connection/${user._id}`}>
+                            <DropdownMenuItem className="cursor-pointer hover:bg-[#fff6e0]">
+                                <IoIosContacts className="mr-1 h-5 w-5" />
+                                <span>Connections</span>
+                            </DropdownMenuItem>
+                        </Link>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
+
+                    <DropdownMenuGroup>
+                        <div className="flex p-2">
+                            <span className="mr-auto text-[16px] font-semibold">
                                 Data
                             </span>
                         </div>
@@ -201,6 +214,7 @@ function Menu() {
                     <DropdownMenuSeparator />
                 </DropdownMenuContent>
             </DropdownMenu>
+            <span className="mt-[3px] left-0 w-0 transition-all duration-150 h-0.5 bg-indigo-600 group-hover:w-full"></span>
         </div>
     )
 }

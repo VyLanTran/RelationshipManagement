@@ -108,7 +108,7 @@ const Notification = () => {
     }
 
     return (
-        <div className="cursor-pointer">
+        <div className="cursor-pointer group h-[4vh] w-[4vh] flex flex-col items-center justify-center">
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <div>
@@ -163,6 +163,7 @@ const Notification = () => {
                     </DropdownMenuGroup>
                 </DropdownMenuContent>
             </DropdownMenu>
+            <span className="mt-[3px] left-0 w-0 transition-all duration-150 h-[3px] bg-indigo-600 group-hover:w-full"></span>
         </div>
     )
 }
