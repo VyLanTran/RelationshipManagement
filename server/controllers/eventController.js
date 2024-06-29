@@ -1,4 +1,12 @@
 import Event from "../models/EventModel.js";
+import { google } from 'googleapis';
+import { OAuth2Client } from 'google-auth-library';
+
+const oauth2Client = new OAuth2Client(
+    process.env.GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET,
+    process.env.CLIENT_BASE_URL,
+);
 
 export const addEvent = async (req, res) => {
     try {
@@ -53,5 +61,36 @@ export const editEvent = async (req, res) => {
 	res.status(201).json(event);
     } catch (err) {
         res.status(404).json({ error: err.message });
+    }
+};
+
+export const createEventWithGoogle = async (req, res) => {
+    try {
+        const event = req.body.event;
+        const token = req.body.token;
+        console.log("token:",token)
+        oauth2Client.setCredentials({ refresh_token: token });
+        const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+        const eventT = {
+            summary: event.content,
+            description: event.content,
+            start: {
+                dateTime: new Date(event.startDate).toISOString(),
+                timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            },
+            end: {
+                dateTime: new Date(event.endDate).toISOString(),
+                timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            },
+        };
+        const response = await calendar.events.insert({
+            auth: oauth2Client,
+            calendarId: 'primary',
+            resource: eventT,
+        });
+        res.status(200).json(response);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: error.message });
     }
 };

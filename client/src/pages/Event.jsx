@@ -20,6 +20,7 @@ import { format } from "date-fns"
 import { cn } from "../lib/utils"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select"
 import dayjs from 'dayjs'
+import { getAuth, onAuthStateChanged } from "firebase/auth"
 
 const Event = () => {
     const currentUser = useSelector((state) => state.auth.user)
@@ -39,6 +40,7 @@ const Event = () => {
     const [currentEvent, setCurrentEvent] = useState({})
     const [group, setGroup] = useState([])
     const [currentGroup, setCurrentGroup] = useState({})
+    const auth = getAuth()
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -80,6 +82,8 @@ const Event = () => {
         } catch (error) {
             console.log(error)
         }
+        setIsOpen(false)
+        window.location.reload();
     }
 
     const updateEvent = async (event) => {
@@ -87,13 +91,14 @@ const Event = () => {
         if (currentEvent) {
             const endSplit = endTime.split(':');
             const startSplit = startTime.split(':');
+            console.log(!!currentEvent._id)
             try {
                 const res = axios.put(
                     `${BASE_URL}/events/${currentEvent._id}`,
                     {
                         name: title,
                         content: description,
-                        group: !!currentGroup._id ? currentGroup._id : null,
+                        group: !!currentEvent._id ? currentGroup._id : null,
                         startDate: dayjs(startDate).hour(parseInt(startSplit[0])).minute(parseInt(startSplit[1])),
                         endDate: dayjs(endDate).hour(parseInt(endSplit[0])).minute(parseInt(endSplit[1])),
                     },
@@ -106,6 +111,8 @@ const Event = () => {
                 console.log(error)
             }
         }
+        setIsOpen(false)
+        window.location.reload();
     }
 
     const eventClick = (info) => {

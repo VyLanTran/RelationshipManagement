@@ -4,7 +4,8 @@ import {
   showAll,
   deleteEvent,
   showEvent,
-  editEvent
+  editEvent,
+  createEventWithGoogle,
 } from "../controllers/eventController.js";
 import { verifyAuth } from "../middleware/auth.js";
 
@@ -18,5 +19,6 @@ router.get("/user/:user", showAll);
 router.delete("/:id", deleteEvent);
 router.get("/:id", showEvent);
 router.put("/:id", editEvent);
+router.post("/google", createEventWithGoogle);
 
 export default router;
