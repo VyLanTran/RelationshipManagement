@@ -12,6 +12,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
 import { format } from "date-fns"
 import { cn } from "../../lib/utils"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
+import { getAuth, onAuthStateChanged, GoogleAuthProvider } from "firebase/auth";
 
 import axios from "axios";
 
@@ -19,6 +20,7 @@ export function AddEvent({ children, group }) {
 
     const user = useSelector((state) => state.auth.user);
     const token = useSelector((state) => state.auth.token);
+    const oAuthToken = useSelector((state) => state.auth.oAuthToken);
     const authHeader = { headers: { 'Authorization': `Bearer ${token}` } };
     const BASE_URL = process.env.REACT_APP_SERVER_BASE_URL
 
@@ -46,7 +48,26 @@ export function AddEvent({ children, group }) {
                     startDate: dayjs(startDate).hour(parseInt(startSplit[0])).minute(parseInt(startSplit[1])),
                     endDate: dayjs(endDate).hour(parseInt(endSplit[0])).minute(parseInt(endSplit[1])),
                 }, authHeader);  
-            console.log(res.data) 
+            const auth = getAuth();
+            const u = await auth.currentUser;
+            console.log(oAuthToken)
+            const res_calendar = await axios.post(`${BASE_URL}/events/google`, 
+                {
+                    event: {
+                        name: eventName,
+                        admin: user._id,
+                        content: content,
+                        group: !!currentGroup._id ? currentGroup._id : null,
+                        startDate: dayjs(startDate).hour(parseInt(startSplit[0])).minute(parseInt(startSplit[1])),
+                        endDate: dayjs(endDate).hour(parseInt(endSplit[0])).minute(parseInt(endSplit[1])),
+                    },
+                    token: oAuthToken,
+                }, {
+                    headers: {
+                        'Authorization' : `Bearer ${token}`,
+                    }
+                }
+            );
         } catch (error) {
             console.log(error);
         }

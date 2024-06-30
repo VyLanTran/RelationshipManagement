@@ -51,13 +51,16 @@ const Login = () => {
 
     const handleLoginWithGoogle = async () => {
         const provider = new GoogleAuthProvider()
+        provider.addScope('https://www.googleapis.com/auth/calendar'); 
+        provider.addScope('https://www.googleapis.com/auth/calendar.events');
         provider.setCustomParameters({ prompt: 'select_account' })
         try {
             const resGoogle = await signInWithPopup(auth, provider)
             const name = resGoogle.user.displayName
             const email = resGoogle.user.email
             const profilePicture = resGoogle.user.photoURL
-            await loginOrSignupWithGoogle(name, email, profilePicture)
+            const oAuthToken = GoogleAuthProvider.credentialFromResult(resGoogle).accessToken;
+            await loginOrSignupWithGoogle(name, email, oAuthToken, profilePicture)
             navigate('/')
         } catch (error) {
             toast({

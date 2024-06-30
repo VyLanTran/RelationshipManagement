@@ -49,6 +49,7 @@ export const useLogin = () => {
                 setLogin({
                     user: json.user,
                     token: json.token,
+                    oAuthToken: null,
                 })
             )
             dispatch(setFriendIds(json.user.friendIds))
@@ -59,7 +60,7 @@ export const useLogin = () => {
         }
     }
 
-    const loginOrSignupWithGoogle = async (name, email, profilePicture) => {
+    const loginOrSignupWithGoogle = async (name, email, oAuthToken, profilePicture) => {
         setIsLoading(true)
         setError(null)
 
@@ -86,8 +87,10 @@ export const useLogin = () => {
                 setLogin({
                     user: json.user,
                     token: json.token,
+                    oAuthToken: oAuthToken,
                 })
             )
+            console.log(oAuthToken)
 
             setIsLoading(false)
         }
