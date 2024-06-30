@@ -10,6 +10,7 @@ import { EditGroupModal } from '../components/groups/EditGroupModal.jsx';
 import { DiaryModal } from '../components/groups/DiaryModal.jsx';
 import { MapModal } from '../components/groups/MapModal.jsx';
 import { PropertyModal } from '../components/groups/PropertyModal.jsx';
+import { EventModal } from '../components/groups/EventModal.jsx';
 
 // TODO: edit username, password here
 const GroupProfile = () => {
@@ -106,7 +107,7 @@ const GroupProfile = () => {
                     <div className="w-[75%] rounded-[10px]">
                         <div className="m-[1.5vh] h-[6vh]">
                             <button
-                                className="w-[18vh] mx-[0.5vh] bg-[#FFF] rounded-[5px] bg-[#FFB302] px-[3vh] text-xl h-[6vh] hover:bg-[#ffdc8b] focus:bg-[#FFB302]"
+                                className="w-[25vh] mr-[3vh] bg-[#FFF] rounded-[5px] bg-[#FFB302] px-[3vh] text-xl h-[6vh] hover:bg-[#ffdc8b] focus:bg-[#FFB302]"
                                 onClick={togglePropertyView}
                             >
                                 Information
@@ -137,7 +138,7 @@ const GroupProfile = () => {
                                 : view === "map" ?
                                     <MapModal group={group} members={members}/>
                                 : view === "event" ?
-                                    <p>Event</p>
+                                    <EventModal group={group}/>
                                 : view === "property" ?
                                     <p><PropertyModal groupId={group._id}/></p>
                                 : <p>Nothing selected</p>

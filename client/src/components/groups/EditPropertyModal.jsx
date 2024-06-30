@@ -12,13 +12,15 @@ import { Button } from "../ui/button"
 import axios from "axios";
 import BASE_URL from '@/../../constants.js'
 import { useSelector } from "react-redux";
+import { Label } from "../ui/label"
+import { Input } from "../ui/input"
 
 export function EditPropertyModal({ children, groupId, checkRefresh, setCheckRefresh, init_label, description }) {
 
     const token = useSelector((state) => state.auth.token);
-    const [label, setLabel] = useState(init_label);
+    const [labelDes, setLabelDes] = useState(init_label);
     const [content, setContent] = useState(description);
-    const authHeader = { headers: { 'Authorization': `Beareer ${token}` }};
+    const authHeader = { headers: { 'Authorization': `Bearer ${token}` }};
 
     const onSubmit = async (event) => {
         event.preventDefault()
@@ -27,13 +29,13 @@ export function EditPropertyModal({ children, groupId, checkRefresh, setCheckRef
                 `${BASE_URL}/properties/`,
                 {
                     admin: groupId,
-                    name: label,
+                    name: labelDes,
                     subject: content
                 },
                 authHeader
             )
             setCheckRefresh(!checkRefresh);
-            setLabel(init_label);
+            setLabelDes(init_label);
             setContent(description);
         } catch (error) {
             console.log(error)
@@ -46,37 +48,27 @@ export function EditPropertyModal({ children, groupId, checkRefresh, setCheckRef
                 {children}
             </DialogTrigger>
             <DialogContent>
-                <DialogHeader>
-                <DialogTitle>Add/Update something fun about your group!</DialogTitle>
+                <DialogHeader className="item-center">
+                    <DialogTitle>Add/Update something fun about your group!</DialogTitle>
                 </DialogHeader>
-                <form className="text-left">
-                    <div className="mt-[20px]">
-                        <p className="font-bold">Label</p>
-                        <input
-                            onChange={(e) => setLabel(e.target.value)}
-                            type="text"
-                            name="name"
-                            value={label}
-                            className="bg-gray-50 border border-gray-300 text-sm rounded-sm  w-[400px] p-2.5 focus:outline-none"
-                            placeholder="What is it about?"
-                        />
-                    </div>
-                    <div className="mt-[20px]">
-                        <p className="font-bold">Something interesting!</p>
-                        <textarea
-                            onChange={(e) => setContent(e.target.value)}
-                            type="text"
-                            value={content}
-                            name="subejct"
-                            className="bg-gray-50 border border-gray-300 text-sm rounded-sm  w-[400px] p-2.5 focus:outline-none"
-                            placeholder="Something fun!"
-                        />
-                    </div>
+                <form className="grid w-full justify-left gap-1.5">
+                    <Label htmlFor="name" className="mt-[5px] text-left">Label</Label>
+                    <Input
+                        id="name"
+                        placeholder="What is it about?"
+                        className=""
+                        onChange={(e) => setLabelDes(e.target.value)}
+                    />
+                    <Label htmlFor="subject" className="mt-[5px] text-left">Something interesting!</Label>
+                    <Input
+                        id="subject"
+                        placeholder="Something fun!"
+                        className=""
+                        onChange={(e) => setContent(e.target.value)}
+                    />
                 </form>
                 <DialogFooter>
-                    <div>
-                        <Button onClick={onSubmit}>Save</Button>
-                    </div>
+                    <Button onClick={onSubmit}>Save</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
