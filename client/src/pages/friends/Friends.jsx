@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { PageSelection } from '../../components/friends/PageSelection.jsx'
 import Suggestions from './Suggestions.jsx'
 import { useEffect, useRef, useState } from 'react'
@@ -10,6 +10,8 @@ import {
     TooltipTrigger,
 } from '../../components/ui/tooltip.jsx'
 import { Tooltip } from '@radix-ui/react-tooltip'
+import ProfileViewing from './ProfileViewing.jsx'
+import { setProfileViewing } from '../../state/friendReducer.js'
 
 const BASE_URL = process.env.REACT_APP_SERVER_BASE_URL
 
@@ -42,10 +44,13 @@ const Friends = () => {
                     {renderContent()}
                 </div>
 
-                <div className="w-[50%] bg-blue-200">
+                <div className="w-[50%] bg-gray-50">
                     <ProfileViewing />
                 </div>
-                <div ref={rightSidebarRef} className="w-[25%] bg-white">
+                <div
+                    ref={rightSidebarRef}
+                    className="w-[25%] bg-white  border-l border-gray-300"
+                >
                     <BondList />
                 </div>
             </div>
@@ -55,23 +60,17 @@ const Friends = () => {
 
 export default Friends
 
-const ProfileViewing = () => {
-    const user = useSelector((state) => state.friend.profileViewing)
-
-    return user ? (
-        <div>
-            <span>{user.name}</span>
-        </div>
-    ) : (
-        <div>Choose a profile to view</div>
-    )
-}
-
 const BondList = () => {
+    const dispatch = useDispatch()
+
     const token = useSelector((state) => state.auth.token)
     const currentUser = useSelector((state) => state.auth.user)
 
     const [friends, setFriends] = useState([])
+
+    const handleClick = (user) => {
+        dispatch(setProfileViewing(user))
+    }
 
     useEffect(() => {
         const getFriends = async () => {
@@ -105,6 +104,7 @@ const BondList = () => {
                                         src={friend.profilePicture?.url}
                                         alt={friend.name}
                                         className="w-[50px] h-auto rounded-full cursor-pointer"
+                                        onClick={() => handleClick(friend)}
                                     />
                                 </TooltipTrigger>
                                 <TooltipContent className="bg-gray-200 text-black">

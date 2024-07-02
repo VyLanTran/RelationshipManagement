@@ -13,6 +13,7 @@ body,
   font-family: "Rubik", sans-serif;
   background-image: url('../public/assets/background.png');
   background-color: #EEEEEE;
+  /* background-color: #f2f1ea; */
   background-size: 100%;
   text-align: center;
   overflow-y: auto;
