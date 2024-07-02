@@ -31,7 +31,7 @@ export const getAllFriends = async (req, res) => {
         const friends = await Promise.all(
             user.friendIds.map((friendId) =>
                 UserModel.findById(friendId).select(
-                    'name email phone company school currentCity profilePicture posts'
+                    'name email phone company school currentCity hometown hobbies profilePicture posts'
                 )
             )
         )
@@ -218,5 +218,54 @@ export const getFriendGeography = async (req, res) => {
         res.status(200).json(formattedLocations)
     } catch (err) {
         res.status(404).json({ error: err.message })
+    }
+}
+
+const api_key = process.env.UNSPLASH_API_KEY
+
+export const getIntroImages = async (req, res) => {
+    try {
+        let { currentCity, hometown, school, hobbies } = req.body
+
+        // Ensure hobbies is an array even if it's not provided
+        hobbies = hobbies || []
+
+        // Function to fetch image from Unsplash API
+        const fetchImage = async (query) => {
+            const response = await axios.get(
+                `https://api.unsplash.com/search/photos?query=${query}&client_id=${api_key}`
+            )
+            return response.data.results[0]?.urls?.small
+        }
+
+        // Creating an array of promises for each API call
+        const requests = []
+        if (currentCity) requests.push(fetchImage(currentCity))
+        if (hometown) requests.push(fetchImage(hometown))
+        if (school) requests.push(fetchImage(school))
+        hobbies.forEach((hobby) => {
+            if (hobby) requests.push(fetchImage(hobby))
+        })
+
+        // Waiting for all promises to resolve
+        const results = await Promise.all(requests)
+
+        let responseData = {}
+        let index = 0
+
+        if (currentCity) {
+            responseData.currentCityImage = results[index++]
+        }
+        if (hometown) {
+            responseData.hometownImage = results[index++]
+        }
+        if (school) {
+            responseData.schoolImage = results[index++]
+        }
+        responseData.hobbyImages = results.slice(index)
+
+        res.status(200).json(responseData)
+    } catch (err) {
+        res.status(404).json({ message: err.message })
     }
 }
