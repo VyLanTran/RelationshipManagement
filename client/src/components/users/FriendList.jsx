@@ -29,7 +29,7 @@ const FriendList = () => {
     }, [])
 
     return (
-        <div className="w-full bg-white">
+        <div className="w-full h-[88vh] bg-white overflow-y-auto">
             {friends.map(({ _id, name, profilePicture }) => {
                 return (
                     <FriendCard
