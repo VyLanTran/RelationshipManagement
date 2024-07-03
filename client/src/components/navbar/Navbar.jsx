@@ -47,7 +47,7 @@ const Navbar = () => {
                 className="cursor-pointer font-bold  flex flex-row gap-4 items-center"
             >
                 <img className="h-[36px]" src={logo} alt="Logo" />
-                <div className="text-[26px] app-name">Bondscape</div>
+                <div className="text-[26px] app-name font-light">Bondscape</div>
             </div>
             <div className="flex flex-row gap-4 items-center mb-[-1vh]">
                 {/* TODO: use tooltips for these buttons */}
