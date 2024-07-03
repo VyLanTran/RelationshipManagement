@@ -18,6 +18,7 @@ const Groups = () => {
     const [newGroupName, setNewGroupName] = useState('')
     const [groups, setGroups] = useState([])
     const [message, setMessage] = useState('')
+    const [checkRefresh, setCheckRefresh] = useState(true);
     // const { userId } = useParams();
 
     const toggleLargeView = () => {
@@ -47,6 +48,7 @@ const Groups = () => {
             )
             setMessage('New group added successfully')
             setNewGroupName('')
+            setCheckRefresh(!checkRefresh)
             console.log(res.data)
         } catch (error) {
             setMessage(error.response.data['message'])
@@ -66,7 +68,7 @@ const Groups = () => {
             }
         }
         fetchGroups()
-    }, [groups])
+    }, [checkRefresh])
 
     const sortGroup = (e) => {
         e.preventDefault()
