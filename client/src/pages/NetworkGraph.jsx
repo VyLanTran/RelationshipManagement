@@ -5,10 +5,12 @@ import { NavLink } from 'react-router-dom'
 import { LuExternalLink } from 'react-icons/lu'
 import { ScrollArea, ScrollBar } from '../components/ui/scroll-area'
 import { BiSolidUserCheck } from 'react-icons/bi'
+import { FaSearchPlus, FaSearchMinus } from 'react-icons/fa'
 
 const NetworkGraph = () => {
-    const RADIUS_FRIEND = 14
-    const RADIUS_CURRENT = 30
+    const RADIUS_FRIEND = 20
+    const RADIUS_CURRENT = 36
+    const DISTANCE = 300
 
     const token = useSelector((state) => state.auth.token)
     const userId = useSelector((state) => state.auth.user._id)
@@ -21,6 +23,7 @@ const NetworkGraph = () => {
     const [searchKeyword, setSearchKeyword] = useState('')
     const friendIds = useSelector((state) => state.auth.user.friendIds)
     const [isFriend, setIsFriend] = useState(false)
+    const zoom = useRef(d3.zoom().scaleExtent([0.5, 2]))
 
     // useEffect(() => {
     //     const fetchRecommendations = async () => {
@@ -54,8 +57,11 @@ const NetworkGraph = () => {
 
     // TODO: script to update neo4j database + update network graph
     useEffect(() => {
-        const width = 1000
-        const height = 1000
+        // const width = 1000
+        // const height = 1000
+
+        const width = 1500
+        const height = 1200
 
         // Fetch graph data from backend
         const fetchGraphData = async () => {
@@ -86,19 +92,27 @@ const NetworkGraph = () => {
                 d3
                     .forceLink(graphData.links)
                     .id((d) => d.id)
-                    .distance(200)
+                    .distance(DISTANCE)
             )
             .force('charge', d3.forceManyBody().strength(-100))
             .force('center', d3.forceCenter(width / 2, height / 2))
             .on('tick', ticked)
 
         // D3.js rendering setup
+        // const svg = d3
+        //     .select(d3Container.current)
+        //     .attr('width', width)
+        //     .attr('height', height)
+        //     .attr('viewBox', [0, 0, width, height])
+        //     .attr('style', 'max-width: 100%; height: auto;; overflow: auto;')
+
         const svg = d3
             .select(d3Container.current)
             .attr('width', width)
             .attr('height', height)
             .attr('viewBox', [0, 0, width, height])
-            .attr('style', 'max-width: 100%; height: auto;; overflow: auto;')
+            .attr('style', 'max-width: 100%; height: auto; overflow: auto;')
+            .call(zoom.current)
 
         const link = svg
             .append('g')
@@ -117,9 +131,10 @@ const NetworkGraph = () => {
             .join('circle')
             .attr('r', (d) =>
                 d.id === userId ? RADIUS_CURRENT : RADIUS_FRIEND
-            ) // Highlight current user node
-            .attr('stroke', (d) => (d.id === userId ? '#000' : '#fff'))
-            .attr('stroke-width', (d) => (d.id === userId ? 3 : 1.5))
+            )
+            .attr('stroke', (d) => (d.id === userId ? '#FFB302' : '#000'))
+
+            .attr('stroke-width', (d) => (d.id === userId ? 8 : 1.5))
             .attr('fill', 'none')
             .attr('cursor', 'pointer')
             .call(drag(simulation))
@@ -322,6 +337,18 @@ const NetworkGraph = () => {
             }
         }
 
+        function handleZoomIn() {
+            console.log('zomming in')
+            svg.transition().call(zoom.current.scaleBy, 1.2)
+        }
+
+        function handleZoomOut() {
+            svg.transition().call(zoom.current.scaleBy, 0.8)
+        }
+
+        d3.select('#zoom-in-button').on('click', handleZoomIn)
+        d3.select('#zoom-out-button').on('click', handleZoomOut)
+
         return () => {
             simulation.stop()
             svg.selectAll('*').remove()
@@ -352,6 +379,7 @@ const NetworkGraph = () => {
     }, [searchKeyword])
 
     return (
+        // bg-[#f2f1ea]
         <div className="flex flex-row w-full h-full bg-[#f2f1ea]">
             <div className="w-[70%] flex  py-6 flex-col items-center">
                 <div className="flex flex-col gap-8">
@@ -411,21 +439,42 @@ const NetworkGraph = () => {
                         )}
                     </div>
 
-                    <div className="text-[22px]">
+                    <div className="text-[18px]">
                         You are connecting to {graphData.nodes.length - 1}{' '}
                         people. Let's expand your circle of friends
                     </div>
                 </div>
 
                 <div
+                    className="border border-gray-300"
                     style={{
-                        width: '100%',
+                        width: '90%',
                         height: '600px',
-                        overflow: 'auto',
-                        // #eb4034
+                        // overflow: 'auto',
+                        overflowX: 'scroll',
+                        overflowY: 'scroll',
                     }}
                 >
-                    <svg ref={d3Container} width="2000" height="2000"></svg>
+                    {/* <div className="absolute bottom-4 right-4 z-10 flex flex-col space-y-2">
+                        <button
+                            id="zoom-in-button"
+                            // onClick={() => handleZoomIn()}
+                            className="bg-white p-2 rounded-md shadow-md hover:bg-gray-100"
+                        >
+                            <FaSearchPlus />
+                        </button>
+
+                        <button
+                            id="zoom-out-button"
+                            // onClick={() => handleZoomOut()}
+                            className="bg-white p-2 rounded-md shadow-md hover:bg-gray-100"
+                        >
+                            <FaSearchMinus />
+                        </button>
+                    </div> */}
+                    <div style={{ width: '1200px', height: '800px' }}>
+                        <svg ref={d3Container} width="100%" height="100%"></svg>
+                    </div>
                 </div>
             </div>
 

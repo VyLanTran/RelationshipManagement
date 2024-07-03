@@ -11,6 +11,7 @@ import {
     getAllNonFriends,
     getFriendGeography,
     getFriendRecommendations,
+    getIntroImages,
 } from '../controllers/userController.js'
 
 import { verifyAuth } from '../middleware/auth.js'
@@ -27,6 +28,7 @@ router.get('/friendGeography', getFriendGeography)
 router.get('/:userId', getUser)
 router.get('/:userId/friends', getAllFriends)
 router.get('/', getAllUsers)
+router.post('/introImages', getIntroImages)
 router.patch('/', updateProfile)
 router.patch('/profilePicture', createProfilePicture)
 router.patch('/coverPhoto', createCoverPhoto)

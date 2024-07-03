@@ -52,7 +52,7 @@ export const getMostInteractions = async (req, res) => {
         const user = req.user
         const userId = new ObjectId(req.user._id)
 
-        console.log('query: ', req.query)
+        // console.log('query: ', req.query)
         const { startDate, endDate } = req.query
 
         if (!startDate || !endDate) {

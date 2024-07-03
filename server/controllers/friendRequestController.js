@@ -1,6 +1,17 @@
 import FriendRequestModel from '../models/FriendRequestModel.js'
 import FriendshipModel from '../models/FriendshipModel.js'
 import UserModel from '../models/UserModel.js'
+import neo4j from 'neo4j-driver'
+
+const neo4jUrl = process.env.NEO4J_URI
+const neo4jUser = process.env.NEO4J_USERNAME
+const neo4jPassword = process.env.NEO4J_PASSWORD
+
+const driver = neo4j.driver(
+    neo4jUrl,
+    neo4j.auth.basic(neo4jUser, neo4jPassword)
+)
+const session = driver.session()
 
 export const getAllPossibleSuggestions = async (req, res) => {
     try {
@@ -182,9 +193,20 @@ export const acceptFriendRequest = async (req, res) => {
             request._id
         )
 
+        // Update Neo4j
+        await session.run(
+            `MATCH (u1:User {id: $id1}), (u2:User {id: $id2})
+            MERGE (u1)-[:FRIEND]->(u2)
+            MERGE (u2)-[:FRIEND]->(u1)`,
+            { id1: sender._id.toString(), id2: receiver._id.toString() }
+        )
+
         res.status(200).json(deletedRequest)
     } catch (err) {
         res.status(404).json({ error: err.message })
+    } finally {
+        await session.close()
+        await driver.close()
     }
 }
 

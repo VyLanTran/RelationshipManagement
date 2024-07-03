@@ -20,7 +20,7 @@ const NotificationItem = ({ type = 'OTHER', data, isRead, onToggleRead }) => {
                         <span className="font-extrabold ">
                             {data.sender.name}
                         </span>
-                        <span> sent you a friend request bla bla bla</span>
+                        <span> sent you a friend request</span>
                     </div>
                     <Checkbox checked={isRead} onCheckedChange={onToggleRead} />
                 </Card>

@@ -57,6 +57,10 @@ const UserSchema = new mongoose.Schema(
             type: Object,
             default: null,
         },
+        hobbies: {
+            type: Array,
+            default: [],
+        },
         friendIds: {
             type: Array,
             default: [],

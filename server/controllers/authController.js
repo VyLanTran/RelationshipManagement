@@ -131,7 +131,7 @@ export const login = async (req, res) => {
                 })
 
                 const url = `${CLIENT_BASE_URL}/auth/${user._id}/verify/${token.token}`
-                await sendEmail(user.email, 'APP_NAME Account Activation', url)
+                await sendEmail(user.email, 'Bondscape Account Activation', url)
             }
             // if a token exists (i.e. created and not expired yet), tell user to check their email
             return res.status(400).json({
@@ -163,7 +163,7 @@ export const resendEmail = async (req, res) => {
         })
 
         const url = `${CLIENT_BASE_URL}/auth/${user._id}/verify/${token.token}`
-        await sendEmail(user.email, 'APP_NAME Account Activation', url)
+        await sendEmail(user.email, 'Bondscape Account Activation', url)
         res.status(201).json({ message: 'A new email is sent' })
     } catch (error) {
         res.status(500).json({ error: error.message })
