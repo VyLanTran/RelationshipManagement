@@ -23,7 +23,7 @@ import { Trash2 } from "lucide-react";
 
 import axios from "axios";
 
-export function EditGroupModal({ children, currentGroup, members }) {
+export function EditGroupModal({ children, currentGroup, members, checkRefresh, setCheckRefresh }) {
 
     const user = useSelector((state) => state.auth.user);
     const token = useSelector((state) => state.auth.token);
@@ -74,6 +74,7 @@ export function EditGroupModal({ children, currentGroup, members }) {
                 },
                 authHeader
             )
+            setCheckRefresh(!checkRefresh)
             setMessage('Group edited sucessfully!')
         } catch (error) {
             setMessage(error.response.data['message'])

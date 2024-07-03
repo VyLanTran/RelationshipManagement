@@ -25,6 +25,7 @@ const GroupProfile = () => {
     const [view, setView] = useState('property')
     const [newGroupName, setNewGroupName] = useState('')
     const [members, setMembers] = useState([])
+    const [checkRefresh, setCheckRefresh] = useState(false)
 
     const togglePropertyView = () => {
         setView('property')
@@ -62,7 +63,7 @@ const GroupProfile = () => {
         if (currentUser) {
             getGroup()
         }
-    }, [])
+    }, [checkRefresh])
 
     return (
         <div>
@@ -74,7 +75,7 @@ const GroupProfile = () => {
                                 <p className="text-3xl ml-[1.5vh] mb-[1vh] font-bold">{newGroupName}</p>
                                 <TooltipProvider>
                                     <Tooltip>
-                                        <EditGroupModal currentGroup={group} members={members}>
+                                        <EditGroupModal currentGroup={group} members={members} checkRefresh={checkRefresh} setCheckRefresh={setCheckRefresh}>
                                             <TooltipTrigger asChild>
                                             <button
                                                 className="text-slate-400 hover:text-black mb-[5px] mr-[1.5vh] mb-[1vh]"

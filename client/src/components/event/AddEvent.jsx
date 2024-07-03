@@ -15,7 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 
 import axios from "axios";
 
-export function AddEvent({ children, group }) {
+export function AddEvent({ children, group, checkRefresh, setCheckRefresh }) {
 
     const user = useSelector((state) => state.auth.user);
     const token = useSelector((state) => state.auth.token);
@@ -46,7 +46,8 @@ export function AddEvent({ children, group }) {
                     startDate: dayjs(startDate).hour(parseInt(startSplit[0])).minute(parseInt(startSplit[1])),
                     endDate: dayjs(endDate).hour(parseInt(endSplit[0])).minute(parseInt(endSplit[1])),
                 }, authHeader);  
-            console.log(res.data) 
+            console.log(res.data)
+            setCheckRefresh(!checkRefresh)
         } catch (error) {
             console.log(error);
         }

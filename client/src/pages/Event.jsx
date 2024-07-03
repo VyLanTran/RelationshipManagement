@@ -39,6 +39,7 @@ const Event = () => {
     const [currentEvent, setCurrentEvent] = useState({})
     const [group, setGroup] = useState([])
     const [currentGroup, setCurrentGroup] = useState({})
+    const [checkRefresh, setCheckRefresh] = useState(true)
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -60,7 +61,7 @@ const Event = () => {
             }
         }
         fetchEvents()
-    }, [])
+    }, [checkRefresh])
 
     const calendarEvent = events.map(({ name, startDate, endDate, _id }) => ({
         title: name,
@@ -77,6 +78,8 @@ const Event = () => {
                 `http://localhost:3001/events/${currentEvent._id}`,
                 authHeader
             )
+            setCheckRefresh(!checkRefresh)
+            setIsOpen(false)
         } catch (error) {
             console.log(error)
         }
@@ -102,6 +105,8 @@ const Event = () => {
                 if (res.ok) {
                     setCurrentEvent(res.data)
                 }
+                setCheckRefresh(!checkRefresh)
+                setIsOpen(false)
             } catch (error) {
                 console.log(error)
             }
@@ -127,7 +132,7 @@ const Event = () => {
                 <div className="flex flex-col place-items-center w-[20%] hidden lg:block">
                     <TooltipProvider>
                         <Tooltip>
-                            <AddEvent group={group}>
+                            <AddEvent group={group} checkRefresh={checkRefresh} setCheckRefresh={setCheckRefresh}>
                                 <TooltipTrigger asChild>
                                 <Button
                                     variant="outline"
