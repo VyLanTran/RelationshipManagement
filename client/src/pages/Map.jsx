@@ -153,7 +153,7 @@ const MapGroup = () => {
         <div>
             <div className="flex justify-center flex-row">
                 <MapCard connections={connections} groups={currGroup} setCurrGroup={setCurrGroup} checkRefresh={checkRefresh} setCheckRefresh={setCheckRefresh} mapMarkers={mapMarkers} setMapMarkers={setMapMarkers} setConnections={setConnections}/>
-                <div className="w-[150vh] bg-[#FCAF3D] rounded-[20px] h-[87vh] p-[2.5vh] m-[2vh]">
+                <div className="w-[150vh] bg-[#ffffff] rounded-[20px] h-[87vh] p-[2.5vh] m-[2vh]">
                     <div
                         className="w-[145vh] rounded-[20px] h-[83vh] mt-[-0.5vh]"
                         ref={mapRef}
