@@ -143,3 +143,51 @@ export const getMostInteractions = async (req, res) => {
         res.status(404).json({ error: error.message })
     }
 }
+
+export const getMessageLastMonth = async (req, res) => {
+    try {
+        const userId = new ObjectId(req.user._id)
+        const { otherUserId } = req.params
+
+        const startDate = new Date()
+        startDate.setDate(startDate.getDate() - 30) // Get messages from the last 30 days
+
+        const userObjectId = new ObjectId(userId)
+        const otherUserObjectId = new ObjectId(otherUserId)
+
+        const messageStats = await MessageModel.aggregate([
+            {
+                $match: {
+                    $or: [
+                        { sender: userObjectId, receiver: [otherUserObjectId] },
+                        { sender: otherUserObjectId, receiver: [userObjectId] },
+                    ],
+                    createdAt: { $gte: startDate },
+                },
+            },
+            {
+                $group: {
+                    _id: null,
+                    totalMessages: { $sum: 1 },
+                    lastMessageDate: { $max: '$createdAt' },
+                },
+            },
+        ])
+
+        if (messageStats.length === 0) {
+            res.status(200).json({
+                totalMessages: 0,
+                daysSinceLastMessage: null,
+            })
+        } else {
+            const { totalMessages, lastMessageDate } = messageStats[0]
+            const daysSinceLastMessage = Math.floor(
+                (new Date() - new Date(lastMessageDate)) / (1000 * 60 * 60 * 24)
+            )
+            res.status(200).json({ totalMessages, daysSinceLastMessage })
+        }
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ error: 'Failed to fetch message stats' })
+    }
+}

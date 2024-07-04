@@ -1,4 +1,7 @@
 import FriendshipModel from '../models/FriendshipModel.js'
+import mongoose from 'mongoose'
+
+const ObjectId = mongoose.Types.ObjectId
 
 export const getYearRange = async (req, res) => {
     try {
@@ -192,5 +195,51 @@ export const getFriendshipTimeline = async (req, res) => {
         return res.status(200).json(finalTimeline)
     } catch (error) {
         res.status(404).json({ error: error.message })
+    }
+}
+
+export const getAnniversary = async (req, res) => {
+    try {
+        const { otherUserId } = req.params
+        const userObjectId = new ObjectId(req.user._id)
+        const otherUserObjectId = new ObjectId(otherUserId)
+
+        const friendship = await FriendshipModel.findOne({
+            $or: [
+                { user1: userObjectId, user2: otherUserObjectId },
+                { user1: otherUserObjectId, user2: userObjectId },
+            ],
+        })
+
+        if (!friendship) {
+            return res.status(404).json({ message: 'Friendship not found' })
+        }
+
+        const establishedDate = new Date(friendship.establishedAt)
+        const today = new Date()
+        const yearsDiff = today.getFullYear() - establishedDate.getFullYear()
+        const nextAnniversary = new Date(
+            establishedDate.setFullYear(today.getFullYear())
+        )
+
+        if (nextAnniversary < today) {
+            nextAnniversary.setFullYear(today.getFullYear() + 1)
+        }
+
+        const daysUntilAnniversary = Math.ceil(
+            (nextAnniversary - today) / (1000 * 3600 * 24)
+        )
+
+        let anniversaryMessage = null
+
+        const date = `${nextAnniversary.toLocaleString('default', { month: 'long' })} ${nextAnniversary.getDate()}`
+        const time = `${yearsDiff + 1}`
+
+        res.status(200).json({
+            date: date,
+            time: time,
+        })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
     }
 }

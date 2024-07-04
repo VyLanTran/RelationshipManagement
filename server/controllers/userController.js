@@ -269,3 +269,32 @@ export const getIntroImages = async (req, res) => {
         res.status(404).json({ message: err.message })
     }
 }
+
+export const getPinInfo = async (req, res) => {
+    const { userId } = req.params
+
+    try {
+        const user = await UserModel.findById(userId).select('birthday hobbies')
+
+        const today = new Date()
+        let daysUntilBirthday = null
+        if (user.birthday) {
+            const birthday = new Date(user.birthday)
+            birthday.setFullYear(today.getFullYear()) // Set birthday to this year
+            if (birthday < today) birthday.setFullYear(today.getFullYear() + 1) // If birthday has passed this year, set to next year
+            daysUntilBirthday = Math.ceil(
+                (birthday - today) / (1000 * 60 * 60 * 24)
+            )
+        }
+
+        const formattedHobbies = user.hobbies.join(', ')
+
+        res.json({
+            daysUntilBirthday,
+            hobbies: formattedHobbies,
+        })
+    } catch (error) {
+        console.error('Error fetching user additional info:', error)
+        res.status(500).json({ message: 'Server error' })
+    }
+}

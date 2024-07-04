@@ -61,6 +61,10 @@ const UserSchema = new mongoose.Schema(
             type: Array,
             default: [],
         },
+        birthday: {
+            type: Date,
+            default: null,
+        },
         friendIds: {
             type: Array,
             default: [],
