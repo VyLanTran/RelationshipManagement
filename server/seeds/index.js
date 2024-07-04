@@ -14,7 +14,7 @@ const run = async () => {
         console.log('Running seeds...')
         await configureDB()
         console.log('Generating mock data...')
-        await generate()
+        // await generate()
         console.log('Finished running seeds!')
         process.exit()
     } catch (err) {
@@ -25,15 +25,15 @@ const run = async () => {
 const generate = () => {
     return new Promise(async (resolve) => {
         // UNCOMMENT TO GENERATE FAKE USERS
-        // const numRandomUsers = 30
-        // await generateUsers(numRandomUsers)
+        const numRandomUsers = 250
+        await generateUsers(numRandomUsers)
         // await deleteAllExceptSpecifiedUsers()
 
         // UNCOMMENT TO GENERATE FAKE CHATS AND MESSAGES
         // TODO: Change GROUP_SIZE_RATIO when numUsers get larger
-        const numChats = 30
+        const numChats = 80
         const privateChatRatio = 0.5
-        const numMessages = 20
+        const numMessages = 50
         await generateRandomChatsAndMessages(
             numChats,
             privateChatRatio,
@@ -48,9 +48,9 @@ const configureDB = () => {
     return new Promise(async (resolve) => {
         connectDB()
         await sleep(2)
-        // mongoose.connection.db.dropDatabase(() => {
-        //     console.log('Dropping database...')
-        // })
+        mongoose.connection.db.dropDatabase(() => {
+            console.log('Dropping database...')
+        })
         await sleep(2)
         return resolve()
     })

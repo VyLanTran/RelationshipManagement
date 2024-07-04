@@ -60,6 +60,8 @@ async function transferData() {
                 profilePicture,
                 friendIds,
                 posts,
+                birthday,
+                hobbies,
             } = user
 
             const profilePictureUrl = profilePicture.url
