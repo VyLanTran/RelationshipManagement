@@ -184,7 +184,7 @@ const Event = () => {
                             </Select>
                             <Label htmlFor="sdate" className="mt-[5px] text-left">Start time</Label>
                             <div className="flex flex-row justify-between">
-                                <Popover>
+                                {/* <Popover>
                                     <PopoverTrigger asChild>
                                         <Button
                                             variant={"outline"}
@@ -205,12 +205,13 @@ const Event = () => {
                                             initialFocus
                                         />
                                     </PopoverContent>
-                                </Popover>
+                                </Popover> */}
+                                <Input type="date" className="w-[330px]" value={startDate} onChange={(e) => setStartDate(e.target.value)}/>
                                 <Input type="time" id="sdate" value={startTime} className="w-[120px]" onChange={(e) => setStartTime(e.target.value)}/>
                             </div>
                             <Label htmlFor="edate" className="mt-[5px] text-left">End time</Label>
                             <div className="flex flex-row justify-between">
-                                <Popover>
+                                {/* <Popover>
                                     <PopoverTrigger asChild>
                                         <Button
                                             variant={"outline"}
@@ -231,7 +232,8 @@ const Event = () => {
                                             initialFocus
                                         />
                                     </PopoverContent>
-                                </Popover>
+                                </Popover> */}
+                                <Input type="date" className="w-[330px]" value={endDate} onChange={(e) => setEndDate(e.target.value)}/>
                                 <Input type="time" id="edate" value={endTime} className="w-[120px]" onChange={(e) => setEndTime(e.target.value)}/>
                             </div>
                         </div>

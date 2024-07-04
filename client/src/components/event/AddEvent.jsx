@@ -89,7 +89,7 @@ export function AddEvent({ children, group, checkRefresh, setCheckRefresh }) {
                     </Select>
                     <Label htmlFor="sdate" className="mt-[5px] text-left">Start time</Label>
                     <div className="flex flex-row justify-between">
-                        <Popover>
+                        {/* <Popover>
                             <PopoverTrigger asChild>
                                 <Button
                                     variant={"outline"}
@@ -106,16 +106,17 @@ export function AddEvent({ children, group, checkRefresh, setCheckRefresh }) {
                                 <Calendar
                                     mode="single"
                                     selected={startDate}
-                                    onSelect={setStartDate}
+                                    onDayClick={setStartDate}
                                     initialFocus
                                 />
                             </PopoverContent>
-                        </Popover>
+                        </Popover> */}
+                        <Input type="date" className="w-[330px]" value={startDate} onChange={(e) => setStartDate(e.target.value)}/>
                         <Input type="time" id="sdate" value={startTime} className="w-[120px]" onChange={(e) => setStartTime(e.target.value)}/>
                     </div>
                     <Label htmlFor="edate" className="mt-[5px] text-left">End time</Label>
                     <div className="flex flex-row justify-between">
-                        <Popover>
+                        {/* <Popover>
                             <PopoverTrigger asChild>
                                 <Button
                                     variant={"outline"}
@@ -131,12 +132,13 @@ export function AddEvent({ children, group, checkRefresh, setCheckRefresh }) {
                             <PopoverContent className="w-auto p-0" align="start">
                                 <Calendar
                                     mode="single"
-                                    selected={endDate}
-                                    onSelect={setEndDate}
+                                    selected={dayjs()}
+                                    onChange={(e) => setEndDate(e.target.value)}
                                     initialFocus
                                 />
                             </PopoverContent>
-                        </Popover>
+                        </Popover> */}
+                        <Input type="date" className="w-[330px]" value={endDate} onChange={(e) => setEndDate(e.target.value)}/>
                         <Input type="time" id="edate" value={endTime} className="w-[120px]" onChange={(e) => setEndTime(e.target.value)}/>
                     </div>
                 </div>
