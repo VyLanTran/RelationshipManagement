@@ -28,6 +28,14 @@ body,
   background-color: white;
 }
 
+.landing-group {
+  background-image: url('../public/assets/group.png');
+  background-repeat: no-repeat;
+  background-position: left -40% bottom 30%;
+  background-size: 800px;
+  background-color: white;
+}
+
 .landing-diary {
   background-image: url('../public/assets/diary.png');
   background-repeat: no-repeat;
@@ -41,6 +49,30 @@ body,
   background-repeat: no-repeat;
   background-position: left -40% bottom 80%;
   background-size: 800px;
+  background-color: white;
+}
+
+.landing-chat {
+  background-image: url('../public/assets/chat.png');
+  background-repeat: no-repeat;
+  background-position: right 0% bottom 50%;
+  background-size: 600px;
+  background-color: white;
+}
+
+.landing-event {
+  background-image: url('../public/assets/events.png');
+  background-repeat: no-repeat;
+  background-position: left -40% bottom 80%;
+  background-size: 800px;
+  background-color: white;
+}
+
+.landing-connection {
+  background-image: url('../public/assets/connection.png');
+  background-repeat: no-repeat;
+  background-position: right -100% bottom 50%;
+  background-size: 900px;
   background-color: white;
 }
 
