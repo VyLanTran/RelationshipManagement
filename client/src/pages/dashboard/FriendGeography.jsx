@@ -91,7 +91,7 @@ const FriendGeography = () => {
                             features={geoData.features}
                             margin={{ top: 0, right: 0, bottom: 0, left: -50 }}
                             colors="YlOrRd"
-                            domain={[0, 50]}
+                            domain={[0, 25]}
                             unknownColor="#666666"
                             label="properties.name"
                             valueFormat=".2s"
