@@ -141,11 +141,11 @@ function App() {
                                 path="/dashboard/friendGrowth"
                                 element={<FriendGrowth />}
                             />
-                            <Route
+                            {/* <Route
                                 exact
                                 path="/dashboard"
                                 element={<Dashboard />}
-                            />
+                            /> */}
                         </Route>
                     </Route>
                 </Routes>

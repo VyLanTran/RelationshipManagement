@@ -10,11 +10,11 @@ import { BsBarChartFill } from 'react-icons/bs'
 
 const Dashboard = () => {
     const menus = [
-        {
-            name: 'Dashboard',
-            link: '/dashboard',
-            icon: <MdOutlineDashboard size={20} />,
-        },
+        // {
+        //     name: 'Dashboard',
+        //     link: '/dashboard',
+        //     icon: <MdOutlineDashboard size={20} />,
+        // },
         {
             name: 'Friends Information',
             link: '/dashboard/friendInfo',
@@ -36,7 +36,7 @@ const Dashboard = () => {
             icon: <PiChartLineUp size={20} />,
         },
     ]
-    const [open, setOpen] = useState(true)
+    const [open, setOpen] = useState(false)
 
     return (
         <section className="flex">

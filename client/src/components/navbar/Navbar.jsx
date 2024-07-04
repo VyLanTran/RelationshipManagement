@@ -106,11 +106,11 @@ function DropdownSetting({ user, handleLogout }) {
         <div className="cursor-pointer">
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <div className=" w-[26px] h-[26px] rounded-full">
+                    <div className=" w-[32px] h-[32px] rounded-full">
                         <img
                             src={user.profilePicture?.url}
                             alt="profilePicture"
-                            className="object-cover w-[24px] h-[24px] rounded-full"
+                            className="object-cover w-[30px] h-[30px] rounded-full shadow-3xl"
                         />
                     </div>
                 </DropdownMenuTrigger>
@@ -204,7 +204,7 @@ function Menu({ user }) {
                                 Data
                             </span>
                         </div>
-                        <Link to="/dashboard">
+                        <Link to="/dashboard/friendInfo">
                             <DropdownMenuItem className="cursor-pointer hover:bg-[#fff6e0]">
                                 <GoGraph className="mr-2 h-4 w-4" />
                                 <span>Dashboard</span>

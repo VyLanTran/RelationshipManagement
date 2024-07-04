@@ -160,8 +160,8 @@ const CarouselPlugin = ({ user }) => {
             <CarouselContent>
                 {introImages.map((image, index) => (
                     <CarouselItem key={index}>
-                        <div className="p-1 flex flex-col items-center justify-center gap-2">
-                            <div className="text-[14px] text-gray-500">
+                        <div className="p-1 flex flex-col items-center justify-center gap-4">
+                            <div className="text-[18px] text-slate-700">
                                 {image.text}
                             </div>
                             <img
