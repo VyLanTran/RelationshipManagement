@@ -57,7 +57,8 @@ const NetworkGraph = () => {
     // TODO: script to update neo4j database + update network graph
     useEffect(() => {
         const width = 1000
-        const height = 600
+        // const height = 600
+        const height = 800
 
         // Fetch graph data from backend
         const fetchGraphData = async () => {
@@ -272,61 +273,6 @@ const NetworkGraph = () => {
                 .on('end', dragEnded)
         }
 
-        // Handle pin click to show/hide cards
-        // function handlePinClick(event, d, svg, width, height) {
-        //     const isPinned = d3.select(event.target).classed('pinned')
-        //     d3.select(event.target).classed('pinned', !isPinned)
-
-        //     if (isPinned) {
-        //         svg.selectAll(`.card-${d.id}`).remove()
-        //         svg.selectAll(`.line-${d.id}`).remove()
-        //     } else {
-        //         // Display 5-6 cards with lines
-        //         const cardsData = [
-        //             `Birthday reminder: 5 days until ${d.name}'s birthday`,
-        //             `${d.name}'s latest post: "Had a great day at the park!"`,
-        //             `Shared memory: Remember when we went to the beach?`,
-        //             `Friendship duration: 3 years`,
-        //             `Messages this month: 42`,
-        //         ]
-
-        //         const angleStep = (2 * Math.PI) / cardsData.length
-        //         const radius = 200
-
-        //         cardsData.forEach((cardText, i) => {
-        //             const angle = i * angleStep
-        //             const cardX = d.x + radius * Math.cos(angle)
-        //             const cardY = d.y + radius * Math.sin(angle)
-
-        //             svg.append('line')
-        //                 .attr('class', `line-${d.id}`)
-        //                 .attr('x1', d.x)
-        //                 .attr('y1', d.y)
-        //                 .attr('x2', cardX)
-        //                 .attr('y2', cardY)
-        //                 .attr('stroke', '#000')
-        //                 .attr('stroke-width', 1)
-
-        //             svg.append('foreignObject')
-        //                 .attr('class', `card-${d.id}`)
-        //                 .attr('x', cardX - 50)
-        //                 .attr('y', cardY - 50)
-        //                 .attr('width', radius)
-        //                 .attr('height', 150)
-        //                 .append('xhtml:div')
-        //                 .style('border', '1px solid #000')
-        //                 .style('background', '#fff')
-        //                 .style('padding', '10px')
-        //                 .style('border-radius', '8px')
-        //                 .style('box-shadow', '0 0 5px rgba(0,0,0,0.3)')
-        //                 .style('overflow', 'auto') // Make the card scrollable
-        //                 .style('max-height', '100px') // Set max height for the card
-        //                 .style('font-size', '10px') // Make text smaller
-        //                 .html(`<p>${cardText}</p>`)
-        //         })
-        //     }
-        // }
-
         const handlePinClick = async (event, d, svg, width, height) => {
             const isPinned = d3.select(event.target).classed('pinned')
             d3.select(event.target).classed('pinned', !isPinned)
@@ -451,8 +397,10 @@ const NetworkGraph = () => {
 
                         svg.append('foreignObject')
                             .attr('class', `card-${d.id}`)
-                            .attr('x', cardX - 50)
-                            .attr('y', cardY - 50)
+                            // .attr('x', cardX - 50)
+                            // .attr('y', cardY - 50)
+                            .attr('x', cardX - 100)
+                            .attr('y', cardY - 75)
                             .attr('width', radius)
                             .attr('height', 150)
                             .append('xhtml:div')
@@ -465,7 +413,8 @@ const NetworkGraph = () => {
                             .style('box-shadow', '0 0 5px rgba(0,0,0,0.3)')
                             .style('overflow', 'auto')
                             .style('max-height', '100px')
-                            .style('font-size', '10px')
+                            // .style('font-size', '10px')
+                            .style('font-size', '14px') // Increase text size
                             .html(`<p>${cardText}</p>`)
                     })
                 } catch (error) {
@@ -545,7 +494,8 @@ const NetworkGraph = () => {
                     className="border rounded-lg bg-[#FFF]"
                     style={{
                         width: '97%',
-                        height: '525px',
+                        // height: '525px',
+                        height: '700px',
                         // overflow: 'auto',
                         overflowX: 'scroll',
                         overflowY: 'scroll',
