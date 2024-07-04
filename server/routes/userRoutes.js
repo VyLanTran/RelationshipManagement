@@ -12,6 +12,7 @@ import {
     getFriendGeography,
     getFriendRecommendations,
     getIntroImages,
+    getPinInfo,
 } from '../controllers/userController.js'
 
 import { verifyAuth } from '../middleware/auth.js'
@@ -25,6 +26,7 @@ router.get('/search', searchUsers)
 router.get('/nonFriends', getAllNonFriends)
 router.get('/recommend', getFriendRecommendations)
 router.get('/friendGeography', getFriendGeography)
+router.get('/pinInfo/:userId', getPinInfo)
 router.get('/:userId', getUser)
 router.get('/:userId/friends', getAllFriends)
 router.get('/', getAllUsers)

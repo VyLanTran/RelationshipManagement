@@ -4,8 +4,6 @@ import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { LuExternalLink } from 'react-icons/lu'
 import { ScrollArea, ScrollBar } from '../components/ui/scroll-area'
-import { BiSolidUserCheck } from 'react-icons/bi'
-import { FaSearchPlus, FaSearchMinus } from 'react-icons/fa'
 
 const NetworkGraph = () => {
     const RADIUS_FRIEND = 20
@@ -58,9 +56,6 @@ const NetworkGraph = () => {
 
     // TODO: script to update neo4j database + update network graph
     useEffect(() => {
-        // const width = 1000
-        // const height = 1000
-
         const width = 1000
         const height = 600
 
@@ -98,14 +93,6 @@ const NetworkGraph = () => {
             .force('charge', d3.forceManyBody().strength(-100))
             .force('center', d3.forceCenter(width / 2, height / 2))
             .on('tick', ticked)
-
-        // D3.js rendering setup
-        // const svg = d3
-        //     .select(d3Container.current)
-        //     .attr('width', width)
-        //     .attr('height', height)
-        //     .attr('viewBox', [0, 0, width, height])
-        //     .attr('style', 'max-width: 100%; height: auto;; overflow: auto;')
 
         const svg = d3
             .select(d3Container.current)
@@ -147,6 +134,7 @@ const NetworkGraph = () => {
         const pins = svg
             .append('g')
             .selectAll('text')
+            .data(graphData.nodes.filter((d) => d.id !== userId)) // Filter out nodes where d.id === userId
             .data(graphData.nodes)
             .enter()
             .append('text')
@@ -165,6 +153,7 @@ const NetworkGraph = () => {
             .on('click', (event, d) =>
                 handlePinClick(event, d, svg, width, height)
             )
+        pins.filter((d) => d.id === userId).remove()
 
         const nodeImages = svg
             .append('g')
@@ -284,7 +273,61 @@ const NetworkGraph = () => {
         }
 
         // Handle pin click to show/hide cards
-        function handlePinClick(event, d, svg, width, height) {
+        // function handlePinClick(event, d, svg, width, height) {
+        //     const isPinned = d3.select(event.target).classed('pinned')
+        //     d3.select(event.target).classed('pinned', !isPinned)
+
+        //     if (isPinned) {
+        //         svg.selectAll(`.card-${d.id}`).remove()
+        //         svg.selectAll(`.line-${d.id}`).remove()
+        //     } else {
+        //         // Display 5-6 cards with lines
+        //         const cardsData = [
+        //             `Birthday reminder: 5 days until ${d.name}'s birthday`,
+        //             `${d.name}'s latest post: "Had a great day at the park!"`,
+        //             `Shared memory: Remember when we went to the beach?`,
+        //             `Friendship duration: 3 years`,
+        //             `Messages this month: 42`,
+        //         ]
+
+        //         const angleStep = (2 * Math.PI) / cardsData.length
+        //         const radius = 200
+
+        //         cardsData.forEach((cardText, i) => {
+        //             const angle = i * angleStep
+        //             const cardX = d.x + radius * Math.cos(angle)
+        //             const cardY = d.y + radius * Math.sin(angle)
+
+        //             svg.append('line')
+        //                 .attr('class', `line-${d.id}`)
+        //                 .attr('x1', d.x)
+        //                 .attr('y1', d.y)
+        //                 .attr('x2', cardX)
+        //                 .attr('y2', cardY)
+        //                 .attr('stroke', '#000')
+        //                 .attr('stroke-width', 1)
+
+        //             svg.append('foreignObject')
+        //                 .attr('class', `card-${d.id}`)
+        //                 .attr('x', cardX - 50)
+        //                 .attr('y', cardY - 50)
+        //                 .attr('width', radius)
+        //                 .attr('height', 150)
+        //                 .append('xhtml:div')
+        //                 .style('border', '1px solid #000')
+        //                 .style('background', '#fff')
+        //                 .style('padding', '10px')
+        //                 .style('border-radius', '8px')
+        //                 .style('box-shadow', '0 0 5px rgba(0,0,0,0.3)')
+        //                 .style('overflow', 'auto') // Make the card scrollable
+        //                 .style('max-height', '100px') // Set max height for the card
+        //                 .style('font-size', '10px') // Make text smaller
+        //                 .html(`<p>${cardText}</p>`)
+        //         })
+        //     }
+        // }
+
+        const handlePinClick = async (event, d, svg, width, height) => {
             const isPinned = d3.select(event.target).classed('pinned')
             d3.select(event.target).classed('pinned', !isPinned)
 
@@ -292,63 +335,144 @@ const NetworkGraph = () => {
                 svg.selectAll(`.card-${d.id}`).remove()
                 svg.selectAll(`.line-${d.id}`).remove()
             } else {
-                // Display 5-6 cards with lines
-                const cardsData = [
-                    `Birthday reminder: 5 days until ${d.name}'s birthday`,
-                    `${d.name}'s latest post: "Had a great day at the park!"`,
-                    `Shared memory: Remember when we went to the beach?`,
-                    `Friendship duration: 3 years`,
-                    `Messages this month: 42`,
-                ]
+                try {
+                    const res = await fetch(
+                        `${BASE_URL}/messages/lastMonth/${d.id}`,
+                        {
+                            method: 'GET',
+                            headers: { Authorization: `Bearer ${token}` },
+                        }
+                    )
 
-                const angleStep = (2 * Math.PI) / cardsData.length
-                const radius = 200
+                    if (!res.ok) {
+                        throw new Error('Failed to fetch message stats')
+                    }
 
-                cardsData.forEach((cardText, i) => {
-                    const angle = i * angleStep
-                    const cardX = d.x + radius * Math.cos(angle)
-                    const cardY = d.y + radius * Math.sin(angle)
+                    const { totalMessages, daysSinceLastMessage } =
+                        await res.json()
 
-                    svg.append('line')
-                        .attr('class', `line-${d.id}`)
-                        .attr('x1', d.x)
-                        .attr('y1', d.y)
-                        .attr('x2', cardX)
-                        .attr('y2', cardY)
-                        .attr('stroke', '#000')
-                        .attr('stroke-width', 1)
+                    let totalMessagesText = `You have ${totalMessages} messages this month.`
+                    if (totalMessages === 0) {
+                        totalMessagesText = 'You have no messages this month.'
+                    } else if (totalMessages < 20) {
+                        totalMessagesText +=
+                            " Let's spend more time nurturing this friendship."
+                    } else {
+                        totalMessagesText += ` You and ${d.name} truly care about each other.`
+                    }
 
-                    svg.append('foreignObject')
-                        .attr('class', `card-${d.id}`)
-                        .attr('x', cardX - 50)
-                        .attr('y', cardY - 50)
-                        .attr('width', radius)
-                        .attr('height', 150)
-                        .append('xhtml:div')
-                        .style('border', '1px solid #000')
-                        .style('background', '#fff')
-                        .style('padding', '10px')
-                        .style('border-radius', '8px')
-                        .style('box-shadow', '0 0 5px rgba(0,0,0,0.3)')
-                        .style('overflow', 'auto') // Make the card scrollable
-                        .style('max-height', '100px') // Set max height for the card
-                        .style('font-size', '10px') // Make text smaller
-                        .html(`<p>${cardText}</p>`)
-                })
+                    let lastMessageText
+                    if (daysSinceLastMessage) {
+                        lastMessageText = `${daysSinceLastMessage} days since your last message.`
+                        if (daysSinceLastMessage > 30) {
+                            lastMessageText += `You haven't talked to ${d.name} for a long time. Let's send ${d.name} a message.`
+                        } else {
+                            lastMessageText += `${d.name} must be one of your closest friends!!!`
+                        }
+                    } else {
+                        lastMessageText = `You haven't started any conversation with ${d.name}. Let's say "Hi" to start a beautiful friend journey `
+                    }
+
+                    // Fetch user additional info
+                    const additionalInfoRes = await fetch(
+                        `${BASE_URL}/users/pinInfo/${d.id}`,
+                        {
+                            method: 'GET',
+                            headers: { Authorization: `Bearer ${token}` },
+                        }
+                    )
+
+                    if (!additionalInfoRes.ok) {
+                        throw new Error('Failed to fetch user additional info')
+                    }
+
+                    const { daysUntilBirthday, hobbies } =
+                        await additionalInfoRes.json()
+
+                    let birthdayText = ''
+                    if (daysUntilBirthday !== null) {
+                        if (daysUntilBirthday === 0) {
+                            birthdayText = `Today is ${d.name}'s birthday, send a message and wish ${d.name} a happy birthday!`
+                        } else if (
+                            daysUntilBirthday > 0 &&
+                            daysUntilBirthday <= 30
+                        ) {
+                            birthdayText = `${daysUntilBirthday} days until ${d.name}'s birthday. Let's prepare an adorable present for ${d.name}!`
+                        } else {
+                            birthdayText = `${daysUntilBirthday} days until ${d.name}'s birthday.`
+                        }
+                    }
+
+                    let hobbiesText = ''
+                    if (hobbies.length > 0) {
+                        hobbiesText = `${d.name} loves ${hobbies}`
+                    }
+
+                    const anniversaryRes = await fetch(
+                        `${BASE_URL}/friendship/anniversary/${d.id}`,
+                        {
+                            method: 'GET',
+                            headers: { Authorization: `Bearer ${token}` },
+                        }
+                    )
+
+                    if (!anniversaryRes.ok) {
+                        throw new Error('Failed to fetch anniversary')
+                    }
+                    const { date, time } = await anniversaryRes.json()
+                    let anniversaryText = `${date} will be ${time} years since you and ${d.name} became friends. Look ahead to celebrate this wonderful friendship.`
+
+                    const cardsData = [
+                        totalMessagesText,
+                        lastMessageText,
+                        birthdayText,
+                        hobbiesText,
+                        anniversaryText,
+                    ].filter(Boolean) // Remove empty strings
+
+                    const angleStep = (2 * Math.PI) / cardsData.length
+                    const radius = 200
+
+                    cardsData.forEach((cardText, i) => {
+                        const angle = i * angleStep
+                        const cardX = d.x + radius * Math.cos(angle)
+                        const cardY = d.y + radius * Math.sin(angle)
+
+                        svg.append('line')
+                            .attr('class', `line-${d.id}`)
+                            .attr('x1', d.x)
+                            .attr('y1', d.y)
+                            .attr('x2', cardX)
+                            .attr('y2', cardY)
+                            // .attr('stroke', '#000')
+                            // .attr('stroke-width', 1)
+                            .attr('stroke', '#4f46e5') // Set line color to yellow
+                            .attr('stroke-width', 5) // Thicker line
+
+                        svg.append('foreignObject')
+                            .attr('class', `card-${d.id}`)
+                            .attr('x', cardX - 50)
+                            .attr('y', cardY - 50)
+                            .attr('width', radius)
+                            .attr('height', 150)
+                            .append('xhtml:div')
+                            // .style('border', '1px solid #000')
+                            // .style('background', '#fff')
+                            .style('border', '1px solid #FFB302')
+                            .style('background', '#FFB302') // Set background color to yellow
+                            .style('padding', '10px')
+                            .style('border-radius', '8px')
+                            .style('box-shadow', '0 0 5px rgba(0,0,0,0.3)')
+                            .style('overflow', 'auto')
+                            .style('max-height', '100px')
+                            .style('font-size', '10px')
+                            .html(`<p>${cardText}</p>`)
+                    })
+                } catch (error) {
+                    console.error('Error fetching message stats:', error)
+                }
             }
         }
-
-        function handleZoomIn() {
-            console.log('zomming in')
-            svg.transition().call(zoom.current.scaleBy, 1.2)
-        }
-
-        function handleZoomOut() {
-            svg.transition().call(zoom.current.scaleBy, 0.8)
-        }
-
-        d3.select('#zoom-in-button').on('click', handleZoomIn)
-        d3.select('#zoom-out-button').on('click', handleZoomOut)
 
         return () => {
             simulation.stop()
@@ -407,7 +531,9 @@ const NetworkGraph = () => {
                         )}
                     </div>
                     <div className="flex flex-col justify-start bg-[#faefd4] w-[1000px] rounded-lg mb-[15px] p-[10px] shadow-lg">
-                        <p className='text-3xl font-semibold mb-[5px]'>{"Welcome, " + user.name}</p>
+                        <p className="text-3xl font-semibold mb-[5px]">
+                            {'Welcome, ' + user.name}
+                        </p>
                         <div className="text-[15px]">
                             You are connecting to {graphData.nodes.length - 1}{' '}
                             people. Let's expand your circle of friends
@@ -423,64 +549,46 @@ const NetworkGraph = () => {
                         // overflow: 'auto',
                         overflowX: 'scroll',
                         overflowY: 'scroll',
-                        top: '50%', left: '50%',
+                        top: '50%',
+                        left: '50%',
                     }}
                 >
-                    {/* <div className="absolute bottom-4 right-4 z-10 flex flex-col space-y-2">
-                        <button
-                            id="zoom-in-button"
-                            // onClick={() => handleZoomIn()}
-                            className="bg-white p-2 rounded-md shadow-md hover:bg-gray-100"
-                        >
-                            <FaSearchPlus />
-                        </button>
-
-                        <button
-                            id="zoom-out-button"
-                            // onClick={() => handleZoomOut()}
-                            className="bg-white p-2 rounded-md shadow-md hover:bg-gray-100"
-                        >
-                            <FaSearchMinus />
-                        </button>
-                    </div> */}
-                    <div style={{ width: '900px', height: '550px', }}>
+                    <div style={{ width: '900px', height: '550px' }}>
                         <svg ref={d3Container} width="100%" height="100%"></svg>
                     </div>
                 </div>
             </div>
 
             <div className="w-[30%] h-full mt-[10px]">
-            <div class="w-[430px] h-[45px] mx-auto rounded-lg shadow-md">
-                        <div class="relative flex items-center w-full h-full rounded-lg focus-within:shadow-lg bg-white overflow-hidden">
-                            <div class="grid place-items-center h-full w-12 text-gray-300">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="h-6 w-6"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                                    />
-                                </svg>
-                            </div>
-
-                            <input
-                                class="peer h-full w-full outline-none text-sm text-gray-700 pr-2 "
-                                type="text"
-                                id="search"
-                                placeholder="Search for someone in your network..."
-                                value={searchKeyword}
-                                onChange={(e) =>
-                                    setSearchKeyword(e.target.value)
-                                }
-                            />
+                <div class="w-[430px] h-[45px] mx-auto rounded-lg shadow-md">
+                    <div class="relative flex items-center w-full h-full rounded-lg focus-within:shadow-lg bg-white overflow-hidden">
+                        <div class="grid place-items-center h-full w-12 text-gray-300">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-6 w-6"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                />
+                            </svg>
                         </div>
+
+                        <input
+                            class="peer h-full w-full outline-none text-sm text-gray-700 pr-2 "
+                            type="text"
+                            id="search"
+                            placeholder="Search for someone in your network..."
+                            value={searchKeyword}
+                            onChange={(e) => setSearchKeyword(e.target.value)}
+                        />
                     </div>
+                </div>
                 {selectedUser && (
                     <div className="relative m-[10px] p-5 bg-white border right-0 border-gray-300 h-[80vh] rounded-lg justify-center">
                         <button
@@ -490,7 +598,15 @@ const NetworkGraph = () => {
                             &times;
                         </button>
                         <div>
-                            {selectedUser.id !== userId ? <p className="text-slate-500 text-xl">Connection</p> : <p className="text-slate-500 text-xl">Profile</p>}
+                            {selectedUser.id !== userId ? (
+                                <p className="text-slate-500 text-xl">
+                                    Connection
+                                </p>
+                            ) : (
+                                <p className="text-slate-500 text-xl">
+                                    Profile
+                                </p>
+                            )}
                         </div>
                         <img
                             src={selectedUser.profilePictureUrl}
@@ -501,7 +617,9 @@ const NetworkGraph = () => {
                         <NavLink to={`/users/${selectedUser.id}`}>
                             <div className="flex flex-row gap-2 justify-center items-center pb-10 font-bold">
                                 <div className="flex flex-row items-center font-semilight">
-                                    <p className="text-2xl font-bold">{" " + selectedUser.name}</p>
+                                    <p className="text-2xl font-bold">
+                                        {' ' + selectedUser.name}
+                                    </p>
                                 </div>
                                 <div className="font-bold text-[#bf9b30]">
                                     <LuExternalLink size={16} />
