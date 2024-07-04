@@ -30,7 +30,7 @@ const Landing = () => {
                     Sign up
                 </Button>
             </div>
-            <div className="mx-[15vh] mb-[5vh] bg-[#FFF] p-[10vh] rounded-[10px] text-right flex flex-row justify-end overflow-hidden">
+            <div className="landing-group mx-[15vh] mb-[5vh] bg-[#FFF] p-[10vh] rounded-[10px] text-right flex flex-row justify-end overflow-hidden">
                 <div>
                     <p className="text-4xl font-bold">Group Archive</p>
                     <p className="text-xl my-[2vh] w-[80vh]">
@@ -63,7 +63,7 @@ const Landing = () => {
                     </p>
                 </div>
             </div>
-            <div className="mx-[15vh] mb-[5vh] bg-[#FFF] p-[10vh] rounded-[10px] text-left flex flex-row overflow-hidden">
+            <div className="landing-chat mx-[15vh] mb-[5vh] bg-[#FFF] p-[10vh] rounded-[10px] text-left flex flex-row overflow-hidden">
                 <div>
                     <p className="text-4xl font-bold">Chat Rooms</p>
                     <p className="text-xl my-[2vh] w-[80vh]">
@@ -74,7 +74,7 @@ const Landing = () => {
                     </p>
                 </div>
             </div>
-            <div className="mx-[15vh] mb-[5vh] bg-[#FFF] p-[10vh] rounded-[10px] text-right flex flex-row justify-end overflow-hidden">
+            <div className="landing-event mx-[15vh] mb-[5vh] bg-[#FFF] p-[10vh] rounded-[10px] text-right flex flex-row justify-end overflow-hidden">
                 <div>
                     <p className="text-4xl font-bold">Events Planner</p>
                     <p className="text-xl my-[2vh] w-[80vh]">
@@ -85,7 +85,7 @@ const Landing = () => {
                     </p>
                 </div>
             </div>
-            <div className="mx-[15vh] mb-[5vh] bg-[#FFF] p-[10vh] rounded-[10px] text-left flex flex-row overflow-hidden">
+            <div className="landing-connection mx-[15vh] mb-[5vh] bg-[#FFF] p-[10vh] rounded-[10px] text-left flex flex-row overflow-hidden">
                 <div>
                     <p className="text-4xl font-bold">Connection Rolodex</p>
                     <p className="text-xl my-[2vh] w-[80vh]">

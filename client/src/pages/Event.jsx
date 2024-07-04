@@ -38,7 +38,7 @@ const Event = () => {
     const [isOpen, setIsOpen] = useState(false)
     const [currentEvent, setCurrentEvent] = useState({})
     const [group, setGroup] = useState([])
-    const [currentGroup, setCurrentGroup] = useState({})
+    const [currentGroup, setCurrentGroup] = useState({id: null})
     const [checkRefresh, setCheckRefresh] = useState(true)
 
     useEffect(() => {
