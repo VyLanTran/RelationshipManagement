@@ -46,11 +46,11 @@ const ConnectionGroup = ({connections, currGroup, setCurrGroup, checkRefresh, se
     const options = [{ value: "Everyone", label: "Everyone" }, ...groups.map(group => ({ value: group._id, label: group.name }))];
 
     return (
-        <div className="bg-[#FCAF58] rounded-[20px] w-[50vh] h-[87vh] p-[2.5vh] m-[2vh]">
+        <div className="bg-[#ffffff] rounded-[20px] w-[52vh] h-[87vh] p-[2.5vh] m-[2vh] overflow-x-hidden overflow-y-auto">
             <Select onChange={handleGroupChange} placeholder="Select group:" className="text-left" options={ options } />
             <div className="mt-[2vh]">
                 {connections.map((member) => (
-                    <div className="flex flex-row justify-between items-center w-[45vh] bg-white rounded-[20px] flex mt-[2vh] pr-[1vh]">
+                    <div className="flex flex-row justify-between items-center w-[45vh] bg-gray-200 rounded-[20px] mt-[2vh] pr-[1vh]">
                         <IoPersonCircleSharp className="ml-[2vh] text-[10vh]" />
                         <div className="mt-[1vh] w-[43vh] ml-[2vh] leading-7">
                             <h2 className="font-bold text-left text-[3vh]">
